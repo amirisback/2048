@@ -9,14 +9,14 @@ import com.frogobox.basegameboard2048.ui.fragment.FavoriteFragment
 import com.frogobox.basegameboard2048.ui.fragment.RootWallpaperFragment
 import com.frogobox.basegameboard2048.viewmodel.FavoriteViewModel
 import com.frogobox.basegameboard2048.viewmodel.WallpaperViewModel
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_wallpaper_main.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
-class MainActivity : BaseAdmobActivity() {
+class WallpaperMainActivity : BaseAdmobActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_wallpaper_main)
         setupToolbar()
         setupBottomNav(R.id.framelayout_main_container)
         setupFragment(savedInstanceState)
@@ -46,7 +46,7 @@ class MainActivity : BaseAdmobActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.toolbar_menu_about -> {
-                baseStartActivity<AboutUsActivity>()
+//                baseStartActivity<AboutUsActivity>()
                 true
             }
             else -> super.onOptionsItemSelected(item)

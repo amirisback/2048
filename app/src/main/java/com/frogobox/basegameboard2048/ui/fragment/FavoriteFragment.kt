@@ -12,8 +12,7 @@ import com.frogobox.basegameboard2048.R
 import com.frogobox.basegameboard2048.base.ui.BaseFragment
 import com.frogobox.basegameboard2048.base.view.BaseViewListener
 import com.frogobox.basegameboard2048.model.Favorite
-import com.frogobox.basegameboard2048.ui.activity.MainActivity
-import com.frogobox.basegameboard2048.util.helper.ConstHelper.Extra.EXTRA_FAV_FANART
+import com.frogobox.basegameboard2048.ui.activity.WallpaperMainActivity
 import com.frogobox.basegameboard2048.view.adapter.FavoriteViewAdapter
 import com.frogobox.basegameboard2048.viewmodel.FavoriteViewModel
 import kotlinx.android.synthetic.main.custom_view_empty.*
@@ -50,7 +49,7 @@ class FavoriteFragment : BaseFragment(), BaseViewListener<Favorite> {
     }
 
     private fun setupViewModel() {
-        mViewModel = (activity as MainActivity).obtainFavoriteViewModel().apply {
+        mViewModel = (activity as WallpaperMainActivity).obtainFavoriteViewModel().apply {
 
             favListLive.observe(viewLifecycleOwner, Observer {
                 setupRecyclerView(it)
