@@ -7,13 +7,15 @@ apply plugin: 'kotlin-kapt'
 android {
 
     // Declaration app name
-    def nameApp = "2048 Wallpaper"
+    def nameApp = "2048"
+    def nameAppFull = "FrogoBox 2048"
 
     // Declaration apk / aab name
-    def nameAPK = "2048-wallpaper"
+    def nameAPK = "2048"
 
-    // Declaration Room DB Name
-    def nameDB = '"2048_wallpaper.db"'
+    // Declaration DB Name
+    def dbRoom = '"frog_2048_room.db"'
+    def dbSqlite = '"frog_2048_sqlite"'
 
     def versionPropsFile = file('version.properties')
     Properties versionProps = new Properties()
@@ -44,12 +46,13 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-
-        buildConfigField("String", "DATABASE_NAME", nameDB)
+        buildConfigField("String", "ROOM_DATABASE_NAME", dbRoom)
+        buildConfigField("String", "SQLITE_DATABASE_NAME", dbSqlite)
 
         // Declaration apps name debug mode
         def debugAttribute = " Development"
         def nameAppDebug = nameApp + debugAttribute
+        def nameAppFullDebug = nameAppFull + debugAttribute
 
         // Declaration admob id for debug
         def debugAdmobPublisherId = "ca-app-pub-3940256099942544~3347511713"
@@ -69,6 +72,7 @@ android {
 
         // Inject app name for debug
         resValue "string", "app_name", nameAppDebug
+        resValue "string", "app_name_long", nameAppFullDebug
 
         // Inject admob id for debug
         resValue "string", "admob_publisher_id", debugAdmobPublisherId
@@ -112,6 +116,7 @@ android {
 
             // Inject app name for release
             resValue "string", "app_name", nameApp
+            resValue "string", "app_name_long", nameAppFull
 
             // Inject admob id for release
             resValue "string", "admob_publisher_id", releaseAdmobPublisherId
