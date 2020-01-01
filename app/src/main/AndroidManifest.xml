@@ -3,7 +3,6 @@
     package="com.frogobox.basegameboard2048">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -13,9 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.AboutUsActivity" />
-        <activity android:name=".ui.activity.FanartSourceActivity" />
-        <activity android:name=".ui.activity.FanartDetailActivity" />
         <activity
             android:name=".ui.activity.MainActivity"
             android:theme="@style/AppThemeNoToolbar">

@@ -7,13 +7,13 @@ apply plugin: 'kotlin-kapt'
 android {
 
     // Declaration app name
-    def nameApp = "Base Wallpaper"
+    def nameApp = "2048 Wallpaper"
 
     // Declaration apk / aab name
-    def nameAPK = "base-wallpaper"
+    def nameAPK = "2048-wallpaper"
 
     // Declaration Room DB Name
-    def nameDB = '"base_wallpaper.db"'
+    def nameDB = '"2048_wallpaper.db"'
 
     def versionPropsFile = file('version.properties')
     Properties versionProps = new Properties()

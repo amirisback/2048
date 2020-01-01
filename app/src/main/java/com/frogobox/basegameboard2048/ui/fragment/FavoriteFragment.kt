@@ -12,7 +12,6 @@ import com.frogobox.basegameboard2048.R
 import com.frogobox.basegameboard2048.base.ui.BaseFragment
 import com.frogobox.basegameboard2048.base.view.BaseViewListener
 import com.frogobox.basegameboard2048.model.Favorite
-import com.frogobox.basegameboard2048.ui.activity.FanartDetailActivity
 import com.frogobox.basegameboard2048.ui.activity.MainActivity
 import com.frogobox.basegameboard2048.util.helper.ConstHelper.Extra.EXTRA_FAV_FANART
 import com.frogobox.basegameboard2048.view.adapter.FavoriteViewAdapter
@@ -73,7 +72,7 @@ class FavoriteFragment : BaseFragment(), BaseViewListener<Favorite> {
     }
 
     override fun onItemClicked(data: Favorite) {
-        baseStartActivity<FanartDetailActivity, Favorite>(EXTRA_FAV_FANART, data)
+//        baseStartActivity<FanartDetailActivity, Favorite>(EXTRA_FAV_FANART, data)
     }
 
     override fun onItemLongClicked(data: Favorite) {

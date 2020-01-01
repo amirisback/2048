@@ -11,7 +11,6 @@ import com.frogobox.basegameboard2048.R
 import com.frogobox.basegameboard2048.base.ui.BaseFragment
 import com.frogobox.basegameboard2048.base.view.BaseViewListener
 import com.frogobox.basegameboard2048.model.Wallpaper
-import com.frogobox.basegameboard2048.ui.activity.FanartDetailActivity
 import com.frogobox.basegameboard2048.util.helper.ConstHelper.Const.TYPE_MAIN_WALLPAPER
 import com.frogobox.basegameboard2048.util.helper.ConstHelper.Extra.EXTRA_FANART
 import com.frogobox.basegameboard2048.util.helper.RawDataHelper
@@ -59,7 +58,7 @@ class WallpaperFragment : BaseFragment(), BaseViewListener<Wallpaper> {
     }
 
     override fun onItemClicked(data: Wallpaper) {
-        baseStartActivity<FanartDetailActivity, Wallpaper>(EXTRA_FANART, data)
+//        baseStartActivity<FanartDetailActivity, Wallpaper>(EXTRA_FANART, data)
     }
 
     override fun onItemLongClicked(data: Wallpaper) {
