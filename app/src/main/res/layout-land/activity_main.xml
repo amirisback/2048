@@ -35,19 +35,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="6">
-
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/view_pager"
-
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-                </androidx.viewpager.widget.ViewPager>
+                android:layout_weight="5">
 
                 <ImageButton
                     android:id="@+id/btn_prev"
@@ -62,8 +50,19 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:onClick="onClick"
                     android:padding="@dimen/activity_horizontal_margin"
-                    android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
-                    android:visibility="invisible" />
+                    android:src="@drawable/ic_keyboard_arrow_left_black_24dp" />
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/view_pager"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="75dp"
+                    android:layout_marginRight="75dp"
+                    android:layout_weight="1"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                </androidx.viewpager.widget.ViewPager>
 
                 <ImageButton
                     android:id="@+id/btn_next"
@@ -85,16 +84,16 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="0px"
-                android:layout_weight="4"
+                android:layout_weight="5"
                 android:baselineAligned="false"
                 android:divider="#000"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:weightSum="5"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:weightSum="8"
                 tools:context=".activities.MainActivity">
 
                 <LinearLayout
@@ -103,7 +102,9 @@
                     android:layout_height="0dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentStart="true"
-                    android:layout_weight="1"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="2"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -116,14 +117,13 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="2"
-                    android:background="@drawable/standalone_button"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="3"
+                    android:background="@color/colorPrimary"
                     android:clickable="false"
                     android:onClick="onClick"
                     android:text="@string/new_Game_Button"
                     android:textColor="@color/white"
-                    android:textSize="25sp"
                     android:textStyle="normal" />
 
                 <Button
@@ -133,14 +133,13 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="2"
-                    android:background="@drawable/standalone_button"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="3"
+                    android:background="@color/colorPrimary"
                     android:clickable="false"
                     android:onClick="onClick"
                     android:text="@string/continue_Game_Button"
                     android:textColor="@color/white"
-                    android:textSize="25sp"
                     android:textStyle="normal" />
 
                 <!--  <Button
