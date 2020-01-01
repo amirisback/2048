@@ -60,7 +60,6 @@ class ConstHelper {
     }
 
     object RoomDatabase {
-        val DATABASE_NAME = { BuildConfig.DATABASE_NAME }
         const val BASE_TABLE_NAME = "table"
         const val TABLE_NAME_DATA = "wallpaper_$BASE_TABLE_NAME"
         const val TABLE_NAME_FAVORITE = "favorite_$TABLE_NAME_DATA"
@@ -69,7 +68,18 @@ class ConstHelper {
         const val ATTR_ID = "id"
         const val ATTR_LINK_IMAGE = "link_image"
 
+    }
 
+    object SQLiteDatabase {
+        const val SQLITE_DATABASE_VERSION = 1
+        // Names of table in the database
+        const val TABLE_SAMPLEDATA = "SAMPLE_DATA"
+
+        // Names of columns in the databases in this example we only use one table
+        const val KEY_ID = "id"
+        const val KEY_DOMAIN = "domain"
+        const val KEY_USERNAME = "username"
+        const val KEY_LENGTH = "length"
     }
 
     object TypeData {
@@ -96,7 +106,12 @@ class ConstHelper {
     }
 
     object Pref {
-        const val PREF_NAME = "BaseMusicPlayer"
+        // shared pref mode
+        const val PRIVATE_MODE = 0
+
+        // Shared preferences file name
+        const val PREF_NAME = "privacy_friendly_apps"
+        const val IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch"
     }
 
     object Extra {
