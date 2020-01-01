@@ -7,9 +7,9 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.frogobox.basegameboard2048.BuildConfig
+import com.frogobox.basegameboard2048.BuildConfig.ROOM_DATABASE_NAME
 import com.frogobox.basegameboard2048.model.Favorite
 import com.frogobox.basegameboard2048.source.dao.FavoriteDao
-import com.frogobox.basegameboard2048.util.helper.ConstHelper.RoomDatabase.DATABASE_NAME
 
 /**
  * Created by Faisal Amir
@@ -55,7 +55,7 @@ abstract class FrogoAppDatabase : RoomDatabase() {
             return if (BuildConfig.DEBUG) {
                 Room.databaseBuilder(
                     context.applicationContext,
-                    FrogoAppDatabase::class.java, DATABASE_NAME.toString()
+                    FrogoAppDatabase::class.java, ROOM_DATABASE_NAME
                 )
                     .addMigrations(MIGRATION_2_3)
                     .fallbackToDestructiveMigration() // FOR DEVELOPMENT ONLY !!!!
@@ -63,7 +63,7 @@ abstract class FrogoAppDatabase : RoomDatabase() {
             } else {
                 Room.databaseBuilder(
                     context.applicationContext,
-                    FrogoAppDatabase::class.java, DATABASE_NAME.toString()
+                    FrogoAppDatabase::class.java, ROOM_DATABASE_NAME
                 )
                     .addMigrations(MIGRATION_2_3)
                     .build()
