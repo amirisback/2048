@@ -67,4 +67,10 @@
 
     <dimen name="dimen_splash_screen">144dp</dimen>
 
+    <dimen name="dots_height">30dp</dimen>
+    <dimen name="dots_margin_bottom">20dp</dimen>
+    <dimen name="slide_title">30dp</dimen>
+    <dimen name="slide_desc">16dp</dimen>
+    <dimen name="desc_padding">40dp</dimen>
+
 </resources>
