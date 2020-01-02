@@ -3,40 +3,33 @@ package com.frogobox.basegameboard2048.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.bumptech.glide.Glide;
 import com.frogobox.basegameboard2048.R;
-import com.frogobox.basegameboard2048.base.ui.BaseGamesActivity;
+import com.frogobox.basegameboard2048.base.ui.BaseActivity;
 import com.frogobox.basegameboard2048.util.helper.FirstLaunchManager;
+import com.frogobox.basegameboard2048.view.pager.MainPagerAdapter;
 
 import java.io.File;
 
 
-public class MainActivity extends BaseGamesActivity {
+public class MainActivity extends BaseActivity {
 
     private ViewPager viewPager;
-    private MainActivity.MyViewPagerAdapter myViewPagerAdapter;
+    private MainPagerAdapter mainPagerAdapter;
     private LinearLayout dotsLayout;
     private TextView[] dots;
     private ImageButton btnPrev, btnNext;
@@ -99,13 +92,7 @@ public class MainActivity extends BaseGamesActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        overridePendingTransition(0, 0);
-
-        // Making notification bar transparent
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
+        setupToolbar();
 
         firstLaunchManager = new FirstLaunchManager(this);
 
@@ -113,7 +100,6 @@ public class MainActivity extends BaseGamesActivity {
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         btnPrev = (ImageButton) findViewById(R.id.btn_prev);
         btnNext = (ImageButton) findViewById(R.id.btn_next);
-
 
         //checking resumable
         File directory = getFilesDir();
@@ -131,12 +117,10 @@ public class MainActivity extends BaseGamesActivity {
         // adding bottom dots
         addBottomDots(0);
 
-        // making notification bar transparent
-        changeStatusBarColor();
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mainPagerAdapter = new MainPagerAdapter(layoutInflater, this, layouts);
 
-        myViewPagerAdapter = new MainActivity.MyViewPagerAdapter();
-
-        viewPager.setAdapter(myViewPagerAdapter);
+        viewPager.setAdapter(mainPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
         btnPrev.setOnClickListener(new View.OnClickListener() {
@@ -260,91 +244,5 @@ public class MainActivity extends BaseGamesActivity {
         addListener(newGameButton, continueButton, position + 4);
     }
 
-    /**
-     * Making notification bar transparent
-     */
-    private void changeStatusBarColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
-    }
-
-    /**
-     * This method connects the Activity to the menu item
-     *
-     * @return ID of the menu item it belongs to
-     */
-    @Override
-    protected int getNavigationDrawerID() {
-        return R.id.nav_example;
-    }
-
-    /**
-     * View pager adapter
-     */
-    public class MyViewPagerAdapter extends PagerAdapter {
-        private LayoutInflater layoutInflater;
-
-        public MyViewPagerAdapter() {
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = layoutInflater.inflate(layouts[position], container, false);
-            container.addView(view);
-            ImageView imageView;
-            switch (position) {
-                case 0:
-                    imageView = (ImageView) findViewById(R.id.main_menu_img1);
-                    if (PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("pref_color", "1").equals("1"))
-                        Glide.with(MainActivity.this).load(R.drawable.layout4x4_s).into(imageView);
-                    else
-                        Glide.with(MainActivity.this).load(R.drawable.layout4x4_o).into(imageView);
-                    break;
-                case 1:
-                    imageView = (ImageView) findViewById(R.id.main_menu_img2);
-                    if (PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("pref_color", "1").equals("1"))
-                        Glide.with(MainActivity.this).load(R.drawable.layout5x5_s).into(imageView);
-                    else
-                        Glide.with(MainActivity.this).load(R.drawable.layout5x5_o).into(imageView);
-                    break;
-                case 2:
-                    imageView = (ImageView) findViewById(R.id.main_menu_img3);
-                    if (PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("pref_color", "1").equals("1"))
-                        Glide.with(MainActivity.this).load(R.drawable.layout6x6_s).into(imageView);
-                    else
-                        Glide.with(MainActivity.this).load(R.drawable.layout6x6_o).into(imageView);
-                    break;
-                case 3:
-                    imageView = (ImageView) findViewById(R.id.main_menu_img4);
-                    if (PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("pref_color", "1").equals("1"))
-                        Glide.with(MainActivity.this).load(R.drawable.layout7x7_s).into(imageView);
-                    else
-                        Glide.with(MainActivity.this).load(R.drawable.layout7x7_o).into(imageView);
-                    break;
-            }
-            return view;
-        }
-
-        @Override
-        public int getCount() {
-            return layouts.length;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object obj) {
-            return view == obj;
-        }
-
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            View view = (View) object;
-            container.removeView(view);
-        }
-    }
 
 }

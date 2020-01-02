@@ -13,9 +13,9 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 
 import com.frogobox.basegameboard2048.R;
-import com.frogobox.basegameboard2048.base.ui.BaseGamesActivity;
+import com.frogobox.basegameboard2048.base.ui.BaseActivity;
 
-public class SettingsActivity extends BaseGamesActivity {
+public class SettingsActivity extends BaseActivity {
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -81,14 +81,8 @@ public class SettingsActivity extends BaseGamesActivity {
 
         setContentView(R.layout.activity_settings);
 
-        //setupActionBar();
+        setupDetailActivity("");
 
-        overridePendingTransition(0, 0);
-    }
-
-    @Override
-    protected int getNavigationDrawerID() {
-        return R.id.nav_settings;
     }
 
     /**

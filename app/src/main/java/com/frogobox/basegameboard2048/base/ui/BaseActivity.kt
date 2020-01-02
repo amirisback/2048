@@ -8,15 +8,15 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import  com.frogobox.basegameboard2048.R
-import  com.frogobox.basegameboard2048.base.util.BaseHelper
-import  com.frogobox.basegameboard2048.base.admob.BaseAdmobActivity
+import com.frogobox.basegameboard2048.R
+import com.frogobox.basegameboard2048.base.admob.BaseAdmobActivity
+import com.frogobox.basegameboard2048.base.util.BaseHelper
 import com.frogobox.basegameboard2048.util.ViewModelFactory
+import kotlinx.android.synthetic.main.toolbar_main.*
 
 /**
  * Created by Faisal Amir
@@ -35,7 +35,7 @@ import com.frogobox.basegameboard2048.util.ViewModelFactory
  *  com.frogobox.basegameboard2048.base
  *
  */
-open class BaseActivity : AppCompatActivity() {
+open class BaseActivity : BaseAdmobActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,6 +128,10 @@ open class BaseActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    protected fun setupToolbar() {
+        setSupportActionBar(toolbar_main)
     }
 
     protected fun setupEventEmptyView(view: View, isEmpty: Boolean) {

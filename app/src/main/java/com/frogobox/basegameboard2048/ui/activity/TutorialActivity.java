@@ -17,24 +17,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.frogobox.basegameboard2048.R;
+import com.frogobox.basegameboard2048.base.ui.BaseActivity;
 import com.frogobox.basegameboard2048.util.helper.FirstLaunchManager;
 
-public class TutorialActivity extends AppCompatActivity {
+public class TutorialActivity extends BaseActivity {
 
+    private static final String TAG = TutorialActivity.class.getSimpleName();
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
     private LinearLayout dotsLayout;
     private TextView[] dots;
     private Button btnSkip, btnNext;
     private FirstLaunchManager firstLaunchManager;
-
     // layouts of all welcome sliders
     // add few more layouts if you want
     private int[] layouts = new int[]{
@@ -43,8 +43,36 @@ public class TutorialActivity extends AppCompatActivity {
             R.layout.tutorial_slide3,
             R.layout.tutorial_slide4,
     };
+    //  viewpager change listener
+    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
 
-    private static final String TAG = TutorialActivity.class.getSimpleName();
+        @Override
+        public void onPageSelected(int position) {
+
+
+            addBottomDots(position);
+
+            // changing the next button text 'NEXT' / 'GOT IT'
+            if (position == layouts.length - 1) {
+                // last page. make button text to GOT IT
+                btnNext.setText(getString(R.string.okay));
+                btnSkip.setVisibility(View.GONE);
+            } else {
+                // still pages are left
+                btnNext.setText(getString(R.string.next));
+                btnSkip.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int arg0) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +93,6 @@ public class TutorialActivity extends AppCompatActivity {
         btnNext = (Button) findViewById(R.id.btn_next);
 
 
-
         // adding bottom dots
         addBottomDots(0);
 
@@ -80,9 +107,7 @@ public class TutorialActivity extends AppCompatActivity {
         try {
             ImageView imageView = (ImageView) findViewById(R.id.image1);
             Glide.with(TutorialActivity.this).load(R.mipmap.ic_splash).into(imageView);//.into(imageView);//@mipmap/ic_splash).into(imageView);
-        }
-        catch(NullPointerException ne)
-        {
+        } catch (NullPointerException ne) {
 
         }
 
@@ -133,7 +158,7 @@ public class TutorialActivity extends AppCompatActivity {
     }
 
     private void launchHomeScreen() {
-        if(firstLaunchManager.isFirstTimeLaunch()) {
+        if (firstLaunchManager.isFirstTimeLaunch()) {
             Intent intent = new Intent(TutorialActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             firstLaunchManager.setFirstTimeLaunch(false);
@@ -141,37 +166,6 @@ public class TutorialActivity extends AppCompatActivity {
         }
         finish();
     }
-
-    //  viewpager change listener
-    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
-
-        @Override
-        public void onPageSelected(int position) {
-
-
-            addBottomDots(position);
-
-            // changing the next button text 'NEXT' / 'GOT IT'
-            if (position == layouts.length - 1) {
-                // last page. make button text to GOT IT
-                btnNext.setText(getString(R.string.okay));
-                btnSkip.setVisibility(View.GONE);
-            } else {
-                // still pages are left
-                btnNext.setText(getString(R.string.next));
-                btnSkip.setVisibility(View.VISIBLE);
-            }
-        }
-
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int arg0) {
-
-        }
-    };
 
     /**
      * Making notification bar transparent
@@ -200,29 +194,28 @@ public class TutorialActivity extends AppCompatActivity {
             View view = layoutInflater.inflate(layouts[position], container, false);
             container.addView(view);
             ImageView imageView;
-            switch(position)
-            {
+            switch (position) {
                 case 0:
                     imageView = (ImageView) findViewById(R.id.image1);
                     Glide.with(TutorialActivity.this).load(R.mipmap.ic_splash).into(imageView);
                     break;
                 case 1:
                     imageView = (ImageView) findViewById(R.id.image2);
-                    if(PreferenceManager.getDefaultSharedPreferences(TutorialActivity.this).getString("pref_color","1").equals("1"))
+                    if (PreferenceManager.getDefaultSharedPreferences(TutorialActivity.this).getString("pref_color", "1").equals("1"))
                         Glide.with(TutorialActivity.this).load(R.drawable.tutorial_move_s).into(imageView);
                     else
                         Glide.with(TutorialActivity.this).load(R.drawable.tutorial_move_o).into(imageView);
                     break;
                 case 2:
                     imageView = (ImageView) findViewById(R.id.image3);
-                    if(PreferenceManager.getDefaultSharedPreferences(TutorialActivity.this).getString("pref_color","1").equals("1"))
+                    if (PreferenceManager.getDefaultSharedPreferences(TutorialActivity.this).getString("pref_color", "1").equals("1"))
                         Glide.with(TutorialActivity.this).load(R.drawable.tutorial_swipe_s).into(imageView);
                     else
                         Glide.with(TutorialActivity.this).load(R.drawable.tutorial_swipe_o).into(imageView);
                     break;
                 case 3:
                     imageView = (ImageView) findViewById(R.id.image4);
-                    if(PreferenceManager.getDefaultSharedPreferences(TutorialActivity.this).getString("pref_color","1").equals("1"))
+                    if (PreferenceManager.getDefaultSharedPreferences(TutorialActivity.this).getString("pref_color", "1").equals("1"))
                         Glide.with(TutorialActivity.this).load(R.drawable.tutorial_add_s).into(imageView);
                     else
                         Glide.with(TutorialActivity.this).load(R.drawable.tutorial_add_o).into(imageView);

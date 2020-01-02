@@ -22,7 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.frogobox.basegameboard2048.R;
-import com.frogobox.basegameboard2048.base.ui.BaseGamesActivityNoNavBar;
+import com.frogobox.basegameboard2048.base.ui.BaseActivity;
 import com.frogobox.basegameboard2048.model.Element;
 import com.frogobox.basegameboard2048.util.game.GameState;
 import com.frogobox.basegameboard2048.util.game.GameStatistics;
@@ -37,7 +37,7 @@ import java.io.ObjectOutputStream;
 import java.util.Calendar;
 
 @SuppressWarnings("StringConcatenationInLoop")
-public class GameActivity extends BaseGamesActivityNoNavBar {
+public class GameActivity extends BaseActivity {
     public static int n = 4;
     public TextView textFieldPoints;
     public TextView textFieldRecord;
