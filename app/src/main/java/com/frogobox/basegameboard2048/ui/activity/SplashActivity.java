@@ -17,7 +17,7 @@ public class SplashActivity extends BaseActivity {
 
         FirstLaunchManager firstStartPref = new FirstLaunchManager(this);
 
-        if(firstStartPref.isFirstTimeLaunch()) {
+        if (firstStartPref.isFirstTimeLaunch()) {
             firstStartPref.initFirstTimeLaunch();
             mainIntent = new Intent(this, TutorialActivity.class);
         } else {

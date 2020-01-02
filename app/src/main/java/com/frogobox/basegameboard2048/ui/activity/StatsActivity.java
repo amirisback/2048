@@ -2,33 +2,18 @@ package com.frogobox.basegameboard2048.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.bumptech.glide.Glide;
 import com.frogobox.basegameboard2048.R;
 import com.frogobox.basegameboard2048.base.ui.BaseActivity;
-import com.frogobox.basegameboard2048.util.game.GameStatistics;
+import com.frogobox.basegameboard2048.view.pager.StatsPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InvalidClassException;
-import java.io.ObjectInputStream;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.concurrent.TimeUnit;
 
 
 public class StatsActivity extends BaseActivity {
@@ -40,20 +25,6 @@ public class StatsActivity extends BaseActivity {
             R.layout.fragment_stats3,
             R.layout.fragment_stats4,
     };
-    /**
-     * The {@link PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link FragmentStatePagerAdapter}.
-     */
-    private StatsActivity.MyViewPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +35,14 @@ public class StatsActivity extends BaseActivity {
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
 
-        mSectionsPagerAdapter = new MyViewPagerAdapter();
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        StatsPagerAdapter mSectionsPagerAdapter = new StatsPagerAdapter(layoutInflater, layouts, TABNAMES, this);
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        ViewPager mViewPager = findViewById(R.id.viewpager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mViewPager);
         //tabLayout.setTabTextColors(Color.WHITE,Color.YELLOW);
     }
@@ -118,193 +90,5 @@ public class StatsActivity extends BaseActivity {
         finish();
         startActivity(getIntent());
     }
-
-
-    public class MyViewPagerAdapter extends PagerAdapter {
-        private LayoutInflater layoutInflater;
-
-        public MyViewPagerAdapter() {
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return TABNAMES[position];
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = layoutInflater.inflate(layouts[position], container, false);
-            container.addView(view);
-            ImageView img = new ImageView(StatsActivity.this);
-            TextView highestNumber = new TextView(StatsActivity.this);
-            TextView timePlayed = new TextView(StatsActivity.this);
-            TextView undo = new TextView(StatsActivity.this);
-            TextView moves_L = new TextView(StatsActivity.this);
-            TextView moves_R = new TextView(StatsActivity.this);
-            TextView moves_T = new TextView(StatsActivity.this);
-            TextView moves_D = new TextView(StatsActivity.this);
-            TextView moves = new TextView(StatsActivity.this);
-            TextView tpm = new TextView(StatsActivity.this);
-            TextView rekord = new TextView(StatsActivity.this);
-            switch (position) {
-                case 0:
-                    highestNumber = findViewById(R.id.highest_number1);
-                    timePlayed = findViewById(R.id.time_played1);
-                    undo = findViewById(R.id.undo_number1);
-                    moves_D = findViewById(R.id.moves_D1);
-                    moves_L = findViewById(R.id.moves_L1);
-                    moves_R = findViewById(R.id.moves_R1);
-                    moves_T = findViewById(R.id.moves_T1);
-                    moves = findViewById(R.id.moves_All1);
-                    tpm = findViewById(R.id.time_swipes1);
-                    rekord = findViewById(R.id.highest_score1);
-                    img = findViewById(R.id.stat_img1);
-                    if (PreferenceManager.getDefaultSharedPreferences(StatsActivity.this).getString("pref_color", "1").equals("1"))
-                        Glide.with(StatsActivity.this).load(R.drawable.layout4x4_s).into(img);
-                    else
-                        Glide.with(StatsActivity.this).load(R.drawable.layout4x4_o).into(img);
-                    break;
-                case 1:
-                    highestNumber = findViewById(R.id.highest_number2);
-                    timePlayed = findViewById(R.id.time_played2);
-                    undo = findViewById(R.id.undo_number2);
-                    moves_D = findViewById(R.id.moves_D2);
-                    moves_L = findViewById(R.id.moves_L2);
-                    moves_R = findViewById(R.id.moves_R2);
-                    moves_T = findViewById(R.id.moves_T2);
-                    moves = findViewById(R.id.moves_All2);
-                    tpm = findViewById(R.id.time_swipes2);
-                    rekord = findViewById(R.id.highest_score2);
-                    img = findViewById(R.id.stat_img2);
-                    if (PreferenceManager.getDefaultSharedPreferences(StatsActivity.this).getString("pref_color", "1").equals("1"))
-                        Glide.with(StatsActivity.this).load(R.drawable.layout5x5_s).into(img);
-                    else
-                        Glide.with(StatsActivity.this).load(R.drawable.layout5x5_o).into(img);
-                    break;
-                case 2:
-                    highestNumber = findViewById(R.id.highest_number3);
-                    timePlayed = findViewById(R.id.time_played3);
-                    undo = findViewById(R.id.undo_number3);
-                    moves_D = findViewById(R.id.moves_D3);
-                    moves_L = findViewById(R.id.moves_L3);
-                    moves_R = findViewById(R.id.moves_R3);
-                    moves_T = findViewById(R.id.moves_T3);
-                    moves = findViewById(R.id.moves_All3);
-                    tpm = findViewById(R.id.time_swipes3);
-                    rekord = findViewById(R.id.highest_score3);
-                    img = findViewById(R.id.stat_img3);
-                    if (PreferenceManager.getDefaultSharedPreferences(StatsActivity.this).getString("pref_color", "1").equals("1"))
-                        Glide.with(StatsActivity.this).load(R.drawable.layout6x6_s).into(img);
-                    else
-                        Glide.with(StatsActivity.this).load(R.drawable.layout6x6_o).into(img);
-                    break;
-                case 3:
-                    highestNumber = findViewById(R.id.highest_number4);
-                    timePlayed = findViewById(R.id.time_played4);
-                    undo = findViewById(R.id.undo_number4);
-                    moves_D = findViewById(R.id.moves_D4);
-                    moves_L = findViewById(R.id.moves_L4);
-                    moves_R = findViewById(R.id.moves_R4);
-                    moves_T = findViewById(R.id.moves_T4);
-                    moves = findViewById(R.id.moves_All4);
-                    tpm = findViewById(R.id.time_swipes4);
-                    rekord = findViewById(R.id.highest_score4);
-                    img = findViewById(R.id.stat_img4);
-                    if (PreferenceManager.getDefaultSharedPreferences(StatsActivity.this).getString("pref_color", "1").equals("1"))
-                        Glide.with(StatsActivity.this).load(R.drawable.layout7x7_s).into(img);
-                    else
-                        Glide.with(StatsActivity.this).load(R.drawable.layout7x7_o).into(img);
-                    break;
-            }
-            GameStatistics gameStatistics = readStatisticsFromFile(position + 4);
-            highestNumber.setText("" + gameStatistics.getHighestNumber());
-            timePlayed.setText(formatMillis(gameStatistics.getTimePlayed()));
-            undo.setText("" + gameStatistics.getUndo());
-            moves_D.setText("" + gameStatistics.getMoves_d());
-            moves_R.setText("" + gameStatistics.getMoves_r());
-            moves_T.setText("" + gameStatistics.getMoves_t());
-            moves_L.setText("" + gameStatistics.getMoves_l());
-            moves.setText("" + gameStatistics.getMoves());
-            if (gameStatistics.getMoves() != 0)
-                tpm.setText("" + formatSmallMillis(gameStatistics.getTimePlayed() / gameStatistics.getMoves()));
-            else
-                tpm.setText("0");
-            rekord.setText("" + gameStatistics.getRecord());
-
-
-            return view;
-        }
-
-        public String formatSmallMillis(long timeInMillis) {
-            String sign = "";
-            if (timeInMillis < 0) {
-                sign = "-";
-                timeInMillis = Math.abs(timeInMillis);
-            }
-            Double seconds = new Double(((double) timeInMillis) / (double) TimeUnit.SECONDS.toMillis(1));
-            StringBuilder sb = new StringBuilder(",##0.00");
-            DecimalFormat df = new DecimalFormat(sb.toString());
-            df.setRoundingMode(RoundingMode.HALF_UP);
-            final StringBuilder formatted = new StringBuilder(20);
-            formatted.append(sign);
-            formatted.append(df.format(seconds));
-            formatted.append(" s");
-            return formatted.toString();
-        }
-
-        public String formatMillis(long timeInMillis) {
-            String sign = "";
-            if (timeInMillis < 0) {
-                sign = "-";
-                timeInMillis = Math.abs(timeInMillis);
-            }
-            Double seconds = new Double(((double) timeInMillis) / (double) TimeUnit.HOURS.toMillis(1));
-            StringBuilder sb = new StringBuilder(",##0.00");
-            DecimalFormat df = new DecimalFormat(sb.toString());
-            df.setRoundingMode(RoundingMode.HALF_UP);
-            final StringBuilder formatted = new StringBuilder(20);
-            formatted.append(sign);
-            formatted.append(df.format(seconds));
-            formatted.append(" h");
-            return formatted.toString();
-        }
-
-        @Override
-        public int getCount() {
-            return layouts.length;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object obj) {
-            return view == obj;
-        }
-
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            View view = (View) object;
-            container.removeView(view);
-        }
-
-        public GameStatistics readStatisticsFromFile(int n) {
-            GameStatistics gS = new GameStatistics(n);
-            try {
-                File file = new File(getFilesDir(), "statistics" + n + ".txt");
-                FileInputStream fileIn = new FileInputStream(file);
-                ObjectInputStream in = new ObjectInputStream(fileIn);
-                gS = (GameStatistics) in.readObject();
-                in.close();
-                fileIn.close();
-            } catch (InvalidClassException ice) {
-                File file = new File(getFilesDir(), "statistics" + n + ".txt");
-                file.delete();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return gS;
-        }
-    }
-
 
 }

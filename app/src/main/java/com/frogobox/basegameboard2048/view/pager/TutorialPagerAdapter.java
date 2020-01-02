@@ -16,7 +16,7 @@ import com.frogobox.basegameboard2048.R;
  * FrogoBox Inc License
  * =========================================
  * BaseGameBoard2048
- * Copyright (C) 02/01/2020.
+ * Copyright (C) 03/01/2020.
  * All rights reserved
  * -----------------------------------------
  * Name     : Muhammad Faisal Amir
@@ -27,12 +27,12 @@ import com.frogobox.basegameboard2048.R;
  * FrogoBox Software Industries
  * com.frogobox.basegameboard2048.view.pager
  */
-public class MainPagerAdapter extends PagerAdapter {
+public class TutorialPagerAdapter extends PagerAdapter {
 
     private LayoutInflater layoutInflater;
     private int[] layouts;
 
-    public MainPagerAdapter(LayoutInflater layoutInflater, int[] layouts) {
+    public TutorialPagerAdapter(LayoutInflater layoutInflater, int[] layouts) {
         this.layoutInflater = layoutInflater;
         this.layouts = layouts;
     }
@@ -44,32 +44,29 @@ public class MainPagerAdapter extends PagerAdapter {
         ImageView imageView;
         switch (position) {
             case 0:
-                imageView = (ImageView) view.findViewById(R.id.main_menu_img1);
-                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString("pref_color", "1").equals("1"))
-                    Glide.with(container.getContext()).load(R.drawable.layout4x4_s).into(imageView);
-                else
-                    Glide.with(container.getContext()).load(R.drawable.layout4x4_o).into(imageView);
+                imageView = (ImageView) view.findViewById(R.id.image1);
+                Glide.with(container.getContext()).load(R.mipmap.ic_splash).into(imageView);
                 break;
             case 1:
-                imageView = (ImageView) view.findViewById(R.id.main_menu_img2);
+                imageView = (ImageView) view.findViewById(R.id.image2);
                 if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString("pref_color", "1").equals("1"))
-                    Glide.with(container.getContext()).load(R.drawable.layout5x5_s).into(imageView);
+                    Glide.with(container.getContext()).load(R.drawable.tutorial_move_s).into(imageView);
                 else
-                    Glide.with(container.getContext()).load(R.drawable.layout5x5_o).into(imageView);
+                    Glide.with(container.getContext()).load(R.drawable.tutorial_move_o).into(imageView);
                 break;
             case 2:
-                imageView = (ImageView) view.findViewById(R.id.main_menu_img3);
+                imageView = (ImageView) view.findViewById(R.id.image3);
                 if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString("pref_color", "1").equals("1"))
-                    Glide.with(container.getContext()).load(R.drawable.layout6x6_s).into(imageView);
+                    Glide.with(container.getContext()).load(R.drawable.tutorial_swipe_s).into(imageView);
                 else
-                    Glide.with(container.getContext()).load(R.drawable.layout6x6_o).into(imageView);
+                    Glide.with(container.getContext()).load(R.drawable.tutorial_swipe_o).into(imageView);
                 break;
             case 3:
-                imageView = (ImageView) view.findViewById(R.id.main_menu_img4);
+                imageView = (ImageView) view.findViewById(R.id.image4);
                 if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString("pref_color", "1").equals("1"))
-                    Glide.with(container.getContext()).load(R.drawable.layout7x7_s).into(imageView);
+                    Glide.with(container.getContext()).load(R.drawable.tutorial_add_s).into(imageView);
                 else
-                    Glide.with(container.getContext()).load(R.drawable.layout7x7_o).into(imageView);
+                    Glide.with(container.getContext()).load(R.drawable.tutorial_add_o).into(imageView);
                 break;
         }
         return view;

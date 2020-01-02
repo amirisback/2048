@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -29,15 +31,11 @@ import java.io.File;
 public class MainActivity extends BaseActivity {
 
     private ViewPager viewPager;
-    private MainPagerAdapter mainPagerAdapter;
     private LinearLayout dotsLayout;
-    private TextView[] dots;
     private ImageButton btnPrev, btnNext;
-    private FirstLaunchManager firstLaunchManager;
     private int currentPage = 0;
     private SharedPreferences.Editor editor;
     private SharedPreferences preferences;
-    private String mypref = "myPref";
 
     private int[] layouts = new int[]{
             R.layout.choose_slide1,
@@ -77,39 +75,30 @@ public class MainActivity extends BaseActivity {
     };
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        preferences = getApplicationContext().getSharedPreferences(mypref, Context.MODE_PRIVATE);
-        editor = preferences.edit();
-        currentPage = preferences.getInt("currentPage", 0);
-        viewPager.setCurrentItem(currentPage);
-        updateButtons(currentPage);
-        updateMovingButtons(currentPage);
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         setupToolbar();
 
-        firstLaunchManager = new FirstLaunchManager(this);
+        FirstLaunchManager firstLaunchManager = new FirstLaunchManager(this);
 
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
-        btnPrev = (ImageButton) findViewById(R.id.btn_prev);
-        btnNext = (ImageButton) findViewById(R.id.btn_next);
+        viewPager = findViewById(R.id.view_pager);
+        dotsLayout = findViewById(R.id.layoutDots);
+        btnPrev = findViewById(R.id.btn_prev);
+        btnNext = findViewById(R.id.btn_next);
 
         //checking resumable
         File directory = getFilesDir();
         File[] files = directory.listFiles();
 
-        for (int i = 0; i < files.length; i++) {
-            Log.i("files", files[i].getName());
-            for (int j = 0; j < gameResumeable.length; j++) {
-                if (files[i].getName().equals("state" + (j + 4) + ".txt"))
-                    gameResumeable[j] = true;
+        if (files != null) {
+            for (File file : files) {
+                Log.i("files", file.getName());
+                for (int j = 0; j < gameResumeable.length; j++) {
+                    if (file.getName().equals("state" + (j + 4) + ".txt"))
+                        gameResumeable[j] = true;
+                }
             }
         }
 
@@ -118,7 +107,7 @@ public class MainActivity extends BaseActivity {
         addBottomDots(0);
 
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mainPagerAdapter = new MainPagerAdapter(layoutInflater, this, layouts);
+        MainPagerAdapter mainPagerAdapter = new MainPagerAdapter(layoutInflater, layouts);
 
         viewPager.setAdapter(mainPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
@@ -149,6 +138,19 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        String mypref = "myPref";
+        preferences = getApplicationContext().getSharedPreferences(mypref, Context.MODE_PRIVATE);
+        editor = preferences.edit();
+        currentPage = preferences.getInt("currentPage", 0);
+        viewPager.setCurrentItem(currentPage);
+        updateButtons(currentPage);
+        updateMovingButtons(currentPage);
+    }
+
 
     private void addListener(Button b1, Button b2, int n) {
         final int temp = n;
@@ -189,7 +191,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void addBottomDots(int currentPage) {
-        dots = new TextView[layouts.length];
+        TextView[] dots = new TextView[layouts.length];
 
         int activeColor = ContextCompat.getColor(this, R.color.dot_light_screen);
         int inactiveColor = ContextCompat.getColor(this, R.color.dot_dark_screen);
@@ -244,5 +246,25 @@ public class MainActivity extends BaseActivity {
         addListener(newGameButton, continueButton, position + 4);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.toolbar_menu_setting:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            case R.id.toolbar_menu_stats:
+                startActivity(new Intent(this, StatsActivity.class));
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 }
