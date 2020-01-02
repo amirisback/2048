@@ -11,6 +11,8 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.bumptech.glide.Glide;
 import com.frogobox.basegameboard2048.R;
 
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_COLOR;
+
 /**
  * Created by Faisal Amir
  * FrogoBox Inc License
@@ -49,21 +51,21 @@ public class TutorialPagerAdapter extends PagerAdapter {
                 break;
             case 1:
                 imageView = (ImageView) view.findViewById(R.id.image2);
-                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString("pref_color", "1").equals("1"))
+                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
                     Glide.with(container.getContext()).load(R.drawable.tutorial_move_s).into(imageView);
                 else
                     Glide.with(container.getContext()).load(R.drawable.tutorial_move_o).into(imageView);
                 break;
             case 2:
                 imageView = (ImageView) view.findViewById(R.id.image3);
-                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString("pref_color", "1").equals("1"))
+                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
                     Glide.with(container.getContext()).load(R.drawable.tutorial_swipe_s).into(imageView);
                 else
                     Glide.with(container.getContext()).load(R.drawable.tutorial_swipe_o).into(imageView);
                 break;
             case 3:
                 imageView = (ImageView) view.findViewById(R.id.image4);
-                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString("pref_color", "1").equals("1"))
+                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
                     Glide.with(container.getContext()).load(R.drawable.tutorial_add_s).into(imageView);
                 else
                     Glide.with(container.getContext()).load(R.drawable.tutorial_add_o).into(imageView);

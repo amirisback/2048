@@ -15,6 +15,9 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.io.File;
 
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Const.FILE_STATISTIC;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Ext.TXT;
+
 
 public class StatsActivity extends BaseActivity {
 
@@ -80,7 +83,7 @@ public class StatsActivity extends BaseActivity {
     public void resetGameStatistics() {
         for (int n = 4; n <= 7; n++) {
             try {
-                File file = new File(getFilesDir(), "statistics" + n + ".txt");
+                File file = new File(getFilesDir(), FILE_STATISTIC + n + TXT);
                 file.delete();
             } catch (Exception e) {
 

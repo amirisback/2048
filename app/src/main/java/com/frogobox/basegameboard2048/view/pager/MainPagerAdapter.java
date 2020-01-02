@@ -11,6 +11,8 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.bumptech.glide.Glide;
 import com.frogobox.basegameboard2048.R;
 
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_COLOR;
+
 /**
  * Created by Faisal Amir
  * FrogoBox Inc License
@@ -45,28 +47,28 @@ public class MainPagerAdapter extends PagerAdapter {
         switch (position) {
             case 0:
                 imageView = (ImageView) view.findViewById(R.id.main_menu_img1);
-                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString("pref_color", "1").equals("1"))
+                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
                     Glide.with(container.getContext()).load(R.drawable.layout4x4_s).into(imageView);
                 else
                     Glide.with(container.getContext()).load(R.drawable.layout4x4_o).into(imageView);
                 break;
             case 1:
                 imageView = (ImageView) view.findViewById(R.id.main_menu_img2);
-                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString("pref_color", "1").equals("1"))
+                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
                     Glide.with(container.getContext()).load(R.drawable.layout5x5_s).into(imageView);
                 else
                     Glide.with(container.getContext()).load(R.drawable.layout5x5_o).into(imageView);
                 break;
             case 2:
                 imageView = (ImageView) view.findViewById(R.id.main_menu_img3);
-                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString("pref_color", "1").equals("1"))
+                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
                     Glide.with(container.getContext()).load(R.drawable.layout6x6_s).into(imageView);
                 else
                     Glide.with(container.getContext()).load(R.drawable.layout6x6_o).into(imageView);
                 break;
             case 3:
                 imageView = (ImageView) view.findViewById(R.id.main_menu_img4);
-                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString("pref_color", "1").equals("1"))
+                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
                     Glide.with(container.getContext()).load(R.drawable.layout7x7_s).into(imageView);
                 else
                     Glide.with(container.getContext()).load(R.drawable.layout7x7_o).into(imageView);

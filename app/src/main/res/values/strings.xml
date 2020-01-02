@@ -131,5 +131,6 @@
     <string name="Stat_Time">Playing Time</string>
     <string name="Stat_Time_Swipes">Time per Swipe</string>
     <string name="reset_stats">Reset Statistics</string>
+    <string name="Pref_Color">pref_color</string>
 
 </resources>

@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,6 +24,15 @@ import com.frogobox.basegameboard2048.util.helper.FirstLaunchManager;
 import com.frogobox.basegameboard2048.view.pager.MainPagerAdapter;
 
 import java.io.File;
+
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Const.FILE_STATE;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Ext.TXT;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Extra.EXTRA_FILENAME;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Extra.EXTRA_N;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Extra.EXTRA_NEW;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Extra.EXTRA_POINTS;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Extra.EXTRA_UNDO;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_CURRENT_PAGE;
 
 
 public class MainActivity extends BaseActivity {
@@ -54,7 +62,7 @@ public class MainActivity extends BaseActivity {
         public void onPageSelected(int position) {
             addBottomDots(position);
             currentPage = position;
-            editor.putInt("currentPage", currentPage);
+            editor.putInt(PREF_CURRENT_PAGE, currentPage);
             editor.commit();
             updateButtons(position);
 
@@ -91,7 +99,7 @@ public class MainActivity extends BaseActivity {
             for (File file : files) {
                 Log.i("files", file.getName());
                 for (int j = 0; j < gameResumeable.length; j++) {
-                    if (file.getName().equals("state" + (j + 4) + ".txt"))
+                    if (file.getName().equals(FILE_STATE + (j + 4) + TXT))
                         gameResumeable[j] = true;
                 }
             }
@@ -115,7 +123,7 @@ public class MainActivity extends BaseActivity {
         String mypref = "myPref";
         preferences = getApplicationContext().getSharedPreferences(mypref, Context.MODE_PRIVATE);
         editor = preferences.edit();
-        currentPage = preferences.getInt("currentPage", 0);
+        currentPage = preferences.getInt(PREF_CURRENT_PAGE, 0);
         viewPager.setCurrentItem(currentPage);
         updateButtons(currentPage);
     }
@@ -125,23 +133,20 @@ public class MainActivity extends BaseActivity {
         final int temp = n;
         b1.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, GameActivity.class);
-            intent.putExtra("n", temp);
-            intent.putExtra("points", 0);
-            intent.putExtra("new", true);
-            intent.putExtra("filename", "state" + temp + ".txt");
-            intent.putExtra("undo", false);
+            intent.putExtra(EXTRA_N, temp);
+            intent.putExtra(EXTRA_POINTS, 0);
+            intent.putExtra(EXTRA_NEW, true);
+            intent.putExtra(EXTRA_FILENAME, FILE_STATE + temp + TXT);
+            intent.putExtra(EXTRA_UNDO, false);
             createBackStack(intent);
         });
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                intent.putExtra("n", temp);
-                intent.putExtra("new", false);
-                intent.putExtra("filename", "state" + temp + ".txt");
-                intent.putExtra("undo", false);
-                createBackStack(intent);
-            }
+        b2.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, GameActivity.class);
+            intent.putExtra(EXTRA_N, temp);
+            intent.putExtra(EXTRA_NEW, false);
+            intent.putExtra(EXTRA_FILENAME, FILE_STATE + temp + TXT);
+            intent.putExtra(EXTRA_UNDO, false);
+            createBackStack(intent);
         });
     }
 

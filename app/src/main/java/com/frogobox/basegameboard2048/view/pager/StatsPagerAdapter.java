@@ -22,6 +22,10 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.concurrent.TimeUnit;
 
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Const.FILE_STATISTIC;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Ext.TXT;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_COLOR;
+
 /**
  * Created by Faisal Amir
  * FrogoBox Inc License
@@ -84,7 +88,7 @@ public class StatsPagerAdapter extends PagerAdapter {
                 tpm = view.findViewById(R.id.time_swipes1);
                 rekord = view.findViewById(R.id.highest_score1);
                 img = view.findViewById(R.id.stat_img1);
-                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString("pref_color", "1").equals("1"))
+                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
                     Glide.with(container.getContext()).load(R.drawable.layout4x4_s).into(img);
                 else
                     Glide.with(container.getContext()).load(R.drawable.layout4x4_o).into(img);
@@ -101,7 +105,7 @@ public class StatsPagerAdapter extends PagerAdapter {
                 tpm = view.findViewById(R.id.time_swipes2);
                 rekord = view.findViewById(R.id.highest_score2);
                 img = view.findViewById(R.id.stat_img2);
-                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString("pref_color", "1").equals("1"))
+                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
                     Glide.with(container.getContext()).load(R.drawable.layout5x5_s).into(img);
                 else
                     Glide.with(container.getContext()).load(R.drawable.layout5x5_o).into(img);
@@ -118,7 +122,7 @@ public class StatsPagerAdapter extends PagerAdapter {
                 tpm = view.findViewById(R.id.time_swipes3);
                 rekord = view.findViewById(R.id.highest_score3);
                 img = view.findViewById(R.id.stat_img3);
-                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString("pref_color", "1").equals("1"))
+                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
                     Glide.with(container.getContext()).load(R.drawable.layout6x6_s).into(img);
                 else
                     Glide.with(container.getContext()).load(R.drawable.layout6x6_o).into(img);
@@ -135,7 +139,7 @@ public class StatsPagerAdapter extends PagerAdapter {
                 tpm = view.findViewById(R.id.time_swipes4);
                 rekord = view.findViewById(R.id.highest_score4);
                 img = view.findViewById(R.id.stat_img4);
-                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString("pref_color", "1").equals("1"))
+                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
                     Glide.with(container.getContext()).load(R.drawable.layout7x7_s).into(img);
                 else
                     Glide.with(container.getContext()).load(R.drawable.layout7x7_o).into(img);
@@ -214,14 +218,14 @@ public class StatsPagerAdapter extends PagerAdapter {
     private GameStatistics readStatisticsFromFile(int n) {
         GameStatistics gS = new GameStatistics(n);
         try {
-            File file = new File(contextWrapper.getFilesDir(), "statistics" + n + ".txt");
+            File file = new File(contextWrapper.getFilesDir(), FILE_STATISTIC + n + TXT);
             FileInputStream fileIn = new FileInputStream(file);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             gS = (GameStatistics) in.readObject();
             in.close();
             fileIn.close();
         } catch (InvalidClassException ice) {
-            File file = new File(contextWrapper.getFilesDir(), "statistics" + n + ".txt");
+            File file = new File(contextWrapper.getFilesDir(), FILE_STATISTIC + n + TXT);
             file.delete();
         } catch (Exception e) {
             e.printStackTrace();
