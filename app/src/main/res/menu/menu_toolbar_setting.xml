@@ -21,15 +21,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/toolbar_menu_stats"
-        android:icon="@drawable/ic_menu_stat"
-        android:title="@string/action_stat"
-        app:showAsAction="ifRoom"/>
-
-    <item
-            android:id="@+id/toolbar_menu_setting"
-            android:icon="@drawable/ic_menu_settings"
-            android:title="@string/action_settings"
+            android:id="@+id/toolbar_menu_about"
+            android:icon="@drawable/ic_toolbar_about_us"
+            android:title="@string/title_about_us"
             app:showAsAction="ifRoom"/>
-
 </menu>

@@ -36,11 +36,9 @@
             android:label="@string/app_name"
             android:theme="@style/AppThemeNoToolbar" />
         <activity
-            android:name="com.frogobox.basegameboard2048.ui.activity.TutorialActivity"
+            android:name=".ui.activity.TutorialActivity"
             android:theme="@style/AppThemeNoToolbar" />
-        <activity
-            android:name="com.frogobox.basegameboard2048.ui.activity.StatsActivity"
-            android:theme="@style/AppThemeNoToolbar" />
+        <activity android:name=".ui.activity.StatsActivity" />
         <activity
             android:name=".ui.activity.SettingsActivity"
             android:label="@string/settings_name" />
