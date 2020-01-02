@@ -32,8 +32,7 @@ public class StatsActivity extends BaseActivity {
         setContentView(R.layout.activity_stats);
 
         setupDetailActivity("");
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
+        getSupportActionBar().setElevation(0f);
 
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         StatsPagerAdapter mSectionsPagerAdapter = new StatsPagerAdapter(layoutInflater, layouts, TABNAMES, this);

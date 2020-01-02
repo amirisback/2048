@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,7 +31,6 @@ public class MainActivity extends BaseActivity {
 
     private ViewPager viewPager;
     private LinearLayout dotsLayout;
-    private ImageButton btnPrev, btnNext;
     private int currentPage = 0;
     private SharedPreferences.Editor editor;
     private SharedPreferences preferences;
@@ -60,7 +58,6 @@ public class MainActivity extends BaseActivity {
             editor.commit();
             updateButtons(position);
 
-            updateMovingButtons(position);
         }
 
         @Override
@@ -85,8 +82,6 @@ public class MainActivity extends BaseActivity {
 
         viewPager = findViewById(R.id.view_pager);
         dotsLayout = findViewById(R.id.layoutDots);
-        btnPrev = findViewById(R.id.btn_prev);
-        btnNext = findViewById(R.id.btn_next);
 
         //checking resumable
         File directory = getFilesDir();
@@ -112,31 +107,6 @@ public class MainActivity extends BaseActivity {
         viewPager.setAdapter(mainPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
-        btnPrev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int current = getItem(-1);
-                if (current >= 0) {
-                    // move to next screen
-                    viewPager.setCurrentItem(current);
-                } else {
-                }
-            }
-        });
-
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // checking for last page
-                // if last page home screen will be launched
-                int current = getItem(+1);
-                if (current < layouts.length) {
-                    // move to next screen
-                    viewPager.setCurrentItem(current);
-                } else {
-                }
-            }
-        });
     }
 
     @Override
@@ -148,23 +118,19 @@ public class MainActivity extends BaseActivity {
         currentPage = preferences.getInt("currentPage", 0);
         viewPager.setCurrentItem(currentPage);
         updateButtons(currentPage);
-        updateMovingButtons(currentPage);
     }
 
 
     private void addListener(Button b1, Button b2, int n) {
         final int temp = n;
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                intent.putExtra("n", temp);
-                intent.putExtra("points", 0);
-                intent.putExtra("new", true);
-                intent.putExtra("filename", "state" + temp + ".txt");
-                intent.putExtra("undo", false);
-                createBackStack(intent);
-            }
+        b1.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, GameActivity.class);
+            intent.putExtra("n", temp);
+            intent.putExtra("points", 0);
+            intent.putExtra("new", true);
+            intent.putExtra("filename", "state" + temp + ".txt");
+            intent.putExtra("undo", false);
+            createBackStack(intent);
         });
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,22 +179,6 @@ public class MainActivity extends BaseActivity {
         return viewPager.getCurrentItem() + i;
     }
 
-    public void updateMovingButtons(int position) {
-        if (position == layouts.length - 1) {
-            // last page. make button text to GOT IT
-            btnNext.setVisibility(View.INVISIBLE);
-        } else {
-            // still pages are left
-            btnNext.setVisibility(View.VISIBLE);
-        }
-        if (position == 0) {
-            // last page. make button text to GOT IT
-            btnPrev.setVisibility(View.INVISIBLE);
-        } else {
-            // still pages are left
-            btnPrev.setVisibility(View.VISIBLE);
-        }
-    }
 
     public void updateButtons(int position) {
         Button newGameButton = MainActivity.this.findViewById(R.id.button_newGame);

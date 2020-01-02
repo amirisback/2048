@@ -39,12 +39,11 @@
             android:name=".ui.activity.TutorialActivity"
             android:theme="@style/AppThemeNoToolbar" />
         <activity android:name=".ui.activity.StatsActivity" />
-        <activity
-            android:name=".ui.activity.SettingsActivity"
-            android:label="@string/settings_name" />
+        <activity android:name=".ui.activity.AboutUsActivity" />
+        <activity android:name=".ui.activity.SettingsActivity" />
         <activity
             android:name=".ui.activity.GameActivity"
-            android:label="@string/title_activity_game" />
+            android:theme="@style/AppThemeNoToolbar" />
 
 
         <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
