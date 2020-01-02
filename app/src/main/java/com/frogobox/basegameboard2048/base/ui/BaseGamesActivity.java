@@ -29,7 +29,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.TaskStackBuilder;
 import androidx.core.view.GravityCompat;
@@ -37,12 +36,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.frogobox.basegameboard2048.R;
 import com.frogobox.basegameboard2048.base.admob.BaseAdmobActivity;
-import com.frogobox.basegameboard2048.ui.activity.AboutActivity;
-import com.frogobox.basegameboard2048.ui.activity.HelpActivity;
 import com.frogobox.basegameboard2048.ui.activity.MainActivity;
 import com.frogobox.basegameboard2048.ui.activity.SettingsActivity;
 import com.frogobox.basegameboard2048.ui.activity.StatsActivity;
-import com.frogobox.basegameboard2048.ui.activity.TutorialActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 
@@ -159,18 +155,6 @@ public abstract class BaseGamesActivity extends BaseAdmobActivity implements OnN
                 intent = new Intent(this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                break;
-            case R.id.nav_tutorial:
-                intent = new Intent(this, TutorialActivity.class);
-                createBackStack(intent);
-                break;
-            case R.id.nav_about:
-                intent = new Intent(this, AboutActivity.class);
-                createBackStack(intent);
-                break;
-            case R.id.nav_help:
-                intent = new Intent(this, HelpActivity.class);
-                createBackStack(intent);
                 break;
             case R.id.nav_statistics:
                 intent = new Intent(this, StatsActivity.class);

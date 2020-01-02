@@ -14,11 +14,11 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent mainIntent = new Intent(SplashActivity.this, TutorialActivity.class);
+        Intent mainIntent;
 
         FirstLaunchManager firstStartPref = new FirstLaunchManager(this);
 
-        if (firstStartPref.isFirstTimeLaunch()) {
+        if(firstStartPref.isFirstTimeLaunch()) {
             firstStartPref.initFirstTimeLaunch();
             mainIntent = new Intent(this, TutorialActivity.class);
         } else {

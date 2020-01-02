@@ -30,7 +30,7 @@
 
             <fragment
                 android:id="@+id/settings_fragment"
-                android:name="com.frogobox.basegameboard2048.activities.SettingsActivity$GeneralPreferenceFragment"
+                android:name="com.frogobox.basegameboard2048.ui.activity.SettingsActivity$GeneralPreferenceFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

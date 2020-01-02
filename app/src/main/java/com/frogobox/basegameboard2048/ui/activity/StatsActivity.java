@@ -33,12 +33,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.concurrent.TimeUnit;
 
-/**
- * The game statistics of the four modes are loaded and shown with a ViePager in this activity.
- *
- * @author Julian Wadephul and Saskia Jacob
- * @version 20180910
- */
+
 public class StatsActivity extends BaseGamesActivity {
 
     private int[] layouts = new int[]{
