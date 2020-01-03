@@ -1,4 +1,4 @@
-package com.frogobox.basegameboard2048.util.game;
+package com.frogobox.basegameboard2048.model;
 
 /**
  * Created by Faisal Amir
@@ -15,10 +15,7 @@ package com.frogobox.basegameboard2048.util.game;
  * -----------------------------------------
  * FrogoBox Software Industries
  * com.frogobox.basegameboard2048.model
- *
  */
-
-import com.frogobox.basegameboard2048.model.Element;
 
 import java.io.Serializable;
 

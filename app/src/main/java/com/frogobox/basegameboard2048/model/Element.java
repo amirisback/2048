@@ -8,8 +8,6 @@ import android.graphics.drawable.ShapeDrawable;
 import android.preference.PreferenceManager;
 import android.view.View;
 
-import androidx.core.content.ContextCompat;
-
 import com.frogobox.basegameboard2048.R;
 
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_COLOR;
@@ -51,11 +49,15 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
         setAllCaps(false);
         setTextSize(textSize);
         setBackgroundResource(R.drawable.game_brick);
+        setupBackgroundTiles(); // SetupBackgroundTiles
+
+    }
+
+    private void setupBackgroundTiles() {
         if (PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_COLOR, "1").equals("1"))
             setColor(context.getResources().getColor(R.color.button_empty));
         else
             setColor(context.getResources().getColor(R.color.button_empty_2));
-
     }
 
     public void drawItem() {
@@ -69,149 +71,91 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             if (getVisibility() != View.VISIBLE)
                 setVisibility(View.VISIBLE);
         }
+        setupGamesTiles(); // SetupGamesTiles
+    }
 
+    private void setupGamesTiles() {
         if (PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_COLOR, "1").equals("1")) {
-            switch (number) {
-                case 0:
-                    setColor(ContextCompat.getColor(context, R.color.button_empty));
-                    setTextColor(ContextCompat.getColor(context, R.color.black));
-                    break;
-                case 2:
-                    setColor(ContextCompat.getColor(context, R.color.button2));
-                    setTextColor(ContextCompat.getColor(context, R.color.black));
-                    break;
-                case 4:
-                    setColor(ContextCompat.getColor(context, R.color.button4));
-                    setTextColor(ContextCompat.getColor(context, R.color.black));
-                    break;
-                case 8:
-                    setColor(ContextCompat.getColor(context, R.color.button8));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 16:
-                    setColor(ContextCompat.getColor(context, R.color.button16));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 32:
-                    setColor(ContextCompat.getColor(context, R.color.button32));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 64:
-                    setColor(ContextCompat.getColor(context, R.color.button64));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 128:
-                    setColor(ContextCompat.getColor(context, R.color.button128));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 256:
-                    setColor(ContextCompat.getColor(context, R.color.button256));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 512:
-                    setColor(ContextCompat.getColor(context, R.color.button512));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 1024:
-                    setColor(ContextCompat.getColor(context, R.color.button1024));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 2048:
-                    setColor(ContextCompat.getColor(context, R.color.button2048));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 4096:
-                    setColor(ContextCompat.getColor(context, R.color.button4096));
-                    setTextColor(ContextCompat.getColor(context, R.color.black));
-                    break;
-                case 8192:
-                    setColor(ContextCompat.getColor(context, R.color.button8192));
-                    setTextColor(ContextCompat.getColor(context, R.color.black));
-                    break;
-                case 16384:
-                    setColor(ContextCompat.getColor(context, R.color.button16384));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    textSize = textSize * 0.8f;
-                    setTextSize(textSize);
-                    break;
-                case 32768:
-                    setColor(ContextCompat.getColor(context, R.color.button32768));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    textSize = textSize * 0.8f;
-                    setTextSize(textSize);
-                    break;
-            }
+            int[] tilesColor = context.getResources().getIntArray(R.array.color_tiles_default);
+            int[] textColor = context.getResources().getIntArray(R.array.color_text_default);
+            setupTiles(number, tilesColor, textColor);
         } else {
-            switch (number) {
-                case 0:
-                    setColor(R.color.button_empty_2);
-                    setTextColor(ContextCompat.getColor(context, R.color.black));
-                    break;
-                case 2:
-                    setColor(ContextCompat.getColor(context, R.color.button2_2));
-                    setTextColor(ContextCompat.getColor(context, R.color.black));
-                    break;
-                case 4:
-                    setColor(ContextCompat.getColor(context, R.color.button4_2));
-                    setTextColor(ContextCompat.getColor(context, R.color.black));
-                    break;
-                case 8:
-                    setColor(ContextCompat.getColor(context, R.color.button8_2));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 16:
-                    setColor(ContextCompat.getColor(context, R.color.button16_2));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 32:
-                    setColor(ContextCompat.getColor(context, R.color.button32_2));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 64:
-                    setColor(ContextCompat.getColor(context, R.color.button64_2));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 128:
-                    setColor(ContextCompat.getColor(context, R.color.button128_2));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 256:
-                    setColor(ContextCompat.getColor(context, R.color.button256_2));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 512:
-                    setColor(ContextCompat.getColor(context, R.color.button512_2));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 1024:
-                    setColor(ContextCompat.getColor(context, R.color.button1024_2));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 2048:
-                    setColor(ContextCompat.getColor(context, R.color.button2048_2));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 4096:
-                    setColor(ContextCompat.getColor(context, R.color.button4096_2));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 8192:
-                    setColor(ContextCompat.getColor(context, R.color.button8192_2));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    break;
-                case 16384:
-                    setColor(ContextCompat.getColor(context, R.color.button16384_2));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    textSize = textSize * 0.8f;
-                    setTextSize(textSize);
-                    break;
-                case 32768:
-                    setColor(ContextCompat.getColor(context, R.color.button32768_2));
-                    setTextColor(ContextCompat.getColor(context, R.color.white));
-                    textSize = textSize * 0.8f;
-                    setTextSize(textSize);
-                    break;
-            }
+            int[] tilesColor = context.getResources().getIntArray(R.array.color_tiles_original);
+            int[] textColor = context.getResources().getIntArray(R.array.color_text_original);
+            setupTiles(number, tilesColor, textColor);
+        }
+    }
+
+    private void setupTiles(int number, int[] listTilesColor, int[] listTextColor) {
+        switch (number) {
+            case 0:
+                setColor(listTilesColor[0]);
+                setTextColor(listTextColor[0]);
+                break;
+            case 2:
+                setColor(listTilesColor[1]);
+                setTextColor(listTextColor[1]);
+                break;
+            case 4:
+                setColor(listTilesColor[2]);
+                setTextColor(listTextColor[2]);
+                break;
+            case 8:
+                setColor(listTilesColor[3]);
+                setTextColor(listTextColor[3]);
+                break;
+            case 16:
+                setColor(listTilesColor[4]);
+                setTextColor(listTextColor[4]);
+                break;
+            case 32:
+                setColor(listTilesColor[5]);
+                setTextColor(listTextColor[5]);
+                break;
+            case 64:
+                setColor(listTilesColor[6]);
+                setTextColor(listTextColor[6]);
+                break;
+            case 128:
+                setColor(listTilesColor[7]);
+                setTextColor(listTextColor[7]);
+                break;
+            case 256:
+                setColor(listTilesColor[8]);
+                setTextColor(listTextColor[8]);
+                break;
+            case 512:
+                setColor(listTilesColor[9]);
+                setTextColor(listTextColor[9]);
+                break;
+            case 1024:
+                setColor(listTilesColor[10]);
+                setTextColor(listTextColor[10]);
+                break;
+            case 2048:
+                setColor(listTilesColor[11]);
+                setTextColor(listTextColor[11]);
+                break;
+            case 4096:
+                setColor(listTilesColor[12]);
+                setTextColor(listTextColor[12]);
+                break;
+            case 8192:
+                setColor(listTilesColor[13]);
+                setTextColor(listTextColor[13]);
+                break;
+            case 16384:
+                setColor(listTilesColor[14]);
+                setTextColor(listTextColor[14]);
+                textSize = textSize * 0.8f;
+                setTextSize(textSize);
+                break;
+            case 32768:
+                setColor(listTilesColor[15]);
+                setTextColor(listTextColor[15]);
+                textSize = textSize * 0.8f;
+                setTextSize(textSize);
+                break;
         }
     }
 

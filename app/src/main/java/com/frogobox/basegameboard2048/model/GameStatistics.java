@@ -1,4 +1,4 @@
-package com.frogobox.basegameboard2048.util.game;
+package com.frogobox.basegameboard2048.model;
 
 /**
  * Created by Faisal Amir
@@ -17,17 +17,16 @@ package com.frogobox.basegameboard2048.util.game;
  * com.frogobox.basegameboard2048.model
  */
 
-import java.io.Serializable;
+import com.frogobox.basegameboard2048.util.helper.ConstHelper;
 
-import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Const.FILE_STATISTIC;
-import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Ext.TXT;
+import java.io.Serializable;
 
 public class GameStatistics implements Serializable {
     private long moves = 0;
     private long timePlayed = 0;
     private long highestNumber = 2;
     private int n = 4;
-    private String filename = FILE_STATISTIC + n + TXT;
+    private String filename = ConstHelper.Const.FILE_STATISTIC + n + ConstHelper.Ext.TXT;
     private long record = 0;
     private int undo = 0;
     private int moves_l = 0;
@@ -37,7 +36,7 @@ public class GameStatistics implements Serializable {
 
     public GameStatistics(int n) {
         this.n = n;
-        filename = FILE_STATISTIC + n + TXT;
+        filename = ConstHelper.Const.FILE_STATISTIC + n + ConstHelper.Ext.TXT;
     }
 
 

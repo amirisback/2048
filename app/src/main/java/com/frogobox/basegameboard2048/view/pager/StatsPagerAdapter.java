@@ -12,7 +12,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
 import com.frogobox.basegameboard2048.R;
-import com.frogobox.basegameboard2048.util.game.GameStatistics;
+import com.frogobox.basegameboard2048.model.GameStatistics;
 
 import java.io.File;
 import java.io.FileInputStream;

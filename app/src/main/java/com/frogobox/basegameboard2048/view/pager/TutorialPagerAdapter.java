@@ -46,25 +46,25 @@ public class TutorialPagerAdapter extends PagerAdapter {
         ImageView imageView;
         switch (position) {
             case 0:
-                imageView = (ImageView) view.findViewById(R.id.image1);
+                imageView = view.findViewById(R.id.image1);
                 Glide.with(container.getContext()).load(R.mipmap.ic_splash).into(imageView);
                 break;
             case 1:
-                imageView = (ImageView) view.findViewById(R.id.image2);
+                imageView = view.findViewById(R.id.image2);
                 if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
                     Glide.with(container.getContext()).load(R.drawable.tutorial_move_s).into(imageView);
                 else
                     Glide.with(container.getContext()).load(R.drawable.tutorial_move_o).into(imageView);
                 break;
             case 2:
-                imageView = (ImageView) view.findViewById(R.id.image3);
+                imageView = view.findViewById(R.id.image3);
                 if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
                     Glide.with(container.getContext()).load(R.drawable.tutorial_swipe_s).into(imageView);
                 else
                     Glide.with(container.getContext()).load(R.drawable.tutorial_swipe_o).into(imageView);
                 break;
             case 3:
-                imageView = (ImageView) view.findViewById(R.id.image4);
+                imageView = view.findViewById(R.id.image4);
                 if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
                     Glide.with(container.getContext()).load(R.drawable.tutorial_add_s).into(imageView);
                 else
