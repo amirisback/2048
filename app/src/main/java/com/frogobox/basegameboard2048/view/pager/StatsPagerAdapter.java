@@ -66,10 +66,6 @@ public class StatsPagerAdapter extends PagerAdapter {
         TextView highestNumber = new TextView(container.getContext());
         TextView timePlayed = new TextView(container.getContext());
         TextView undo = new TextView(container.getContext());
-        TextView moves_L = new TextView(container.getContext());
-        TextView moves_R = new TextView(container.getContext());
-        TextView moves_T = new TextView(container.getContext());
-        TextView moves_D = new TextView(container.getContext());
         TextView moves = new TextView(container.getContext());
         TextView tpm = new TextView(container.getContext());
         TextView rekord = new TextView(container.getContext());
@@ -78,10 +74,6 @@ public class StatsPagerAdapter extends PagerAdapter {
                 highestNumber = view.findViewById(R.id.highest_number1);
                 timePlayed = view.findViewById(R.id.time_played1);
                 undo = view.findViewById(R.id.undo_number1);
-                moves_D = view.findViewById(R.id.moves_D1);
-                moves_L = view.findViewById(R.id.moves_L1);
-                moves_R = view.findViewById(R.id.moves_R1);
-                moves_T = view.findViewById(R.id.moves_T1);
                 moves = view.findViewById(R.id.moves_All1);
                 tpm = view.findViewById(R.id.time_swipes1);
                 rekord = view.findViewById(R.id.highest_score1);
@@ -92,10 +84,6 @@ public class StatsPagerAdapter extends PagerAdapter {
                 highestNumber = view.findViewById(R.id.highest_number2);
                 timePlayed = view.findViewById(R.id.time_played2);
                 undo = view.findViewById(R.id.undo_number2);
-                moves_D = view.findViewById(R.id.moves_D2);
-                moves_L = view.findViewById(R.id.moves_L2);
-                moves_R = view.findViewById(R.id.moves_R2);
-                moves_T = view.findViewById(R.id.moves_T2);
                 moves = view.findViewById(R.id.moves_All2);
                 tpm = view.findViewById(R.id.time_swipes2);
                 rekord = view.findViewById(R.id.highest_score2);
@@ -106,10 +94,6 @@ public class StatsPagerAdapter extends PagerAdapter {
                 highestNumber = view.findViewById(R.id.highest_number3);
                 timePlayed = view.findViewById(R.id.time_played3);
                 undo = view.findViewById(R.id.undo_number3);
-                moves_D = view.findViewById(R.id.moves_D3);
-                moves_L = view.findViewById(R.id.moves_L3);
-                moves_R = view.findViewById(R.id.moves_R3);
-                moves_T = view.findViewById(R.id.moves_T3);
                 moves = view.findViewById(R.id.moves_All3);
                 tpm = view.findViewById(R.id.time_swipes3);
                 rekord = view.findViewById(R.id.highest_score3);
@@ -120,10 +104,6 @@ public class StatsPagerAdapter extends PagerAdapter {
                 highestNumber = view.findViewById(R.id.highest_number4);
                 timePlayed = view.findViewById(R.id.time_played4);
                 undo = view.findViewById(R.id.undo_number4);
-                moves_D = view.findViewById(R.id.moves_D4);
-                moves_L = view.findViewById(R.id.moves_L4);
-                moves_R = view.findViewById(R.id.moves_R4);
-                moves_T = view.findViewById(R.id.moves_T4);
                 moves = view.findViewById(R.id.moves_All4);
                 tpm = view.findViewById(R.id.time_swipes4);
                 rekord = view.findViewById(R.id.highest_score4);
@@ -135,10 +115,6 @@ public class StatsPagerAdapter extends PagerAdapter {
         highestNumber.setText("" + gameStatistics.getHighestNumber());
         timePlayed.setText(formatMillis(gameStatistics.getTimePlayed()));
         undo.setText("" + gameStatistics.getUndo());
-        moves_D.setText("" + gameStatistics.getMoves_d());
-        moves_R.setText("" + gameStatistics.getMoves_r());
-        moves_T.setText("" + gameStatistics.getMoves_t());
-        moves_L.setText("" + gameStatistics.getMoves_l());
         moves.setText("" + gameStatistics.getMoves());
         if (gameStatistics.getMoves() != 0)
             tpm.setText("" + formatSmallMillis(gameStatistics.getTimePlayed() / gameStatistics.getMoves()));
