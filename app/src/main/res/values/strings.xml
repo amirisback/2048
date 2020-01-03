@@ -97,8 +97,8 @@
 
 
     <!-- ### CHOOSE DIALOG ### -->
-    <string name="new_Game_Button">Start New Game</string>
-    <string name="continue_Game_Button">Continue Game</string>
+    <string name="new_Game_Button">New Game</string>
+    <string name="continue_Game_Button">Continue</string>
     <string name="Record_Button">Record</string>
     <string name="Points_Button">Points</string>
     <string name="Winning_Message">You won. Would you like to continue?</string>

@@ -41,12 +41,13 @@
 
                 <TextView
                     style="@style/tv_stat"
-                    android:text="@string/Stat_High_Point" />
+                    android:text="@string/Stat_Amount_Undo" />
 
                 <TextView
-                    android:id="@+id/highest_score4"
+                    android:id="@+id/undo_number4"
                     style="@style/tv_stat_value"
                     android:text="0" />
+
 
                 <TextView
                     style="@style/tv_stat"
@@ -67,12 +68,14 @@
 
                 <TextView
                     style="@style/tv_stat"
-                    android:text="@string/Stat_Amount_Undo" />
+                    android:text="@string/Stat_High_Point" />
 
                 <TextView
-                    android:id="@+id/undo_number4"
+                    android:id="@+id/highest_score4"
                     style="@style/tv_stat_value"
-                    android:text="0" />
+                    android:text="0"
+                    android:textColor="@color/colorPrimary"/>
+
 
                 <TextView
                     style="@style/tv_stat"

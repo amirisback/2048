@@ -41,7 +41,7 @@ public class MainPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View view = layoutInflater.inflate(layouts[position], container, false);
         container.addView(view);
-        ImageView imageView = view.findViewById(R.id.main_menu_img1);;
+        ImageView imageView = view.findViewById(R.id.main_menu_img);;
         TextView textView = view.findViewById(R.id.tv_size_box);
         switch (position) {
             case 0:
