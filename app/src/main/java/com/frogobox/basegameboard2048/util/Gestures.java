@@ -1,4 +1,4 @@
-package com.frogobox.basegameboard2048.util.game;
+package com.frogobox.basegameboard2048.util;
 
 /**
  * Created by Faisal Amir

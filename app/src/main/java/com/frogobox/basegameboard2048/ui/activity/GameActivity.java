@@ -26,7 +26,7 @@ import com.frogobox.basegameboard2048.base.ui.BaseActivity;
 import com.frogobox.basegameboard2048.model.Element;
 import com.frogobox.basegameboard2048.model.GameState;
 import com.frogobox.basegameboard2048.model.GameStatistics;
-import com.frogobox.basegameboard2048.util.game.Gestures;
+import com.frogobox.basegameboard2048.util.Gestures;
 
 import java.io.File;
 import java.io.FileInputStream;
