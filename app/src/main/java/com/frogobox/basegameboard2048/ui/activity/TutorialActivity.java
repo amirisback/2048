@@ -34,10 +34,10 @@ public class TutorialActivity extends BaseActivity {
     // layouts of all welcome sliders
     // add few more layouts if you want
     private int[] layouts = new int[]{
-            R.layout.tutorial_slide1,
-            R.layout.tutorial_slide2,
-            R.layout.tutorial_slide3,
-            R.layout.tutorial_slide4,
+            R.layout.fragment_tutorial_slide,
+            R.layout.fragment_tutorial_slide,
+            R.layout.fragment_tutorial_slide,
+            R.layout.fragment_tutorial_slide,
     };
     //  viewpager change listener
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -102,31 +102,23 @@ public class TutorialActivity extends BaseActivity {
 
 
         try {
-            ImageView imageView = findViewById(R.id.image1);
+            ImageView imageView = findViewById(R.id.iv_tutorial);
             Glide.with(TutorialActivity.this).load(R.mipmap.ic_splash).into(imageView);//.into(imageView);//@mipmap/ic_splash).into(imageView);
         } catch (NullPointerException ne) {
 
         }
 
-        btnSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchHomeScreen();
-            }
-        });
+        btnSkip.setOnClickListener(v -> launchHomeScreen());
 
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // checking for last page
-                // if last page home screen will be launched
-                int current = getItem(+1);
-                if (current < layouts.length) {
-                    // move to next screen
-                    viewPager.setCurrentItem(current);
-                } else {
-                    launchHomeScreen();
-                }
+        btnNext.setOnClickListener(v -> {
+            // checking for last page
+            // if last page home screen will be launched
+            int current = getItem(+1);
+            if (current < layouts.length) {
+                // move to next screen
+                viewPager.setCurrentItem(current);
+            } else {
+                launchHomeScreen();
             }
         });
     }

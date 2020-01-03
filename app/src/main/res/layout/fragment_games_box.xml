@@ -8,22 +8,24 @@
     android:orientation="vertical"
     android:padding="15dp">
 
-
     <ImageView
-        android:id="@+id/main_menu_img4"
+        android:id="@+id/main_menu_img1"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_weight="4"
         android:adjustViewBounds="true" />
 
     <TextView
+        android:id="@+id/tv_size_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:paddingLeft="@dimen/desc_padding"
         android:paddingRight="@dimen/desc_padding"
-        android:text="7x7"
+        android:text="4x4"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="@dimen/slide_desc" />

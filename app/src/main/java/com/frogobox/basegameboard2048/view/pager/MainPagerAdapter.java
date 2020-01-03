@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.viewpager.widget.PagerAdapter;
 
@@ -40,24 +41,23 @@ public class MainPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View view = layoutInflater.inflate(layouts[position], container, false);
         container.addView(view);
-        ImageView imageView;
+        ImageView imageView = view.findViewById(R.id.main_menu_img1);;
+        TextView textView = view.findViewById(R.id.tv_size_box);
         switch (position) {
             case 0:
-                imageView = view.findViewById(R.id.main_menu_img1);
+                textView.setText("4 x 4");
                 Glide.with(container.getContext()).load(R.drawable.layout4x4_o).into(imageView);
-
                 break;
             case 1:
-                imageView = view.findViewById(R.id.main_menu_img2);
+                textView.setText("5 x 5");
                 Glide.with(container.getContext()).load(R.drawable.layout5x5_o).into(imageView);
-
                 break;
             case 2:
-                imageView = view.findViewById(R.id.main_menu_img3);
+                textView.setText("6 x 6");
                 Glide.with(container.getContext()).load(R.drawable.layout6x6_o).into(imageView);
                 break;
             case 3:
-                imageView = view.findViewById(R.id.main_menu_img4);
+                textView.setText("7 x 7");
                 Glide.with(container.getContext()).load(R.drawable.layout7x7_o).into(imageView);
                 break;
         }

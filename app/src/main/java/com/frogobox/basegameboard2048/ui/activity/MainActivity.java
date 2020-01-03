@@ -44,10 +44,10 @@ public class MainActivity extends BaseActivity {
     private SharedPreferences preferences;
 
     private int[] layouts = new int[]{
-            R.layout.choose_slide1,
-            R.layout.choose_slide2,
-            R.layout.choose_slide3,
-            R.layout.choose_slide4,
+            R.layout.fragment_games_box,
+            R.layout.fragment_games_box,
+            R.layout.fragment_games_box,
+            R.layout.fragment_games_box
     };
     private boolean[] gameResumeable = new boolean[]{
             false,

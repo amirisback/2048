@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -49,7 +48,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:text="@string/Record_Button" />
+                android:text="@string/Record_Button"
+                android:textColor="@color/colorTextBlack" />
 
             <TextView
                 android:id="@+id/record"
@@ -59,7 +59,9 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="5dp"
                 android:text="0"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/colorTextBlack"
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <TextView
@@ -70,6 +72,7 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="34dp"
             android:text="2048"
+            android:textColor="@color/colorTextBlack"
             android:textSize="36sp"
             android:textStyle="bold" />
 
@@ -83,7 +86,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:text="@string/Points_Button" />
+                android:text="@string/Points_Button"
+                android:textColor="@color/colorTextBlack" />
 
             <TextView
                 android:id="@+id/points"
@@ -93,7 +97,9 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="5dp"
                 android:text="0"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/colorTextBlack"
+                android:textStyle="bold" />
         </RelativeLayout>
 
     </RelativeLayout>

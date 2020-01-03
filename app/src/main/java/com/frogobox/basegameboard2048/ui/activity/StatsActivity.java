@@ -10,7 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.frogobox.basegameboard2048.R;
 import com.frogobox.basegameboard2048.base.ui.BaseActivity;
-import com.frogobox.basegameboard2048.view.pager.StatsPagerAdapter;
+import com.frogobox.basegameboard2048.view.pager.StatisticsPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.File;
@@ -23,22 +23,22 @@ public class StatsActivity extends BaseActivity {
 
     String[] TABNAMES = {"4x4", "5x5", "6x6", "7x7"};
     private int[] layouts = new int[]{
-            R.layout.fragment_stats1,
-            R.layout.fragment_stats2,
-            R.layout.fragment_stats3,
-            R.layout.fragment_stats4,
+            R.layout.fragment_statistics,
+            R.layout.fragment_statistics,
+            R.layout.fragment_statistics,
+            R.layout.fragment_statistics
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stats);
+        setContentView(R.layout.activity_statistics);
 
         setupDetailActivity("");
         getSupportActionBar().setElevation(0f);
 
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        StatsPagerAdapter mSectionsPagerAdapter = new StatsPagerAdapter(layoutInflater, layouts, TABNAMES, this);
+        StatisticsPagerAdapter mSectionsPagerAdapter = new StatisticsPagerAdapter(layoutInflater, layouts, TABNAMES, this);
 
         // Set up the ViewPager with the sections adapter.
         ViewPager mViewPager = findViewById(R.id.viewpager);

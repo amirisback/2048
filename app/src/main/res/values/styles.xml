@@ -51,4 +51,17 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="tv_stat">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorTextBlack</item>
+    </style>
+
+    <style name="tv_stat_value" parent="tv_stat">
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginBottom">@dimen/dimen_big_16dp</item>
+        <item name="android:textSize">@dimen/text_size_title_medium_20sp</item>
+    </style>
+
+
 </resources>

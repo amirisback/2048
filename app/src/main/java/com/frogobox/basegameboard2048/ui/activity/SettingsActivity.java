@@ -59,64 +59,11 @@ public class SettingsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_settings);
-
         setupDetailActivity("");
-
+        getSupportActionBar().setElevation(0f);
     }
 
-    /**
-     * Set up the {@link android.app.ActionBar}, if the API is available.
-     */
-    /*private void setupActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            // Show the Up button in the action bar.
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-    }*/
-
-    /*@Override
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            //finish();
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-            return true;
-
-            // (!super.onMenuItemSelected(featureId, item)) {
-            //    NavUtils.navigateUpFromSameTask(this);
-            //}
-            //return true;
-        }
-        return super.onMenuItemSelected(featureId, item);
-    }*/
-
-    /**
-     * {@inheritDoc}
-     */
-    /*@Override
-    public boolean onIsMultiPane() {
-        return isXLargeTablet(this);
-    }*/
-
-    /**
-     * {@inheritDoc}
-     */
-    /*@Override
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void onBuildHeaders(List<Header> target) {
-        loadHeadersFromResource(R.xml.pref_headers, target);
-    }*/
-
-    /**
-     * This method stops fragment injection in malicious applications.
-     * Make sure to deny any unknown fragments here.
-     */
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName);
@@ -134,6 +81,9 @@ public class SettingsActivity extends BaseActivity {
         int id = item.getItemId();
         if (id == R.id.toolbar_menu_about) {
             startActivity(new Intent(this, AboutUsActivity.class));
+            return true;
+        } else if (id == R.id.toolbar_menu_help) {
+            startActivity(new Intent(this, TutorialActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

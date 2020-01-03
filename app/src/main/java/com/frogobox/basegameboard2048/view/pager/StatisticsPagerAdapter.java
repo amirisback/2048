@@ -12,6 +12,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.bumptech.glide.Glide;
 import com.frogobox.basegameboard2048.R;
 import com.frogobox.basegameboard2048.model.GameStatistics;
+import com.frogobox.basegameboard2048.util.helper.ConstHelper;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,13 +41,13 @@ import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Ext.TXT;
  * FrogoBox Software Industries
  * com.frogobox.basegameboard2048.view.pager
  */
-public class StatsPagerAdapter extends PagerAdapter {
+public class StatisticsPagerAdapter extends PagerAdapter {
     private LayoutInflater layoutInflater;
     private int[] layouts;
     private String[] tabNames;
     private ContextWrapper contextWrapper;
 
-    public StatsPagerAdapter(LayoutInflater layoutInflater, int[] layouts, String[] tabNames, ContextWrapper contextWrapper) {
+    public StatisticsPagerAdapter(LayoutInflater layoutInflater, int[] layouts, String[] tabNames, ContextWrapper contextWrapper) {
         this.layoutInflater = layoutInflater;
         this.layouts = layouts;
         this.tabNames = tabNames;
@@ -62,52 +63,24 @@ public class StatsPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View view = layoutInflater.inflate(layouts[position], container, false);
         container.addView(view);
-        ImageView img = new ImageView(container.getContext());
-        TextView highestNumber = new TextView(container.getContext());
-        TextView timePlayed = new TextView(container.getContext());
-        TextView undo = new TextView(container.getContext());
-        TextView moves = new TextView(container.getContext());
-        TextView tpm = new TextView(container.getContext());
-        TextView rekord = new TextView(container.getContext());
+        TextView highestNumber = view.findViewById(R.id.highest_number4);
+        TextView timePlayed = view.findViewById(R.id.time_played4);
+        TextView undo = view.findViewById(R.id.undo_number4);
+        TextView moves = view.findViewById(R.id.moves_All4);
+        TextView tpm = view.findViewById(R.id.time_swipes4);
+        TextView rekord = view.findViewById(R.id.highest_score4);
+        ImageView img = view.findViewById(R.id.stat_img4);
         switch (position) {
             case 0:
-                highestNumber = view.findViewById(R.id.highest_number1);
-                timePlayed = view.findViewById(R.id.time_played1);
-                undo = view.findViewById(R.id.undo_number1);
-                moves = view.findViewById(R.id.moves_All1);
-                tpm = view.findViewById(R.id.time_swipes1);
-                rekord = view.findViewById(R.id.highest_score1);
-                img = view.findViewById(R.id.stat_img1);
                 Glide.with(container.getContext()).load(R.drawable.layout4x4_o).into(img);
                 break;
             case 1:
-                highestNumber = view.findViewById(R.id.highest_number2);
-                timePlayed = view.findViewById(R.id.time_played2);
-                undo = view.findViewById(R.id.undo_number2);
-                moves = view.findViewById(R.id.moves_All2);
-                tpm = view.findViewById(R.id.time_swipes2);
-                rekord = view.findViewById(R.id.highest_score2);
-                img = view.findViewById(R.id.stat_img2);
                 Glide.with(container.getContext()).load(R.drawable.layout5x5_o).into(img);
                 break;
             case 2:
-                highestNumber = view.findViewById(R.id.highest_number3);
-                timePlayed = view.findViewById(R.id.time_played3);
-                undo = view.findViewById(R.id.undo_number3);
-                moves = view.findViewById(R.id.moves_All3);
-                tpm = view.findViewById(R.id.time_swipes3);
-                rekord = view.findViewById(R.id.highest_score3);
-                img = view.findViewById(R.id.stat_img3);
                 Glide.with(container.getContext()).load(R.drawable.layout6x6_o).into(img);
                 break;
             case 3:
-                highestNumber = view.findViewById(R.id.highest_number4);
-                timePlayed = view.findViewById(R.id.time_played4);
-                undo = view.findViewById(R.id.undo_number4);
-                moves = view.findViewById(R.id.moves_All4);
-                tpm = view.findViewById(R.id.time_swipes4);
-                rekord = view.findViewById(R.id.highest_score4);
-                img = view.findViewById(R.id.stat_img4);
                 Glide.with(container.getContext()).load(R.drawable.layout7x7_o).into(img);
                 break;
         }
@@ -122,11 +95,10 @@ public class StatsPagerAdapter extends PagerAdapter {
             tpm.setText("0");
         rekord.setText("" + gameStatistics.getRecord());
 
-
         return view;
     }
 
-    public String formatSmallMillis(long timeInMillis) {
+    private String formatSmallMillis(long timeInMillis) {
         String sign = "";
         if (timeInMillis < 0) {
             sign = "-";
@@ -143,7 +115,7 @@ public class StatsPagerAdapter extends PagerAdapter {
         return formatted.toString();
     }
 
-    public String formatMillis(long timeInMillis) {
+    private String formatMillis(long timeInMillis) {
         String sign = "";
         if (timeInMillis < 0) {
             sign = "-";
@@ -180,14 +152,14 @@ public class StatsPagerAdapter extends PagerAdapter {
     private GameStatistics readStatisticsFromFile(int n) {
         GameStatistics gS = new GameStatistics(n);
         try {
-            File file = new File(contextWrapper.getFilesDir(), FILE_STATISTIC + n + TXT);
+            File file = new File(contextWrapper.getFilesDir(), ConstHelper.Const.FILE_STATISTIC + n + ConstHelper.Ext.TXT);
             FileInputStream fileIn = new FileInputStream(file);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             gS = (GameStatistics) in.readObject();
             in.close();
             fileIn.close();
         } catch (InvalidClassException ice) {
-            File file = new File(contextWrapper.getFilesDir(), FILE_STATISTIC + n + TXT);
+            File file = new File(contextWrapper.getFilesDir(), ConstHelper.Const.FILE_STATISTIC + n + ConstHelper.Ext.TXT);
             file.delete();
         } catch (Exception e) {
             e.printStackTrace();

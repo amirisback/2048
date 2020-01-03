@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.viewpager.widget.PagerAdapter;
 
@@ -40,22 +41,29 @@ public class TutorialPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View view = layoutInflater.inflate(layouts[position], container, false);
         container.addView(view);
-        ImageView imageView;
+        ImageView imageView = view.findViewById(R.id.iv_tutorial);
+        TextView tv_title = view.findViewById(R.id.tv_tutorial_title);
+        TextView tv_subtitle = view.findViewById(R.id.tv_tutorial_subtitle);
+
         switch (position) {
             case 0:
-                imageView = view.findViewById(R.id.image1);
+                tv_title.setText(R.string.Tutorial_Titel);
+                tv_subtitle.setText(R.string.Tutorial_Instruction);
                 Glide.with(container.getContext()).load(R.mipmap.ic_splash).into(imageView);
                 break;
             case 1:
-                imageView = view.findViewById(R.id.image2);
+                tv_title.setText(R.string.Tutorial_Titel_Move);
+                tv_subtitle.setText(R.string.Tutorial_Move);
                 Glide.with(container.getContext()).load(R.drawable.tutorial_move_o).into(imageView);
                 break;
             case 2:
-                imageView = view.findViewById(R.id.image3);
+                tv_title.setText(R.string.Tutorial_Titel_Move);
+                tv_subtitle.setText(R.string.Tutorial_Move);
                 Glide.with(container.getContext()).load(R.drawable.tutorial_swipe_o).into(imageView);
                 break;
             case 3:
-                imageView = view.findViewById(R.id.image4);
+                tv_title.setText(R.string.Tutorial_Titel_Add);
+                tv_subtitle.setText(R.string.Tutorial_Add);
                 Glide.with(container.getContext()).load(R.drawable.tutorial_add_o).into(imageView);
                 break;
         }

@@ -21,8 +21,15 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/toolbar_menu_help"
+        android:icon="@drawable/ic_toolbar_help"
+        android:title="@string/help"
+        app:showAsAction="ifRoom"/>
+
+    <item
             android:id="@+id/toolbar_menu_about"
             android:icon="@drawable/ic_toolbar_about"
             android:title="@string/title_about_us"
             app:showAsAction="ifRoom"/>
+
 </menu>

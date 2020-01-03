@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    android:padding="@dimen/dimen_big_16dp">
+
+    <TextView
+        android:id="@+id/tv_tutorial_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/iv_tutorial"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/Tutorial_Titel"
+        android:textColor="@color/colorTextWhite"
+        android:textSize="@dimen/slide_title"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/iv_tutorial"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/dimen_big_16dp"
+        android:layout_marginBottom="@dimen/dimen_big_16dp" />
+
+    <TextView
+        android:id="@+id/tv_tutorial_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_tutorial"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:text="@string/Tutorial_Instruction"
+        android:textAlignment="center"
+        android:textColor="@color/colorTextWhite"
+        android:textSize="@dimen/text_size_title_small_18sp" />
+
+</RelativeLayout>
