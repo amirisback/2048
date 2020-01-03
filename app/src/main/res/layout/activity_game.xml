@@ -23,7 +23,7 @@
             android:adjustViewBounds="true"
             android:padding="0dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/restartbutton" />
+            app:srcCompat="@drawable/ic_button_restart" />
 
         <ImageButton
             android:id="@+id/undoButton"
@@ -35,7 +35,7 @@
             android:padding="0dp"
             android:scaleType="fitCenter"
             android:visibility="invisible"
-            app:srcCompat="@drawable/undobutton" />
+            app:srcCompat="@drawable/ic_button_undo" />
 
         <RelativeLayout
             android:layout_width="85dp"

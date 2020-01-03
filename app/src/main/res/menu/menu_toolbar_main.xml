@@ -18,18 +18,18 @@
  -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/toolbar_menu_stats"
-        android:icon="@drawable/ic_menu_stat"
+        android:icon="@drawable/ic_toolbar_stats"
         android:title="@string/action_stat"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
     <item
-            android:id="@+id/toolbar_menu_setting"
-            android:icon="@drawable/ic_menu_settings"
-            android:title="@string/action_settings"
-            app:showAsAction="ifRoom"/>
+        android:id="@+id/toolbar_menu_setting"
+        android:icon="@drawable/ic_toolbar_settings"
+        android:title="@string/action_settings"
+        app:showAsAction="ifRoom" />
 
 </menu>

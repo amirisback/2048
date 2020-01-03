@@ -236,7 +236,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="35dp"
                         android:layout_weight="100"
-                        app:srcCompat="@drawable/arrow_up" />
+                        app:srcCompat="@drawable/ic_arrow_up" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -279,7 +279,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="35dp"
                         android:layout_weight="100"
-                        app:srcCompat="@drawable/arrow_down" />
+                        app:srcCompat="@drawable/ic_arrow_down" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -331,7 +331,7 @@
                         android:layout_marginRight="35dp"
                         android:layout_marginTop="3.3dp"
                         android:layout_weight="100"
-                        app:srcCompat="@drawable/arrow_left" />
+                        app:srcCompat="@drawable/ic_arrow_left" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -376,7 +376,7 @@
                         android:layout_marginRight="35dp"
                         android:layout_marginTop="3.3dp"
                         android:layout_weight="100"
-                        app:srcCompat="@drawable/arrow_right" />
+                        app:srcCompat="@drawable/ic_arrow_right" />
                 </LinearLayout>
 
                 <LinearLayout

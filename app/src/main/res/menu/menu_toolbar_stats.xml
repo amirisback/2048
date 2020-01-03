@@ -4,8 +4,8 @@
     tools:context=".activities.StatsActivity">
     <item
         android:id="@+id/action_reset"
-        android:orderInCategory="100"
         android:title="@string/reset_stats"
-        app:showAsAction="never" />
+        android:icon="@drawable/ic_toolbar_reset"
+        app:showAsAction="ifRoom"/>
 
 </menu>

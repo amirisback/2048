@@ -48,7 +48,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
         context = c;
         setAllCaps(false);
         setTextSize(textSize);
-        setBackgroundResource(R.drawable.game_brick);
+        setBackgroundResource(R.drawable.background_game_brick);
         setupBackgroundTiles(); // SetupBackgroundTiles
 
     }
