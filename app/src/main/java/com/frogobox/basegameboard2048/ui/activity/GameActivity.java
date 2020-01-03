@@ -3,7 +3,6 @@ package com.frogobox.basegameboard2048.ui.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -27,6 +26,7 @@ import com.frogobox.basegameboard2048.model.Element;
 import com.frogobox.basegameboard2048.model.GameState;
 import com.frogobox.basegameboard2048.model.GameStatistics;
 import com.frogobox.basegameboard2048.util.Gestures;
+import com.frogobox.basegameboard2048.util.helper.ConstHelper;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -139,6 +139,7 @@ public class GameActivity extends BaseActivity {
         restartButton.setOnClickListener(v -> {
             saveStatisticsToFile(gameStatistics);
             createNewGame();
+            setupShowAdsInterstitial();
         });
         undoButton = findViewById(R.id.undoButton);
         undoButton.setOnClickListener(v -> {
@@ -745,17 +746,12 @@ public class GameActivity extends BaseActivity {
                         new AlertDialog.Builder(this)
                                 .setTitle((this.getResources().getString(R.string.Titel_V_Message)))
                                 .setMessage((this.getResources().getString(R.string.Winning_Message)))
-                                .setNegativeButton((this.getResources().getString(R.string.No_Message)), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        onBackPressed();
-
-                                    }
+                                .setNegativeButton((this.getResources().getString(R.string.No_Message)), (dialog, which) -> {
+                                    onBackPressed();
+                                    setupShowAdsInterstitial();
                                 })
-                                .setPositiveButton((this.getResources().getString(R.string.Yes_Message)), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
+                                .setPositiveButton((this.getResources().getString(R.string.Yes_Message)), (dialog, which) -> {
+                                    setupShowAdsInterstitial();
                                 })
                                 .setCancelable(false)
                                 .create().show();
@@ -880,19 +876,19 @@ public class GameActivity extends BaseActivity {
         new AlertDialog.Builder(this)
                 .setTitle((this.getResources().getString(R.string.Titel_L_Message, points)))
                 .setMessage(this.getResources().getString(R.string.Lost_Message, points))
-                .setNegativeButton((this.getResources().getString(R.string.No_Message)), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        createNewGame = true;
-                        getIntent().putExtra(EXTRA_NEW, true);
-                        initialize();
-                        deleteStateFile();
-                        saveState = false;
-                        GameActivity.this.onBackPressed();
-
-                    }
+                .setNegativeButton((this.getResources().getString(R.string.No_Message)), (dialog, which) -> {
+                    createNewGame = true;
+                    getIntent().putExtra(ConstHelper.Extra.EXTRA_NEW, true);
+                    initialize();
+                    deleteStateFile();
+                    saveState = false;
+                    GameActivity.this.onBackPressed();
+                    setupShowAdsInterstitial();
                 })
-                .setPositiveButton((this.getResources().getString(R.string.Yes_Message)), (dialog, which) -> createNewGame())
+                .setPositiveButton((this.getResources().getString(R.string.Yes_Message)), (dialog, which) -> {
+                    createNewGame();
+                    setupShowAdsInterstitial();
+                })
                 .setCancelable(false)
                 .create().show();
         Log.i("record", "danach");
