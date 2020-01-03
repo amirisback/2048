@@ -62,6 +62,7 @@ public class SettingsActivity extends BaseActivity {
         setContentView(R.layout.activity_settings);
         setupDetailActivity("");
         getSupportActionBar().setElevation(0f);
+        setupShowAdsBanner(findViewById(R.id.ads_banner));
     }
 
     protected boolean isValidFragment(String fragmentName) {

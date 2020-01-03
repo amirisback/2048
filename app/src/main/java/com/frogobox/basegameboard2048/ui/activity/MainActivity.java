@@ -139,6 +139,7 @@ public class MainActivity extends BaseActivity {
             intent.putExtra(EXTRA_FILENAME, FILE_STATE + temp + TXT);
             intent.putExtra(EXTRA_UNDO, false);
             createBackStack(intent);
+            setupShowAdsInterstitial();
         });
         b2.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, GameActivity.class);
@@ -147,6 +148,7 @@ public class MainActivity extends BaseActivity {
             intent.putExtra(EXTRA_FILENAME, FILE_STATE + temp + TXT);
             intent.putExtra(EXTRA_UNDO, false);
             createBackStack(intent);
+            setupShowAdsInterstitial();
         });
     }
 
@@ -213,9 +215,11 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.toolbar_menu_setting:
                 startActivity(new Intent(this, SettingsActivity.class));
+                setupShowAdsInterstitial();
                 return true;
             case R.id.toolbar_menu_stats:
                 startActivity(new Intent(this, StatsActivity.class));
+                setupShowAdsInterstitial();
                 return true;
         }
 

@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -79,8 +79,8 @@ public class GameActivity extends BaseActivity {
     RelativeLayout number_field;
     RelativeLayout number_field_background;
     RelativeLayout touch_field;
-    ImageButton restartButton;
-    ImageButton undoButton;
+    ImageView restartButton;
+    ImageView undoButton;
     View.OnTouchListener swipeListener;
     SharedPreferences sharedPref;
     GameStatistics gameStatistics = new GameStatistics(n);
@@ -125,6 +125,7 @@ public class GameActivity extends BaseActivity {
 
         initResources();
 
+        setupShowAdsBanner(findViewById(R.id.ads_banner));
 
     }
 

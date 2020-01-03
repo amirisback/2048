@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBaseWhite"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:background="@color/colorBaseWhite">
 
     <View
         android:id="@+id/view_line"
@@ -16,6 +14,10 @@
         android:id="@+id/settings_fragment"
         android:name="com.frogobox.basegameboard2048.ui.activity.SettingsActivity$GeneralPreferenceFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ads_banner"
+        android:layout_below="@id/view_line" />
 
-</LinearLayout>
+    <include layout="@layout/view_ads" />
+
+</RelativeLayout>

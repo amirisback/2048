@@ -21,7 +21,7 @@ import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Ext.TXT;
 
 public class StatsActivity extends BaseActivity {
 
-    String[] TABNAMES = {"4x4", "5x5", "6x6", "7x7"};
+    String[] TABNAMES = {"4 x 4", "5 x 5", "6 x 6", "7 x 7"};
     private int[] layouts = new int[]{
             R.layout.fragment_statistics,
             R.layout.fragment_statistics,
@@ -47,6 +47,8 @@ public class StatsActivity extends BaseActivity {
         TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mViewPager);
         //tabLayout.setTabTextColors(Color.WHITE,Color.YELLOW);
+        setupShowAdsBanner(findViewById(R.id.ads_banner));
+
     }
 
     @Override
