@@ -1,7 +1,6 @@
 package com.frogobox.basegameboard2048.view.pager;
 
 import android.content.ContextWrapper;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import java.util.concurrent.TimeUnit;
 
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Const.FILE_STATISTIC;
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Ext.TXT;
-import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_COLOR;
 
 /**
  * Created by Faisal Amir
@@ -88,10 +86,7 @@ public class StatsPagerAdapter extends PagerAdapter {
                 tpm = view.findViewById(R.id.time_swipes1);
                 rekord = view.findViewById(R.id.highest_score1);
                 img = view.findViewById(R.id.stat_img1);
-                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
-                    Glide.with(container.getContext()).load(R.drawable.layout4x4_s).into(img);
-                else
-                    Glide.with(container.getContext()).load(R.drawable.layout4x4_o).into(img);
+                Glide.with(container.getContext()).load(R.drawable.layout4x4_o).into(img);
                 break;
             case 1:
                 highestNumber = view.findViewById(R.id.highest_number2);
@@ -105,10 +100,7 @@ public class StatsPagerAdapter extends PagerAdapter {
                 tpm = view.findViewById(R.id.time_swipes2);
                 rekord = view.findViewById(R.id.highest_score2);
                 img = view.findViewById(R.id.stat_img2);
-                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
-                    Glide.with(container.getContext()).load(R.drawable.layout5x5_s).into(img);
-                else
-                    Glide.with(container.getContext()).load(R.drawable.layout5x5_o).into(img);
+                Glide.with(container.getContext()).load(R.drawable.layout5x5_o).into(img);
                 break;
             case 2:
                 highestNumber = view.findViewById(R.id.highest_number3);
@@ -122,10 +114,7 @@ public class StatsPagerAdapter extends PagerAdapter {
                 tpm = view.findViewById(R.id.time_swipes3);
                 rekord = view.findViewById(R.id.highest_score3);
                 img = view.findViewById(R.id.stat_img3);
-                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
-                    Glide.with(container.getContext()).load(R.drawable.layout6x6_s).into(img);
-                else
-                    Glide.with(container.getContext()).load(R.drawable.layout6x6_o).into(img);
+                Glide.with(container.getContext()).load(R.drawable.layout6x6_o).into(img);
                 break;
             case 3:
                 highestNumber = view.findViewById(R.id.highest_number4);
@@ -139,10 +128,7 @@ public class StatsPagerAdapter extends PagerAdapter {
                 tpm = view.findViewById(R.id.time_swipes4);
                 rekord = view.findViewById(R.id.highest_score4);
                 img = view.findViewById(R.id.stat_img4);
-                if (PreferenceManager.getDefaultSharedPreferences(container.getContext()).getString(PREF_COLOR, "1").equals("1"))
-                    Glide.with(container.getContext()).load(R.drawable.layout7x7_s).into(img);
-                else
-                    Glide.with(container.getContext()).load(R.drawable.layout7x7_o).into(img);
+                Glide.with(container.getContext()).load(R.drawable.layout7x7_o).into(img);
                 break;
         }
         GameStatistics gameStatistics = readStatisticsFromFile(position + 4);
