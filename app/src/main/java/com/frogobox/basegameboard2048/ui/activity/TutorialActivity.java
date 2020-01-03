@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -17,22 +15,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.frogobox.basegameboard2048.R;
+import com.frogobox.basegameboard2048.base.ui.BaseActivity;
 import com.frogobox.basegameboard2048.util.helper.FirstLaunchManager;
+import com.frogobox.basegameboard2048.view.pager.TutorialPagerAdapter;
 
-public class TutorialActivity extends AppCompatActivity {
+public class TutorialActivity extends BaseActivity {
 
     private static final String TAG = TutorialActivity.class.getSimpleName();
     private ViewPager viewPager;
-    private MyViewPagerAdapter myViewPagerAdapter;
     private LinearLayout dotsLayout;
-    private TextView[] dots;
     private Button btnSkip, btnNext;
     private FirstLaunchManager firstLaunchManager;
     // layouts of all welcome sliders
@@ -87,10 +83,10 @@ public class TutorialActivity extends AppCompatActivity {
 
         firstLaunchManager = new FirstLaunchManager(this);
 
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
-        btnSkip = (Button) findViewById(R.id.btn_skip);
-        btnNext = (Button) findViewById(R.id.btn_next);
+        viewPager = findViewById(R.id.view_pager);
+        dotsLayout = findViewById(R.id.layoutDots);
+        btnSkip = findViewById(R.id.btn_skip);
+        btnNext = findViewById(R.id.btn_next);
 
 
         // adding bottom dots
@@ -99,13 +95,14 @@ public class TutorialActivity extends AppCompatActivity {
         // making notification bar transparent
         changeStatusBarColor();
 
-        myViewPagerAdapter = new MyViewPagerAdapter();
-        viewPager.setAdapter(myViewPagerAdapter);
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        TutorialPagerAdapter tutorialPagerAdapter = new TutorialPagerAdapter(layoutInflater, layouts);
+        viewPager.setAdapter(tutorialPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
 
         try {
-            ImageView imageView = (ImageView) findViewById(R.id.image1);
+            ImageView imageView = findViewById(R.id.image1);
             Glide.with(TutorialActivity.this).load(R.mipmap.ic_splash).into(imageView);//.into(imageView);//@mipmap/ic_splash).into(imageView);
         } catch (NullPointerException ne) {
 
@@ -135,7 +132,7 @@ public class TutorialActivity extends AppCompatActivity {
     }
 
     private void addBottomDots(int currentPage) {
-        dots = new TextView[layouts.length];
+        TextView[] dots = new TextView[layouts.length];
 
         int activeColor = ContextCompat.getColor(this, R.color.dot_light_screen);
         int inactiveColor = ContextCompat.getColor(this, R.color.dot_dark_screen);
@@ -178,67 +175,4 @@ public class TutorialActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * View pager adapter
-     */
-    public class MyViewPagerAdapter extends PagerAdapter {
-        private LayoutInflater layoutInflater;
-
-        public MyViewPagerAdapter() {
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            View view = layoutInflater.inflate(layouts[position], container, false);
-            container.addView(view);
-            ImageView imageView;
-            switch (position) {
-                case 0:
-                    imageView = (ImageView) findViewById(R.id.image1);
-                    Glide.with(TutorialActivity.this).load(R.mipmap.ic_splash).into(imageView);
-                    break;
-                case 1:
-                    imageView = (ImageView) findViewById(R.id.image2);
-                    if (PreferenceManager.getDefaultSharedPreferences(TutorialActivity.this).getString("pref_color", "1").equals("1"))
-                        Glide.with(TutorialActivity.this).load(R.drawable.tutorial_move_s).into(imageView);
-                    else
-                        Glide.with(TutorialActivity.this).load(R.drawable.tutorial_move_o).into(imageView);
-                    break;
-                case 2:
-                    imageView = (ImageView) findViewById(R.id.image3);
-                    if (PreferenceManager.getDefaultSharedPreferences(TutorialActivity.this).getString("pref_color", "1").equals("1"))
-                        Glide.with(TutorialActivity.this).load(R.drawable.tutorial_swipe_s).into(imageView);
-                    else
-                        Glide.with(TutorialActivity.this).load(R.drawable.tutorial_swipe_o).into(imageView);
-                    break;
-                case 3:
-                    imageView = (ImageView) findViewById(R.id.image4);
-                    if (PreferenceManager.getDefaultSharedPreferences(TutorialActivity.this).getString("pref_color", "1").equals("1"))
-                        Glide.with(TutorialActivity.this).load(R.drawable.tutorial_add_s).into(imageView);
-                    else
-                        Glide.with(TutorialActivity.this).load(R.drawable.tutorial_add_o).into(imageView);
-                    break;
-            }
-            return view;
-        }
-
-        @Override
-        public int getCount() {
-            return layouts.length;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object obj) {
-            return view == obj;
-        }
-
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            View view = (View) object;
-            container.removeView(view);
-        }
-    }
 }

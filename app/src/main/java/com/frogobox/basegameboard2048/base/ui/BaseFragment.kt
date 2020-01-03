@@ -28,11 +28,11 @@ import  com.frogobox.basegameboard2048.util.helper.AdmobHelper.Interstitial.show
  */
 open class BaseFragment : Fragment() {
 
-    lateinit var mBaseActivity: BaseAdmobActivity
+    lateinit var mBaseActivity: BaseActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBaseActivity = (activity as BaseAdmobActivity)
+        mBaseActivity = (activity as BaseActivity)
     }
 
     protected fun setupChildFragment(frameId: Int, fragment: Fragment) {

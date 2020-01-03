@@ -1,5 +1,6 @@
 package com.frogobox.basegameboard2048.base.admob
 
+import androidx.appcompat.app.AppCompatActivity
 import com.frogobox.basegameboard2048.base.ui.BaseActivity
 import com.google.android.gms.ads.AdView
 
@@ -20,7 +21,7 @@ import com.google.android.gms.ads.AdView
  *  com.frogobox.basegameboard2048.base.admob
  *
  */
-open class BaseAdmobRecyclerActivity : BaseActivity() {
+open class BaseAdmobRecyclerActivity : AppCompatActivity() {
 
     protected val arrayRecyclerView = mutableListOf<Any>()
 

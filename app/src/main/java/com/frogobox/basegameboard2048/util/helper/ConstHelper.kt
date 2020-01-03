@@ -3,6 +3,7 @@ package  com.frogobox.basegameboard2048.util.helper
 import android.Manifest
 import android.os.Environment
 import com.frogobox.basegameboard2048.BuildConfig
+import com.frogobox.basegameboard2048.R
 
 /**
  * Created by Faisal Amir
@@ -112,15 +113,21 @@ class ConstHelper {
         // Shared preferences file name
         const val PREF_NAME = "privacy_friendly_apps"
         const val IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch"
+
+        const val PREF_CURRENT_PAGE = "currentPage"
+        const val PREF_COLOR = "pref_color"
     }
 
     object Extra {
         const val BASE_EXTRA = BuildConfig.APPLICATION_ID
         const val EXTRA_OPTION = "$BASE_EXTRA.EXTRA_OPTION"
-        const val EXTRA_FANART = "$BASE_EXTRA.EXTRA_FANART"
-        const val EXTRA_FAV_FANART = "$BASE_EXTRA.EXTRA_FAV_FANART"
 
-        const val EXTRA_SONG = "$BASE_EXTRA.EXTRA_SONG"
+        const val EXTRA_N = "$BASE_EXTRA.EXTRA_N"
+        const val EXTRA_NEW = "$BASE_EXTRA.EXTRA_NEW"
+        const val EXTRA_FILENAME = "$BASE_EXTRA.EXTRA_FILENAME"
+        const val EXTRA_UNDO = "$BASE_EXTRA.EXTRA_UNDO"
+        const val EXTRA_POINTS = "$BASE_EXTRA.EXTRA_POINTS"
+
 
     }
 
@@ -148,6 +155,8 @@ class ConstHelper {
         const val DEF_RAW = "raw"
         const val MP4 = ".mp4"
         const val PNG = ".png"
+        const val TXT = ".txt"
+
     }
 
     object Dir {
@@ -177,6 +186,19 @@ class ConstHelper {
 
         const val TYPE_MAIN_WALLPAPER = 100
 
+        const val FILE_STATISTIC = "statistic"
+        const val FILE_STATE = "state"
+
+    }
+
+    object Games {
+        const val INIT_ADDINGSPEED: Long = 100
+        const val INIT_MOVINGSPEED: Long = 80
+        const val INIT_SCALINGSPEED: Long = 100
+        const val INIT_SCALINGFACTOR = 1.1f
+
+        const val WINTHRESHOLD = 2048
+        const val PROPABILITYFORTWO = 0.9
     }
 
 }

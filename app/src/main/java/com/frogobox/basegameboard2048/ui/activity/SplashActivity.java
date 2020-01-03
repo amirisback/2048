@@ -3,18 +3,17 @@ package com.frogobox.basegameboard2048.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.frogobox.basegameboard2048.base.ui.BaseActivity;
 import com.frogobox.basegameboard2048.util.helper.FirstLaunchManager;
 
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent mainIntent = new Intent(SplashActivity.this, TutorialActivity.class);
+        Intent mainIntent;
 
         FirstLaunchManager firstStartPref = new FirstLaunchManager(this);
 

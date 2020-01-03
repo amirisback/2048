@@ -1,11 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="color_list">
         <item>Default</item>
         <item>Original</item>
     </string-array>
+
     <string-array name="color_list_values">
         <item>1</item>
         <item>2</item>
     </string-array>
+
+    <array name="color_tiles_default">
+        <item>@color/button_empty</item>
+        <item>@color/button2</item>
+        <item>@color/button4</item>
+        <item>@color/button8</item>
+        <item>@color/button16</item>
+        <item>@color/button32</item>
+        <item>@color/button64</item>
+        <item>@color/button128</item>
+        <item>@color/button256</item>
+        <item>@color/button512</item>
+        <item>@color/button1024</item>
+        <item>@color/button2048</item>
+        <item>@color/button4096</item>
+        <item>@color/button8192</item>
+        <item>@color/button16384</item>
+        <item>@color/button32768</item>
+    </array>
+
+    <array name="color_text_default">
+        <item>@color/colorTextBlack</item>
+        <item>@color/colorTextBlack</item>
+        <item>@color/colorTextBlack</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextBlack</item>
+        <item>@color/colorTextBlack</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+    </array>
+
+    <array name="color_tiles_original">
+        <item>@color/button_empty_2</item>
+        <item>@color/button2_2</item>
+        <item>@color/button4_2</item>
+        <item>@color/button8_2</item>
+        <item>@color/button16_2</item>
+        <item>@color/button32_2</item>
+        <item>@color/button64_2</item>
+        <item>@color/button128_2</item>
+        <item>@color/button256_2</item>
+        <item>@color/button512_2</item>
+        <item>@color/button1024_2</item>
+        <item>@color/button2048_2</item>
+        <item>@color/button4096_2</item>
+        <item>@color/button8192_2</item>
+        <item>@color/button16384_2</item>
+        <item>@color/button32768_2</item>
+    </array>
+
+    <array name="color_text_original">
+        <item>@color/colorTextBlack</item>
+        <item>@color/colorTextBlack</item>
+        <item>@color/colorTextBlack</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+    </array>
+
+
 </resources>

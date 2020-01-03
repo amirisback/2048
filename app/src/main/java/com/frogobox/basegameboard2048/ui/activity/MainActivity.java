@@ -3,48 +3,45 @@ package com.frogobox.basegameboard2048.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.bumptech.glide.Glide;
 import com.frogobox.basegameboard2048.R;
-import com.frogobox.basegameboard2048.base.ui.BaseGamesActivity;
+import com.frogobox.basegameboard2048.base.ui.BaseActivity;
 import com.frogobox.basegameboard2048.util.helper.FirstLaunchManager;
+import com.frogobox.basegameboard2048.view.pager.MainPagerAdapter;
 
 import java.io.File;
 
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Const.FILE_STATE;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Ext.TXT;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Extra.EXTRA_FILENAME;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Extra.EXTRA_N;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Extra.EXTRA_NEW;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Extra.EXTRA_POINTS;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Extra.EXTRA_UNDO;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_CURRENT_PAGE;
 
-public class MainActivity extends BaseGamesActivity {
+
+public class MainActivity extends BaseActivity {
 
     private ViewPager viewPager;
-    private MainActivity.MyViewPagerAdapter myViewPagerAdapter;
     private LinearLayout dotsLayout;
-    private TextView[] dots;
-    private ImageButton btnPrev, btnNext;
-    private FirstLaunchManager firstLaunchManager;
     private int currentPage = 0;
     private SharedPreferences.Editor editor;
     private SharedPreferences preferences;
-    private String mypref = "myPref";
 
     private int[] layouts = new int[]{
             R.layout.choose_slide1,
@@ -65,11 +62,10 @@ public class MainActivity extends BaseGamesActivity {
         public void onPageSelected(int position) {
             addBottomDots(position);
             currentPage = position;
-            editor.putInt("currentPage", currentPage);
+            editor.putInt(PREF_CURRENT_PAGE, currentPage);
             editor.commit();
             updateButtons(position);
 
-            updateMovingButtons(position);
         }
 
         @Override
@@ -84,46 +80,28 @@ public class MainActivity extends BaseGamesActivity {
     };
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        preferences = getApplicationContext().getSharedPreferences(mypref, Context.MODE_PRIVATE);
-        editor = preferences.edit();
-        currentPage = preferences.getInt("currentPage", 0);
-        viewPager.setCurrentItem(currentPage);
-        updateButtons(currentPage);
-        updateMovingButtons(currentPage);
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setupToolbar();
 
-        overridePendingTransition(0, 0);
+        FirstLaunchManager firstLaunchManager = new FirstLaunchManager(this);
 
-        // Making notification bar transparent
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
-
-        firstLaunchManager = new FirstLaunchManager(this);
-
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
-        btnPrev = (ImageButton) findViewById(R.id.btn_prev);
-        btnNext = (ImageButton) findViewById(R.id.btn_next);
-
+        viewPager = findViewById(R.id.view_pager);
+        dotsLayout = findViewById(R.id.layoutDots);
 
         //checking resumable
         File directory = getFilesDir();
         File[] files = directory.listFiles();
 
-        for (int i = 0; i < files.length; i++) {
-            Log.i("files", files[i].getName());
-            for (int j = 0; j < gameResumeable.length; j++) {
-                if (files[i].getName().equals("state" + (j + 4) + ".txt"))
-                    gameResumeable[j] = true;
+        if (files != null) {
+            for (File file : files) {
+                Log.i("files", file.getName());
+                for (int j = 0; j < gameResumeable.length; j++) {
+                    if (file.getName().equals(FILE_STATE + (j + 4) + TXT))
+                        gameResumeable[j] = true;
+                }
             }
         }
 
@@ -131,65 +109,44 @@ public class MainActivity extends BaseGamesActivity {
         // adding bottom dots
         addBottomDots(0);
 
-        // making notification bar transparent
-        changeStatusBarColor();
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        MainPagerAdapter mainPagerAdapter = new MainPagerAdapter(layoutInflater, layouts);
 
-        myViewPagerAdapter = new MainActivity.MyViewPagerAdapter();
-
-        viewPager.setAdapter(myViewPagerAdapter);
+        viewPager.setAdapter(mainPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
-        btnPrev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int current = getItem(-1);
-                if (current >= 0) {
-                    // move to next screen
-                    viewPager.setCurrentItem(current);
-                } else {
-                }
-            }
-        });
-
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // checking for last page
-                // if last page home screen will be launched
-                int current = getItem(+1);
-                if (current < layouts.length) {
-                    // move to next screen
-                    viewPager.setCurrentItem(current);
-                } else {
-                }
-            }
-        });
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        String mypref = "myPref";
+        preferences = getApplicationContext().getSharedPreferences(mypref, Context.MODE_PRIVATE);
+        editor = preferences.edit();
+        currentPage = preferences.getInt(PREF_CURRENT_PAGE, 0);
+        viewPager.setCurrentItem(currentPage);
+        updateButtons(currentPage);
+    }
+
 
     private void addListener(Button b1, Button b2, int n) {
         final int temp = n;
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                intent.putExtra("n", temp);
-                intent.putExtra("points", 0);
-                intent.putExtra("new", true);
-                intent.putExtra("filename", "state" + temp + ".txt");
-                intent.putExtra("undo", false);
-                createBackStack(intent);
-            }
+        b1.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, GameActivity.class);
+            intent.putExtra(EXTRA_N, temp);
+            intent.putExtra(EXTRA_POINTS, 0);
+            intent.putExtra(EXTRA_NEW, true);
+            intent.putExtra(EXTRA_FILENAME, FILE_STATE + temp + TXT);
+            intent.putExtra(EXTRA_UNDO, false);
+            createBackStack(intent);
         });
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                intent.putExtra("n", temp);
-                intent.putExtra("new", false);
-                intent.putExtra("filename", "state" + temp + ".txt");
-                intent.putExtra("undo", false);
-                createBackStack(intent);
-            }
+        b2.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, GameActivity.class);
+            intent.putExtra(EXTRA_N, temp);
+            intent.putExtra(EXTRA_NEW, false);
+            intent.putExtra(EXTRA_FILENAME, FILE_STATE + temp + TXT);
+            intent.putExtra(EXTRA_UNDO, false);
+            createBackStack(intent);
         });
     }
 
@@ -205,7 +162,7 @@ public class MainActivity extends BaseGamesActivity {
     }
 
     private void addBottomDots(int currentPage) {
-        dots = new TextView[layouts.length];
+        TextView[] dots = new TextView[layouts.length];
 
         int activeColor = ContextCompat.getColor(this, R.color.dot_light_screen);
         int inactiveColor = ContextCompat.getColor(this, R.color.dot_dark_screen);
@@ -227,22 +184,6 @@ public class MainActivity extends BaseGamesActivity {
         return viewPager.getCurrentItem() + i;
     }
 
-    public void updateMovingButtons(int position) {
-        if (position == layouts.length - 1) {
-            // last page. make button text to GOT IT
-            btnNext.setVisibility(View.INVISIBLE);
-        } else {
-            // still pages are left
-            btnNext.setVisibility(View.VISIBLE);
-        }
-        if (position == 0) {
-            // last page. make button text to GOT IT
-            btnPrev.setVisibility(View.INVISIBLE);
-        } else {
-            // still pages are left
-            btnPrev.setVisibility(View.VISIBLE);
-        }
-    }
 
     public void updateButtons(int position) {
         Button newGameButton = MainActivity.this.findViewById(R.id.button_newGame);
@@ -260,91 +201,25 @@ public class MainActivity extends BaseGamesActivity {
         addListener(newGameButton, continueButton, position + 4);
     }
 
-    /**
-     * Making notification bar transparent
-     */
-    private void changeStatusBarColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
-    }
-
-    /**
-     * This method connects the Activity to the menu item
-     *
-     * @return ID of the menu item it belongs to
-     */
     @Override
-    protected int getNavigationDrawerID() {
-        return R.id.nav_example;
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar_main, menu);
+        return true;
     }
 
-    /**
-     * View pager adapter
-     */
-    public class MyViewPagerAdapter extends PagerAdapter {
-        private LayoutInflater layoutInflater;
-
-        public MyViewPagerAdapter() {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.toolbar_menu_setting:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            case R.id.toolbar_menu_stats:
+                startActivity(new Intent(this, StatsActivity.class));
+                return true;
         }
 
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = layoutInflater.inflate(layouts[position], container, false);
-            container.addView(view);
-            ImageView imageView;
-            switch (position) {
-                case 0:
-                    imageView = (ImageView) findViewById(R.id.main_menu_img1);
-                    if (PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("pref_color", "1").equals("1"))
-                        Glide.with(MainActivity.this).load(R.drawable.layout4x4_s).into(imageView);
-                    else
-                        Glide.with(MainActivity.this).load(R.drawable.layout4x4_o).into(imageView);
-                    break;
-                case 1:
-                    imageView = (ImageView) findViewById(R.id.main_menu_img2);
-                    if (PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("pref_color", "1").equals("1"))
-                        Glide.with(MainActivity.this).load(R.drawable.layout5x5_s).into(imageView);
-                    else
-                        Glide.with(MainActivity.this).load(R.drawable.layout5x5_o).into(imageView);
-                    break;
-                case 2:
-                    imageView = (ImageView) findViewById(R.id.main_menu_img3);
-                    if (PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("pref_color", "1").equals("1"))
-                        Glide.with(MainActivity.this).load(R.drawable.layout6x6_s).into(imageView);
-                    else
-                        Glide.with(MainActivity.this).load(R.drawable.layout6x6_o).into(imageView);
-                    break;
-                case 3:
-                    imageView = (ImageView) findViewById(R.id.main_menu_img4);
-                    if (PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("pref_color", "1").equals("1"))
-                        Glide.with(MainActivity.this).load(R.drawable.layout7x7_s).into(imageView);
-                    else
-                        Glide.with(MainActivity.this).load(R.drawable.layout7x7_o).into(imageView);
-                    break;
-            }
-            return view;
-        }
-
-        @Override
-        public int getCount() {
-            return layouts.length;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object obj) {
-            return view == obj;
-        }
-
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            View view = (View) object;
-            container.removeView(view);
-        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
