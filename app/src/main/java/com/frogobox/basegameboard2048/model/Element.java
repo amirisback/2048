@@ -1,6 +1,8 @@
 package com.frogobox.basegameboard2048.model;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -77,86 +79,157 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
     private void setupGamesTiles() {
         if (PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_COLOR, "1").equals("1")) {
             int[] tilesColor = context.getResources().getIntArray(R.array.color_tiles_default);
+            TypedArray tileBackground = getResources().obtainTypedArray(R.array.background_tiles_favorite);
             int[] textColor = context.getResources().getIntArray(R.array.color_text_default);
-            setupTiles(number, tilesColor, textColor);
+            setupTiles(number, true, textColor, null, tileBackground);
         } else {
             int[] tilesColor = context.getResources().getIntArray(R.array.color_tiles_original);
             int[] textColor = context.getResources().getIntArray(R.array.color_text_original);
-            setupTiles(number, tilesColor, textColor);
+            setupTiles(number, false, textColor, tilesColor, null);
         }
     }
 
-    private void setupTiles(int number, int[] listTilesColor, int[] listTextColor) {
+    @SuppressLint("ResourceType")
+    private void setupTiles(int number, boolean usingImage, int[] listTextColor, int[] listTilesBackground, TypedArray listBackgroundImage) {
         switch (number) {
             case 0:
-                setColor(listTilesColor[0]);
                 setTextColor(listTextColor[0]);
+                if (usingImage) {
+                    setColor(R.color.button_empty);
+                } else {
+                    setColor(listTilesBackground[1]);
+                }
                 break;
             case 2:
-                setColor(listTilesColor[1]);
                 setTextColor(listTextColor[1]);
+                if (usingImage) {
+                    setBackgroundImage(listBackgroundImage.getResourceId(1, 0));
+                } else {
+                    setColor(listTilesBackground[1]);
+                }
                 break;
             case 4:
-                setColor(listTilesColor[2]);
                 setTextColor(listTextColor[2]);
+                if (usingImage) {
+                    setBackgroundImage(listBackgroundImage.getResourceId(2, 0));
+                } else {
+                    setColor(listTilesBackground[2]);
+                }
                 break;
             case 8:
-                setColor(listTilesColor[3]);
                 setTextColor(listTextColor[3]);
+                if (usingImage) {
+                    setBackgroundImage(listBackgroundImage.getResourceId(3, 0));
+                } else {
+                    setColor(listTilesBackground[3]);
+                }
                 break;
             case 16:
-                setColor(listTilesColor[4]);
                 setTextColor(listTextColor[4]);
+                if (usingImage) {
+                    setBackgroundImage(listBackgroundImage.getResourceId(4, 0));
+                } else {
+                    setColor(listTilesBackground[4]);
+                }
                 break;
             case 32:
-                setColor(listTilesColor[5]);
                 setTextColor(listTextColor[5]);
+                if (usingImage) {
+                    setBackgroundImage(listBackgroundImage.getResourceId(5, 0));
+                } else {
+                    setColor(listTilesBackground[5]);
+                }
                 break;
             case 64:
-                setColor(listTilesColor[6]);
                 setTextColor(listTextColor[6]);
+                if (usingImage) {
+                    setBackgroundImage(listBackgroundImage.getResourceId(6, 0));
+                } else {
+                    setColor(listTilesBackground[6]);
+                }
                 break;
             case 128:
-                setColor(listTilesColor[7]);
                 setTextColor(listTextColor[7]);
+                if (usingImage) {
+                    setBackgroundImage(listBackgroundImage.getResourceId(7, 0));
+                } else {
+                    setColor(listTilesBackground[7]);
+                }
                 break;
             case 256:
-                setColor(listTilesColor[8]);
                 setTextColor(listTextColor[8]);
+                if (usingImage) {
+                    setBackgroundImage(listBackgroundImage.getResourceId(8, 0));
+                } else {
+                    setColor(listTilesBackground[8]);
+                }
                 break;
             case 512:
-                setColor(listTilesColor[9]);
                 setTextColor(listTextColor[9]);
+                if (usingImage) {
+                    setBackgroundImage(listBackgroundImage.getResourceId(9, 0));
+                } else {
+                    setColor(listTilesBackground[9]);
+                }
                 break;
             case 1024:
-                setColor(listTilesColor[10]);
                 setTextColor(listTextColor[10]);
+                if (usingImage) {
+                    setBackgroundImage(listBackgroundImage.getResourceId(10, 0));
+                } else {
+                    setColor(listTilesBackground[10]);
+                }
                 break;
             case 2048:
-                setColor(listTilesColor[11]);
                 setTextColor(listTextColor[11]);
+                if (usingImage) {
+                    setBackgroundImage(listBackgroundImage.getResourceId(11, 0));
+                } else {
+                    setColor(listTilesBackground[11]);
+                }
                 break;
             case 4096:
-                setColor(listTilesColor[12]);
                 setTextColor(listTextColor[12]);
+                if (usingImage) {
+                    setBackgroundImage(listBackgroundImage.getResourceId(12, 0));
+                } else {
+                    setColor(listTilesBackground[12]);
+                }
                 break;
             case 8192:
-                setColor(listTilesColor[13]);
                 setTextColor(listTextColor[13]);
+                if (usingImage) {
+                    setBackgroundImage(listBackgroundImage.getResourceId(13, 0));
+                } else {
+                    setColor(listTilesBackground[13]);
+                }
                 break;
             case 16384:
-                setColor(listTilesColor[14]);
                 setTextColor(listTextColor[14]);
                 textSize = textSize * 0.8f;
                 setTextSize(textSize);
+                if (usingImage) {
+                    setBackgroundImage(listBackgroundImage.getResourceId(14, 0));
+                } else {
+                    setColor(listTilesBackground[14]);
+                }
                 break;
             case 32768:
-                setColor(listTilesColor[15]);
                 setTextColor(listTextColor[15]);
                 textSize = textSize * 0.8f;
                 setTextSize(textSize);
+                if (usingImage) {
+                    setBackgroundImage(listBackgroundImage.getResourceId(15, 0));
+                } else {
+                    setColor(listTilesBackground[15]);
+                }
                 break;
         }
+    }
+
+    private void setBackgroundImage(int res) {
+        setBackgroundResource(res);
+        getBackground().setAlpha(120);
     }
 
     private void setColor(int c) {
