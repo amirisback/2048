@@ -116,6 +116,10 @@ class ConstHelper {
 
         const val PREF_CURRENT_PAGE = "currentPage"
         const val PREF_COLOR = "pref_color"
+        const val PREF_MY = "myPref"
+
+        const val PREF_ANIMATION_ACTIVATED = "pref_animationActivated"
+        const val PREF_SETTINGS_DISPLAY = "settings_display"
     }
 
     object Extra {

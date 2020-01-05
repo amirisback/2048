@@ -33,6 +33,7 @@ import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Extra.EXTRA
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Extra.EXTRA_POINTS;
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Extra.EXTRA_UNDO;
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_CURRENT_PAGE;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_MY;
 
 
 public class MainActivity extends BaseActivity {
@@ -41,7 +42,6 @@ public class MainActivity extends BaseActivity {
     private LinearLayout dotsLayout;
     private int currentPage = 0;
     private SharedPreferences.Editor editor;
-    private SharedPreferences preferences;
 
     private int[] layouts = new int[]{
             R.layout.fragment_games_box,
@@ -120,8 +120,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        String mypref = "myPref";
-        preferences = getApplicationContext().getSharedPreferences(mypref, Context.MODE_PRIVATE);
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(PREF_MY, Context.MODE_PRIVATE);
         editor = preferences.edit();
         currentPage = preferences.getInt(PREF_CURRENT_PAGE, 0);
         viewPager.setCurrentItem(currentPage);

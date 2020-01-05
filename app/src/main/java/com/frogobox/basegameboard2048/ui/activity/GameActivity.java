@@ -49,6 +49,8 @@ import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Games.INIT_
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Games.INIT_SCALINGSPEED;
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Games.PROPABILITYFORTWO;
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Games.WINTHRESHOLD;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_ANIMATION_ACTIVATED;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_SETTINGS_DISPLAY;
 
 @SuppressWarnings("StringConcatenationInLoop")
 public class GameActivity extends BaseActivity {
@@ -117,9 +119,9 @@ public class GameActivity extends BaseActivity {
         }
 
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        animationActivated = sharedPref.getBoolean("pref_animationActivated", true);
+        animationActivated = sharedPref.getBoolean(PREF_ANIMATION_ACTIVATED, true);
 
-        if (sharedPref.getBoolean("settings_display", true))
+        if (sharedPref.getBoolean(PREF_SETTINGS_DISPLAY, true))
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_game);
 
