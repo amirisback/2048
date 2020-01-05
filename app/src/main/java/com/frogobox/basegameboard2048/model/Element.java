@@ -43,6 +43,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
     public float textSize = 24;
     Context context;
     int color;
+    private String settingColor;
 
 
     public Element(Context c) {
@@ -50,6 +51,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
         context = c;
         setAllCaps(false);
         setTextSize(textSize);
+        settingColor = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_COLOR, "1");
         setBackgroundResource(R.drawable.background_game_brick);
         setupBackgroundTiles(); // SetupBackgroundTiles
 
@@ -77,11 +79,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
     }
 
     private void setupGamesTiles() {
-        if (PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_COLOR, "1").equals("1")) {
+
+        if (settingColor.equals("1")) {
             int[] tilesColor = context.getResources().getIntArray(R.array.color_tiles_default);
-            TypedArray tileBackground = getResources().obtainTypedArray(R.array.background_tiles_favorite);
             int[] textColor = context.getResources().getIntArray(R.array.color_text_default);
-            setupTiles(number, true, textColor, null, tileBackground);
+            setupTiles(number, false, textColor, tilesColor, null);
         } else {
             int[] tilesColor = context.getResources().getIntArray(R.array.color_tiles_original);
             int[] textColor = context.getResources().getIntArray(R.array.color_text_original);

@@ -4,31 +4,14 @@
     <string-array name="color_list">
         <item>Default</item>
         <item>Original</item>
+        <item>RESKIN</item>
     </string-array>
 
     <string-array name="color_list_values">
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
-
-    <integer-array name="background_tiles_favorite">
-        <item>@drawable/ic_toolbar_favorite</item> <!-- Dummy Data - Same With ArrayIndex 1-->
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-    </integer-array>
 
     <array name="color_tiles_default">
         <item>@color/button_empty</item>
@@ -106,5 +89,23 @@
         <item>@color/colorTextWhite</item>
     </array>
 
+    <integer-array name="background_tiles_reskin">
+        <item>@drawable/ic_toolbar_favorite</item> <!-- Dummy Data - Same With ArrayIndex 1-->
+        <item>@drawable/ic_toolbar_favorite</item>
+        <item>@drawable/ic_toolbar_favorite</item>
+        <item>@drawable/ic_toolbar_favorite</item>
+        <item>@drawable/ic_toolbar_favorite</item>
+        <item>@drawable/ic_toolbar_favorite</item>
+        <item>@drawable/ic_toolbar_favorite</item>
+        <item>@drawable/ic_toolbar_favorite</item>
+        <item>@drawable/ic_toolbar_favorite</item>
+        <item>@drawable/ic_toolbar_favorite</item>
+        <item>@drawable/ic_toolbar_favorite</item>
+        <item>@drawable/ic_toolbar_favorite</item>
+        <item>@drawable/ic_toolbar_favorite</item>
+        <item>@drawable/ic_toolbar_favorite</item>
+        <item>@drawable/ic_toolbar_favorite</item>
+        <item>@drawable/ic_toolbar_favorite</item>
+    </integer-array>
 
 </resources>
