@@ -77,12 +77,12 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
 
     private void setupBackgroundTiles() {
         if (settingColor.equals("1")) {
-            setColor(justGetColorId(R.color.button_empty));
-        } else if (settingColor.equals("2")) {
-            setColor(justGetColorId(R.color.button_empty_original));
-        } else {
             // Reskin Background
             setColor(justGetColorId(R.color.button_empty));
+        } else if (settingColor.equals("2")) {
+            setColor(justGetColorId(R.color.button_empty));
+        } else {
+            setColor(justGetColorId(R.color.button_empty_original));
         }
     }
 
@@ -93,16 +93,16 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
         TypedArray tilesImage = null;
 
         if (settingColor.equals("1")) {
-            tilesColor = context.getResources().getIntArray(R.array.color_tiles_default);
-            textColor = context.getResources().getIntArray(R.array.color_text_default);
-        } else if (settingColor.equals("2")) {
-            tilesColor = context.getResources().getIntArray(R.array.color_tiles_original);
-            textColor = context.getResources().getIntArray(R.array.color_text_original);
-        } else {
             // Reskin Image
             tilesImage = context.getResources().obtainTypedArray(R.array.background_tiles_reskin);
             textColor = context.getResources().getIntArray(R.array.color_text_default);
             isUsingImage = true;
+        } else if (settingColor.equals("2")) {
+            tilesColor = context.getResources().getIntArray(R.array.color_tiles_default);
+            textColor = context.getResources().getIntArray(R.array.color_text_default);
+        } else {
+            tilesColor = context.getResources().getIntArray(R.array.color_tiles_original);
+            textColor = context.getResources().getIntArray(R.array.color_text_original);
         }
 
         setupTiles(number, isUsingImage, textColor, tilesColor, tilesImage);
