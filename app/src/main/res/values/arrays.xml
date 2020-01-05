@@ -4,7 +4,7 @@
     <string-array name="color_list">
         <item>Default</item>
         <item>Original</item>
-        <item>RESKIN</item>
+        <item>@string/theme_color_scheme_reskin</item>
     </string-array>
 
     <string-array name="color_list_values">

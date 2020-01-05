@@ -57,13 +57,6 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
 
     }
 
-    private void setupBackgroundTiles() {
-        if (PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_COLOR, "1").equals("1"))
-            setColor(context.getResources().getColor(R.color.button_empty));
-        else
-            setColor(context.getResources().getColor(R.color.button_empty_original));
-    }
-
     public void drawItem() {
         dNumber = number;
         activated = (number != 0);
@@ -78,17 +71,41 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
         setupGamesTiles(); // SetupGamesTiles
     }
 
+    private int justGetColorId(int colorRes) {
+        return context.getResources().getColor(colorRes);
+    }
+
+    private void setupBackgroundTiles() {
+        if (settingColor.equals("1")) {
+            setColor(justGetColorId(R.color.button_empty));
+        } else if (settingColor.equals("2")) {
+            setColor(justGetColorId(R.color.button_empty_original));
+        } else {
+            // Reskin Background
+            setColor(justGetColorId(R.color.button_empty));
+        }
+    }
+
     private void setupGamesTiles() {
+        int[] textColor;
+        int[] tilesColor = null;
+        boolean isUsingImage = false;
+        TypedArray tilesImage = null;
 
         if (settingColor.equals("1")) {
-            int[] tilesColor = context.getResources().getIntArray(R.array.color_tiles_default);
-            int[] textColor = context.getResources().getIntArray(R.array.color_text_default);
-            setupTiles(number, false, textColor, tilesColor, null);
+            tilesColor = context.getResources().getIntArray(R.array.color_tiles_default);
+            textColor = context.getResources().getIntArray(R.array.color_text_default);
+        } else if (settingColor.equals("2")) {
+            tilesColor = context.getResources().getIntArray(R.array.color_tiles_original);
+            textColor = context.getResources().getIntArray(R.array.color_text_original);
         } else {
-            int[] tilesColor = context.getResources().getIntArray(R.array.color_tiles_original);
-            int[] textColor = context.getResources().getIntArray(R.array.color_text_original);
-            setupTiles(number, false, textColor, tilesColor, null);
+            // Reskin Image
+            tilesImage = context.getResources().obtainTypedArray(R.array.background_tiles_reskin);
+            textColor = context.getResources().getIntArray(R.array.color_text_default);
+            isUsingImage = true;
         }
+
+        setupTiles(number, isUsingImage, textColor, tilesColor, tilesImage);
     }
 
     @SuppressLint("ResourceType")
