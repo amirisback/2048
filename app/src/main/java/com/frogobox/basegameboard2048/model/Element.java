@@ -61,7 +61,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
         if (PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_COLOR, "1").equals("1"))
             setColor(context.getResources().getColor(R.color.button_empty));
         else
-            setColor(context.getResources().getColor(R.color.button_empty_2));
+            setColor(context.getResources().getColor(R.color.button_empty_original));
     }
 
     public void drawItem() {

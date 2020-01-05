@@ -52,22 +52,22 @@
     </array>
 
     <array name="color_tiles_original">
-        <item>@color/button_empty_2</item>
-        <item>@color/button2_2</item>
-        <item>@color/button4_2</item>
-        <item>@color/button8_2</item>
-        <item>@color/button16_2</item>
-        <item>@color/button32_2</item>
-        <item>@color/button64_2</item>
-        <item>@color/button128_2</item>
-        <item>@color/button256_2</item>
-        <item>@color/button512_2</item>
-        <item>@color/button1024_2</item>
-        <item>@color/button2048_2</item>
-        <item>@color/button4096_2</item>
-        <item>@color/button8192_2</item>
-        <item>@color/button16384_2</item>
-        <item>@color/button32768_2</item>
+        <item>@color/button_empty_original</item>
+        <item>@color/button2_origininal</item>
+        <item>@color/button4_origininal</item>
+        <item>@color/button8_origininal</item>
+        <item>@color/button16_origininal</item>
+        <item>@color/button32_origininal</item>
+        <item>@color/button64_origininal</item>
+        <item>@color/button128_origininal</item>
+        <item>@color/button256_origininal</item>
+        <item>@color/button512_origininal</item>
+        <item>@color/button1024_origininal</item>
+        <item>@color/button2048_origininal</item>
+        <item>@color/button4096_origininal</item>
+        <item>@color/button8192_origininal</item>
+        <item>@color/button16384_origininal</item>
+        <item>@color/button32768_origininal</item>
     </array>
 
     <array name="color_text_original">
