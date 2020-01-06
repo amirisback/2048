@@ -3,9 +3,10 @@
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackgroundWhite"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_main" />
+    <include layout="@layout/toolbar_main_no_border" />
 
     <LinearLayout
         android:id="@+id/layoutDots"
