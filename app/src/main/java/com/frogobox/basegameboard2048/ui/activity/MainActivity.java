@@ -165,8 +165,8 @@ public class MainActivity extends BaseActivity {
     private void addBottomDots(int currentPage) {
         TextView[] dots = new TextView[layouts.length];
 
-        int activeColor = ContextCompat.getColor(this, R.color.dot_light_screen);
-        int inactiveColor = ContextCompat.getColor(this, R.color.dot_dark_screen);
+        int activeColor = ContextCompat.getColor(this, R.color.colorPrimary);
+        int inactiveColor = ContextCompat.getColor(this, R.color.colorPrimaryDark);
 
         dotsLayout.removeAllViews();
         for (int i = 0; i < dots.length; i++) {
@@ -191,9 +191,9 @@ public class MainActivity extends BaseActivity {
         Button continueButton = MainActivity.this.findViewById(R.id.button_continueGame);
         try {
             if (gameResumeable[position])
-                continueButton.setBackgroundResource(R.drawable.standalone_button);
+                continueButton.setBackgroundResource(R.drawable.background_button_active);
             else
-                continueButton.setBackgroundResource(R.drawable.inactive_button);
+                continueButton.setBackgroundResource(R.drawable.backgrorund_button_non_active);
 
             continueButton.setEnabled(gameResumeable[position]);
         } catch (Exception aie) {
