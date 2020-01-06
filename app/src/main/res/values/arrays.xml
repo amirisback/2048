@@ -109,22 +109,22 @@
     </integer-array>
 
     <array name="color_text_reskin">
-        <item>@color/colorTextWhite</item>
-        <item>@color/colorTextWhite</item>
-        <item>@color/colorTextWhite</item>
-        <item>@color/colorTextWhite</item>
-        <item>@color/colorTextWhite</item>
-        <item>@color/colorTextWhite</item>
-        <item>@color/colorTextWhite</item>
-        <item>@color/colorTextWhite</item>
-        <item>@color/colorTextWhite</item>
-        <item>@color/colorTextWhite</item>
-        <item>@color/colorTextWhite</item>
-        <item>@color/colorTextWhite</item>
-        <item>@color/colorTextWhite</item>
-        <item>@color/colorTextWhite</item>
-        <item>@color/colorTextWhite</item>
-        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextTransparent</item>
+        <item>@color/colorTextTransparent</item>
+        <item>@color/colorTextTransparent</item>
+        <item>@color/colorTextTransparent</item>
+        <item>@color/colorTextTransparent</item>
+        <item>@color/colorTextTransparent</item>
+        <item>@color/colorTextTransparent</item>
+        <item>@color/colorTextTransparent</item>
+        <item>@color/colorTextTransparent</item>
+        <item>@color/colorTextTransparent</item>
+        <item>@color/colorTextTransparent</item>
+        <item>@color/colorTextTransparent</item>
+        <item>@color/colorTextTransparent</item>
+        <item>@color/colorTextTransparent</item>
+        <item>@color/colorTextTransparent</item>
+        <item>@color/colorTextTransparent</item>
     </array>
 
 </resources>

@@ -24,6 +24,7 @@
     <color name="colorTextBlack">@color/colorBaseBlack</color>
     <color name="colorTextGreen">#009562</color>
     <color name="colorTextGrey">#AE000000</color>
+    <color name="colorTextTransparent">#00FFFFFF</color>
 
     <color name="activity_background">#000</color>
     <color name="fragment_background">#4285f4</color>
