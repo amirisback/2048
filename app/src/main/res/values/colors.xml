@@ -37,6 +37,8 @@
     <color name="middlegrey">#A8A8A8</color>
     <color name="yellow">#f6d126</color>
 
+    <color name="colorBackgroundTutorial">@color/colorPrimary</color>
+
     <!-- own definded colors -->
     <color name="tiles_empty">#E6E6E6</color>
     <color name="tiles_2">#B7C6F1</color>
