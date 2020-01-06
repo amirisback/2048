@@ -12,31 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/dimen_big_16dp"
+        android:gravity="center_vertical"
         android:weightSum="3">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2048"
-                android:textColor="@color/colorTextBlack"
-                android:textSize="36sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="subtitle"
-                android:textColor="@color/colorTextBlack" />
-
-        </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -69,6 +46,29 @@
                 android:scaleType="fitCenter"
                 android:visibility="invisible"
                 app:srcCompat="@drawable/ic_button_undo" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2048"
+                android:textColor="@color/colorTextBlack"
+                android:textSize="36sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="subtitle"
+                android:textColor="@color/colorTextBlack" />
 
         </LinearLayout>
 
