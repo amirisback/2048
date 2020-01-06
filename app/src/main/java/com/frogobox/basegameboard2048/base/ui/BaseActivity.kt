@@ -2,6 +2,8 @@ package  com.frogobox.basegameboard2048.base.ui
 
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,10 +14,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.frogobox.basegameboard2048.R
 import com.frogobox.basegameboard2048.base.admob.BaseAdmobActivity
 import com.frogobox.basegameboard2048.base.util.BaseHelper
 import com.frogobox.basegameboard2048.util.ViewModelFactory
+import com.frogobox.basegameboard2048.util.helper.FunHelper
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 /**
@@ -148,6 +154,18 @@ open class BaseActivity : BaseAdmobActivity() {
         } else {
             view.visibility = View.GONE
         }
+    }
+
+    protected fun setBackgroundImageByGlide(view: View) {
+        Glide.with(this).load(FunHelper.Func.arrayFanArt(this)[0].linkImage)
+            .into(object : SimpleTarget<Drawable?>() {
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable?>?
+                ) {
+                    view.background = resource
+                }
+            })
     }
 
 

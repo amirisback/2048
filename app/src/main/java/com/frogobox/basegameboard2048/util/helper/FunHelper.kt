@@ -4,15 +4,27 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Environment
-import  com.frogobox.basegameboard2048.BuildConfig
-import  com.frogobox.basegameboard2048.R
-import  com.frogobox.basegameboard2048.base.util.BaseHelper
-import  com.frogobox.basegameboard2048.util.helper.ConstHelper.Dir.DIR_NAME
-import  com.frogobox.basegameboard2048.util.helper.ConstHelper.Dir.VIDEO_FILE_NAME
-import  com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_NAME
+import android.os.StrictMode
+import android.view.View
+import com.frogobox.basegameboard2048.BuildConfig
+import com.frogobox.basegameboard2048.R
+import com.frogobox.basegameboard2048.base.util.BaseHelper
+import com.frogobox.basegameboard2048.model.Wallpaper
+import com.frogobox.basegameboard2048.util.helper.ConstHelper.Const.TYPE_MAIN_WALLPAPER
+import com.frogobox.basegameboard2048.util.helper.ConstHelper.Dir.DIR_NAME
+import com.frogobox.basegameboard2048.util.helper.ConstHelper.Dir.VIDEO_FILE_NAME
+import com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_NAME
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
 
 /**
@@ -32,76 +44,16 @@ import  com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_NAME
  * com.frogobox.publicspeakingbooster.helper
  *
  */
-class FunHelper{
+class FunHelper {
 
     object ConverterJson : BaseHelper() {
 
-        fun <T> toJson(model: T) : String? {
+        fun <T> toJson(model: T): String? {
             return baseToJson(model)
         }
 
-        inline fun <reified T> fromJson(word: String?) : T {
+        inline fun <reified T> fromJson(word: String?): T {
             return baseFromJson(word)
-        }
-
-    }
-
-    object Func {
-
-        fun createFolderPictureVideo(){
-            val videoFolder = Environment.getExternalStoragePublicDirectory(DIR_NAME)
-            if (!videoFolder.exists()) {
-                videoFolder.mkdirs()
-            }
-        }
-
-        fun getVideoFilePath(): String {
-            val dir = Environment.getExternalStoragePublicDirectory(DIR_NAME)
-            return if (dir == null) {
-                VIDEO_FILE_NAME
-            } else {
-                "${dir.absoluteFile}/$VIDEO_FILE_NAME"
-            }
-        }
-
-        fun createDialogDefault(context: Context, title: String, message: String, listenerYes: ()-> Unit, listenerNo: ()-> Unit) {
-            val dialogBuilder = AlertDialog.Builder(context)
-            // set message of alert dialog
-            dialogBuilder.setMessage(message)
-                // if the dialog is cancelable
-                .setCancelable(false)
-                // positive button text and action
-                .setPositiveButton(context.getText(R.string.dialog_button_yes), DialogInterface.OnClickListener {
-                        dialog, id -> listenerYes()
-                })
-                // negative button text and action
-                .setNegativeButton(context.getText(R.string.dialog_button_no), DialogInterface.OnClickListener {
-                        dialog, id -> dialog.cancel()
-                        listenerNo()
-                })
-
-            // create dialog box
-            val alert = dialogBuilder.create()
-            // set title for alert dialog box
-            alert.setTitle(title)
-            // show alert dialog
-            alert.show()
-        }
-
-        fun noAction() : Boolean {
-            return true
-        }
-
-        fun isNetworkAvailable(context: Context): Boolean? {
-            var isConnected: Boolean? = false // Initial Value
-            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
-            if (activeNetwork != null && activeNetwork.isConnected) isConnected = true
-            return isConnected
-        }
-
-        fun showVersion() : String {
-            return "Version " + BuildConfig.VERSION_NAME
         }
 
     }
@@ -114,7 +66,11 @@ class FunHelper{
         }
 
         object Save {
-            fun savePrefFloat(sharedPreferences: SharedPreferences, constPref: String, data: Float) {
+            fun savePrefFloat(
+                sharedPreferences: SharedPreferences,
+                constPref: String,
+                data: Float
+            ) {
                 sharedPreferences.edit().putFloat(constPref, data).apply()
             }
 
@@ -122,11 +78,19 @@ class FunHelper{
                 sharedPreferences.edit().putInt(constPref, data).apply()
             }
 
-            fun savePrefString(sharedPreferences: SharedPreferences, constPref: String, data: String) {
+            fun savePrefString(
+                sharedPreferences: SharedPreferences,
+                constPref: String,
+                data: String
+            ) {
                 sharedPreferences.edit().putString(constPref, data).apply()
             }
 
-            fun savePrefBoolean(sharedPreferences: SharedPreferences, constPref: String, data: Boolean) {
+            fun savePrefBoolean(
+                sharedPreferences: SharedPreferences,
+                constPref: String,
+                data: Boolean
+            ) {
                 sharedPreferences.edit().putBoolean(constPref, data).apply()
             }
 
@@ -169,4 +133,111 @@ class FunHelper{
         }
 
     }
+
+    object Func {
+
+        fun createFolderPictureVideo() {
+            val videoFolder = Environment.getExternalStoragePublicDirectory(DIR_NAME)
+            if (!videoFolder.exists()) {
+                videoFolder.mkdirs()
+            }
+        }
+
+        fun getVideoFilePath(): String {
+            val dir = Environment.getExternalStoragePublicDirectory(DIR_NAME)
+            return if (dir == null) {
+                VIDEO_FILE_NAME
+            } else {
+                "${dir.absoluteFile}/$VIDEO_FILE_NAME"
+            }
+        }
+
+        fun createDialogDefault(
+            context: Context,
+            title: String,
+            message: String,
+            listenerYes: () -> Unit,
+            listenerNo: () -> Unit
+        ) {
+            val dialogBuilder = AlertDialog.Builder(context)
+            // set message of alert dialog
+            dialogBuilder.setMessage(message)
+                // if the dialog is cancelable
+                .setCancelable(false)
+                // positive button text and action
+                .setPositiveButton(
+                    context.getText(R.string.dialog_button_yes),
+                    DialogInterface.OnClickListener { dialog, id ->
+                        listenerYes()
+                    })
+                // negative button text and action
+                .setNegativeButton(
+                    context.getText(R.string.dialog_button_no),
+                    DialogInterface.OnClickListener { dialog, id ->
+                        dialog.cancel()
+                        listenerNo()
+                    })
+
+            // create dialog box
+            val alert = dialogBuilder.create()
+            // set title for alert dialog box
+            alert.setTitle(title)
+            // show alert dialog
+            alert.show()
+        }
+
+        fun noAction(): Boolean {
+            return true
+        }
+
+        fun isNetworkAvailable(context: Context): Boolean? {
+            var isConnected: Boolean? = false // Initial Value
+            val connectivityManager =
+                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
+            if (activeNetwork != null && activeNetwork.isConnected) isConnected = true
+            return isConnected
+        }
+
+        fun showVersion(): String {
+            return "Version " + BuildConfig.VERSION_NAME
+        }
+
+        fun arrayFanArt(context: Context): MutableList<Wallpaper> {
+            val arrayLinkImage = RawDataHelper().fetchData(context, R.raw._background_main)
+
+            val arrayWallpaper = mutableListOf<Wallpaper>()
+            for (i in 0 until arrayLinkImage.size) {
+                arrayWallpaper.add(Wallpaper((i + TYPE_MAIN_WALLPAPER), arrayLinkImage[i]))
+            }
+            return arrayWallpaper
+        }
+
+        private fun getBitmapFromURL(imageUrl: String?): Bitmap? {
+            return try {
+                val url = URL(imageUrl)
+                val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
+                connection.setDoInput(true)
+                connection.connect()
+                val input: InputStream = connection.getInputStream()
+                BitmapFactory.decodeStream(input)
+            } catch (e: IOException) {
+                e.printStackTrace()
+                null
+            }
+        }
+
+        fun setBackgroundImage(context: Context, view: View){
+            val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+            StrictMode.setThreadPolicy(policy)
+
+            val myImage = getBitmapFromURL(arrayFanArt(context)[0].linkImage)
+            //BitmapDrawable(obj) convert Bitmap object into drawable object.
+            //BitmapDrawable(obj) convert Bitmap object into drawable object.
+            val dr: Drawable = BitmapDrawable(myImage)
+            view.setBackgroundDrawable(dr)
+        }
+
+    }
+
 }
