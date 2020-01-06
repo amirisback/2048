@@ -38,40 +38,40 @@
     <color name="yellow">#f6d126</color>
 
     <!-- own definded colors -->
-    <color name="button_empty">#E6E6E6</color>
-    <color name="button2">#B7C6F1</color>
-    <color name="button4">#8aa5ce</color>
-    <color name="button8">#5D84AB</color>
-    <color name="button16">#0274B2</color>
-    <color name="button32">#2F6388</color>
-    <color name="button64">#024265</color>
-    <color name="button128">#020232</color>
-    <color name="button256">#3C3C3C</color>
-    <color name="button512">#646464</color>
-    <color name="button1024">#A8A8A8</color>
-    <color name="button2048">#C8C8C8</color>
-    <color name="button4096">#FFFFFF</color>
-    <color name="button8192">#C8E6FF</color>
-    <color name="button16384">#96B4FF</color>
-    <color name="button32768">#6482FF</color>
+    <color name="tiles_empty">#E6E6E6</color>
+    <color name="tiles_2">#B7C6F1</color>
+    <color name="tiles_4">#8aa5ce</color>
+    <color name="tiles_8">#5D84AB</color>
+    <color name="tiles_16">#0274B2</color>
+    <color name="tiles_32">#2F6388</color>
+    <color name="tiles_64">#024265</color>
+    <color name="tiles_128">#020232</color>
+    <color name="tiles_256">#3C3C3C</color>
+    <color name="tiles_512">#646464</color>
+    <color name="tiles_1024">#A8A8A8</color>
+    <color name="tiles_2048">#C8C8C8</color>
+    <color name="tiles_4096">#FFFFFF</color>
+    <color name="tiles_8192">#C8E6FF</color>
+    <color name="tiles_16384">#96B4FF</color>
+    <color name="tiles_32768">#6482FF</color>
 
     <!-- own definded colors 2 -->
-    <color name="button_empty_original">#A8A8A8</color>
-    <color name="button2_origininal">#EEE4DA</color>
-    <color name="button4_origininal">#ECE0C3</color>
-    <color name="button8_origininal">#FEB588</color>
-    <color name="button16_origininal">#F79663</color>
-    <color name="button32_origininal">#F77D63</color>
-    <color name="button64_origininal">#F76142</color>
-    <color name="button128_origininal">#EFCE73</color>
-    <color name="button256_origininal">#E6CA5B</color>
-    <color name="button512_origininal">#EECA52</color>
-    <color name="button1024_origininal">#EEC642</color>
-    <color name="button2048_origininal">#E6BE29</color>
-    <color name="button4096_origininal">#EF696B</color>
-    <color name="button8192_origininal">#E74D52</color>
-    <color name="button16384_origininal">#DE413A</color>
-    <color name="button32768_origininal">#73B2D6</color>
+    <color name="tiles_originial_empty">#A8A8A8</color>
+    <color name="tiles_originial_2">#EEE4DA</color>
+    <color name="tiles_originial_4">#ECE0C3</color>
+    <color name="tiles_originial_8">#FEB588</color>
+    <color name="tiles_originial_16">#F79663</color>
+    <color name="tiles_originial_32">#F77D63</color>
+    <color name="tiles_originial_64">#F76142</color>
+    <color name="tiles_originial_128">#EFCE73</color>
+    <color name="tiles_originial_256">#E6CA5B</color>
+    <color name="tiles_originial_512">#EECA52</color>
+    <color name="tiles_originial_1024">#EEC642</color>
+    <color name="tiles_originial_2048">#E6BE29</color>
+    <color name="tiles_originial_4096">#EF696B</color>
+    <color name="tiles_originial_8192">#E74D52</color>
+    <color name="tiles_originial_16384">#DE413A</color>
+    <color name="tiles_originial_32768">#73B2D6</color>
 
     <!-- dots inactive colors -->
     <color name="dot_dark_screen">#026499</color>

@@ -14,22 +14,22 @@
     </string-array>
 
     <array name="color_tiles_default">
-        <item>@color/button_empty</item>
-        <item>@color/button2</item>
-        <item>@color/button4</item>
-        <item>@color/button8</item>
-        <item>@color/button16</item>
-        <item>@color/button32</item>
-        <item>@color/button64</item>
-        <item>@color/button128</item>
-        <item>@color/button256</item>
-        <item>@color/button512</item>
-        <item>@color/button1024</item>
-        <item>@color/button2048</item>
-        <item>@color/button4096</item>
-        <item>@color/button8192</item>
-        <item>@color/button16384</item>
-        <item>@color/button32768</item>
+        <item>@color/tiles_empty</item>
+        <item>@color/tiles_2</item>
+        <item>@color/tiles_4</item>
+        <item>@color/tiles_8</item>
+        <item>@color/tiles_16</item>
+        <item>@color/tiles_32</item>
+        <item>@color/tiles_64</item>
+        <item>@color/tiles_128</item>
+        <item>@color/tiles_256</item>
+        <item>@color/tiles_512</item>
+        <item>@color/tiles_1024</item>
+        <item>@color/tiles_2048</item>
+        <item>@color/tiles_4096</item>
+        <item>@color/tiles_8192</item>
+        <item>@color/tiles_16384</item>
+        <item>@color/tiles_32768</item>
     </array>
 
     <array name="color_text_default">
@@ -52,22 +52,22 @@
     </array>
 
     <array name="color_tiles_original">
-        <item>@color/button_empty_original</item>
-        <item>@color/button2_origininal</item>
-        <item>@color/button4_origininal</item>
-        <item>@color/button8_origininal</item>
-        <item>@color/button16_origininal</item>
-        <item>@color/button32_origininal</item>
-        <item>@color/button64_origininal</item>
-        <item>@color/button128_origininal</item>
-        <item>@color/button256_origininal</item>
-        <item>@color/button512_origininal</item>
-        <item>@color/button1024_origininal</item>
-        <item>@color/button2048_origininal</item>
-        <item>@color/button4096_origininal</item>
-        <item>@color/button8192_origininal</item>
-        <item>@color/button16384_origininal</item>
-        <item>@color/button32768_origininal</item>
+        <item>@color/tiles_originial_empty</item>
+        <item>@color/tiles_originial_2</item>
+        <item>@color/tiles_originial_4</item>
+        <item>@color/tiles_originial_8</item>
+        <item>@color/tiles_originial_16</item>
+        <item>@color/tiles_originial_32</item>
+        <item>@color/tiles_originial_64</item>
+        <item>@color/tiles_originial_128</item>
+        <item>@color/tiles_originial_256</item>
+        <item>@color/tiles_originial_512</item>
+        <item>@color/tiles_originial_1024</item>
+        <item>@color/tiles_originial_2048</item>
+        <item>@color/tiles_originial_4096</item>
+        <item>@color/tiles_originial_8192</item>
+        <item>@color/tiles_originial_16384</item>
+        <item>@color/tiles_originial_32768</item>
     </array>
 
     <array name="color_text_original">
@@ -107,5 +107,24 @@
         <item>@drawable/ic_toolbar_favorite</item>
         <item>@drawable/ic_toolbar_favorite</item>
     </integer-array>
+
+    <array name="color_text_reskin">
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+        <item>@color/colorTextWhite</item>
+    </array>
 
 </resources>

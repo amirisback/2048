@@ -5,6 +5,6 @@
     <corners
         android:radius="7dp" />
 
-    <solid android:color="@color/button_empty"/>
+    <solid android:color="@color/tiles_empty"/>
 
 </shape>

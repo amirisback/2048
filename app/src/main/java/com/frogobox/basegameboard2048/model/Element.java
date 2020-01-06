@@ -78,11 +78,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
     private void setupBackgroundTiles() {
         if (settingColor.equals("1")) {
             // Reskin Background
-            setColor(justGetColorId(R.color.button_empty));
+            setColor(justGetColorId(R.color.tiles_empty));
         } else if (settingColor.equals("2")) {
-            setColor(justGetColorId(R.color.button_empty));
+            setColor(justGetColorId(R.color.tiles_empty));
         } else {
-            setColor(justGetColorId(R.color.button_empty_original));
+            setColor(justGetColorId(R.color.tiles_originial_empty));
         }
     }
 
@@ -95,7 +95,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
         if (settingColor.equals("1")) {
             // Reskin Image
             tilesImage = context.getResources().obtainTypedArray(R.array.background_tiles_reskin);
-            textColor = context.getResources().getIntArray(R.array.color_text_default);
+            textColor = context.getResources().getIntArray(R.array.color_text_reskin);
             isUsingImage = true;
         } else if (settingColor.equals("2")) {
             tilesColor = context.getResources().getIntArray(R.array.color_tiles_default);
@@ -114,7 +114,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 0:
                 setTextColor(listTextColor[0]);
                 if (usingImage) {
-                    setColor(R.color.button_empty);
+                    setColor(R.color.tiles_empty);
                 } else {
                     setColor(listTilesBackground[1]);
                 }
