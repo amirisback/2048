@@ -119,5 +119,6 @@
     <string name="Stat_Time_Swipes">Time per Swipe</string>
     <string name="reset_stats">Reset Statistics</string>
     <string name="Pref_Color">pref_color</string>
+    <string name="swipe_for_size_tiles">&lt;&lt; Swipe For Size Tiles &gt;&gt;</string>
 
 </resources>

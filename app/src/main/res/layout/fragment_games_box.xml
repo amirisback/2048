@@ -2,27 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:gravity="center"
-    android:padding="@dimen/dimen_big_16dp">
+    android:orientation="vertical"
+    android:paddingStart="@dimen/dimen_big_16dp"
+    android:paddingEnd="@dimen/dimen_big_16dp"
+    android:paddingBottom="@dimen/dimen_big_16dp">
 
     <ImageView
         android:id="@+id/main_menu_img"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="@dimen/dimen_games_type_300dp"
+        android:layout_height="@dimen/dimen_games_type_300dp"
         android:src="@drawable/layout4x4_o" />
 
     <TextView
         android:id="@+id/tv_size_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="4x4"
         android:layout_marginTop="@dimen/dimen_big_16dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/main_menu_img"
-        android:textStyle="bold"
+        android:text="4x4"
         android:textColor="@color/colorTextBlack"
-        android:textSize="@dimen/text_size_title_big_super_30sp" />
-
+        android:textSize="@dimen/text_size_title_big_super_30sp"
+        android:textStyle="bold" />
 
 </LinearLayout>

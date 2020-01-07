@@ -6,23 +6,38 @@
     android:background="@color/colorBackgroundWhite"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_main_no_border" />
-
-    <LinearLayout
-        android:id="@+id/layoutDots"
+    <RelativeLayout
+        android:id="@+id/container_toolbar"
         android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <include layout="@layout/toolbar_main_no_border" />
+
+        <LinearLayout
+            android:id="@+id/layoutDots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_swipe"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar_main"
-        android:gravity="center"
-        android:orientation="horizontal" />
+        android:layout_below="@id/container_toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dimen_big_16dp"
+        android:text="@string/swipe_for_size_tiles"
+        android:textColor="@color/colorTextBlack" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@id/container_button"
-        android:layout_below="@id/layoutDots" />
-
+        android:layout_below="@id/container_toolbar" />
 
     <LinearLayout
         android:id="@+id/container_button"
