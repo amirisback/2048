@@ -11,16 +11,22 @@
         android:id="@+id/container_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dimen_big_16dp"
         android:gravity="center_vertical"
         android:weightSum="3">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_big_16dp"
+            android:layout_marginTop="@dimen/dimen_big_16dp"
+            android:layout_marginBottom="@dimen/dimen_big_16dp"
             android:layout_weight="1"
+            android:background="@drawable/background_card"
+            android:elevation="@dimen/dimen_elevation_2dp"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="@dimen/dimen_medium_8dp"
+            android:paddingBottom="@dimen/dimen_medium_8dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -50,16 +56,22 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dimen_medium_8dp"
+            android:layout_marginTop="@dimen/dimen_big_16dp"
+            android:layout_marginEnd="@dimen/dimen_medium_8dp"
+            android:layout_marginBottom="@dimen/dimen_big_16dp"
             android:layout_weight="1"
+            android:background="@drawable/background_card"
+            android:elevation="@dimen/dimen_elevation_2dp"
             android:gravity="center"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2048"
+                android:text="@string/app_2048"
                 android:textColor="@color/colorTextBlack"
                 android:textSize="36sp"
                 android:textStyle="bold" />
@@ -67,17 +79,25 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="subtitle"
+                android:text="@string/app_name_subtitle"
+                android:textAlignment="center"
                 android:textColor="@color/colorTextBlack" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_big_16dp"
+            android:layout_marginRight="@dimen/dimen_big_16dp"
+            android:layout_marginBottom="@dimen/dimen_big_16dp"
             android:layout_weight="1"
+            android:background="@drawable/background_card"
+            android:elevation="@dimen/dimen_elevation_2dp"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="@dimen/dimen_medium_8dp"
+            android:paddingBottom="@dimen/dimen_medium_8dp">
 
             <TextView
                 android:layout_width="wrap_content"

@@ -33,6 +33,8 @@
 
 
     <!-- ^^^ TEMPLATE CODE ^^^  -->
+    <string name="app_2048">2048</string>
+
 
     <!-- ###DRAWER###-->
     <string name="action_help">Help</string>

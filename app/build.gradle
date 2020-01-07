@@ -9,6 +9,7 @@ android {
     // Declaration app name
     def nameApp = "2048"
     def nameAppFull = "FrogoBox 2048"
+    def nameAppSub = "FrogoBox"
     def nameThemeColorScheme = "2048 Euforia Reskin"
 
     // Declaration apk / aab name
@@ -54,6 +55,7 @@ android {
         def debugAttribute = " Development"
         def nameAppDebug = nameApp + debugAttribute
         def nameAppFullDebug = nameAppFull + debugAttribute
+        def nameAppSubDebug = nameAppSub + debugAttribute
 
         // Declaration admob id for debug
         def debugAdmobPublisherId = "ca-app-pub-3940256099942544~3347511713"
@@ -74,6 +76,7 @@ android {
         // Inject app name for debug
         resValue "string", "app_name", nameAppDebug
         resValue "string", "app_name_long", nameAppFullDebug
+        resValue "string", "app_name_subtitle", nameAppSubDebug
         resValue "string", "theme_color_scheme_reskin", nameThemeColorScheme
 
         // Inject admob id for debug
@@ -119,6 +122,7 @@ android {
             // Inject app name for release
             resValue "string", "app_name", nameApp
             resValue "string", "app_name_long", nameAppFull
+            resValue "string", "app_name_subtitle", nameAppSub
             resValue "string", "theme_color_scheme_reskin", nameThemeColorScheme
 
             // Inject admob id for release
