@@ -90,22 +90,22 @@
     </array>
 
     <integer-array name="background_tiles_reskin">
-        <item>@drawable/ic_toolbar_favorite</item> <!-- Dummy Data - Same With ArrayIndex 1-->
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
-        <item>@drawable/ic_toolbar_favorite</item>
+        <item>@drawable/tiles_reskin_empty</item> <!-- Dummy Data - Same With ArrayIndex 1-->
+        <item>@drawable/tiles_reskin_2</item>
+        <item>@drawable/tiles_reskin_4</item>
+        <item>@drawable/tiles_reskin_8</item>
+        <item>@drawable/tiles_reskin_16</item>
+        <item>@drawable/tiles_reskin_32</item>
+        <item>@drawable/tiles_reskin_64</item>
+        <item>@drawable/tiles_reskin_128</item>
+        <item>@drawable/tiles_reskin_256</item>
+        <item>@drawable/tiles_reskin_512</item>
+        <item>@drawable/tiles_reskin_1024</item>
+        <item>@drawable/tiles_reskin_2048</item>
+        <item>@drawable/tiles_reskin_4096</item>
+        <item>@drawable/tiles_reskin_8192</item>
+        <item>@drawable/tiles_reskin_16384</item>
+        <item>@drawable/tiles_reskin_32768</item>
     </integer-array>
 
     <array name="color_text_reskin">

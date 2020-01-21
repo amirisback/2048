@@ -49,7 +49,7 @@ public class TutorialPagerAdapter extends PagerAdapter {
             case 0:
                 tv_title.setText(R.string.Tutorial_Titel);
                 tv_subtitle.setText(R.string.Tutorial_Instruction);
-                Glide.with(container.getContext()).load(R.mipmap.ic_splash).into(imageView);
+                Glide.with(container.getContext()).load(R.drawable.ic_launcher).into(imageView);
                 break;
             case 1:
                 tv_title.setText(R.string.Tutorial_Titel_Move);

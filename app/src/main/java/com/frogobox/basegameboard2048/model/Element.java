@@ -248,7 +248,6 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
 
     private void setBackgroundImage(int res) {
         setBackgroundResource(res);
-        getBackground().setAlpha(120);
     }
 
     private void setColor(int c) {
