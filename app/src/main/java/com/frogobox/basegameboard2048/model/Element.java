@@ -7,10 +7,16 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.frogobox.basegameboard2048.R;
+
+import java.util.ArrayList;
 
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_COLOR;
 
@@ -89,14 +95,18 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
     private void setupGamesTiles() {
         int[] textColor;
         int[] tilesColor = null;
+        String[] linkImage = null;
         boolean isUsingImage = false;
+        boolean isUsingUrl = false;
         TypedArray tilesImage = null;
 
         if (settingColor.equals("1")) {
             // Reskin Image
             tilesImage = context.getResources().obtainTypedArray(R.array.background_tiles_reskin);
             textColor = context.getResources().getIntArray(R.array.color_text_reskin);
+            linkImage = context.getResources().getStringArray(R.array.background_image_url);
             isUsingImage = true;
+            isUsingUrl = true;
         } else if (settingColor.equals("2")) {
             tilesColor = context.getResources().getIntArray(R.array.color_tiles_default);
             textColor = context.getResources().getIntArray(R.array.color_text_default);
@@ -105,11 +115,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             textColor = context.getResources().getIntArray(R.array.color_text_original);
         }
 
-        setupTiles(number, isUsingImage, textColor, tilesColor, tilesImage);
+        setupTiles(number, isUsingImage, isUsingUrl,textColor, tilesColor, tilesImage, linkImage);
     }
 
     @SuppressLint("ResourceType")
-    private void setupTiles(int number, boolean usingImage, int[] listTextColor, int[] listTilesBackground, TypedArray listBackgroundImage) {
+    private void setupTiles(int number, boolean usingImage, boolean usingUrl, int[] listTextColor, int[] listTilesBackground, TypedArray listBackgroundImage, String[] linkImage) {
         switch (number) {
             case 0:
                 setTextColor(listTextColor[0]);
@@ -122,7 +132,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 2:
                 setTextColor(listTextColor[1]);
                 if (usingImage) {
-                    setBackgroundImage(listBackgroundImage.getResourceId(1, 0));
+                    if (usingUrl){
+                        setBackgroundFromUrl(linkImage[1], listBackgroundImage.getResourceId(1, 0));
+                    } else {
+                        setBackgroundImage(listBackgroundImage.getResourceId(1, 0));
+                    }
                 } else {
                     setColor(listTilesBackground[1]);
                 }
@@ -130,7 +144,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 4:
                 setTextColor(listTextColor[2]);
                 if (usingImage) {
-                    setBackgroundImage(listBackgroundImage.getResourceId(2, 0));
+                    if (usingUrl){
+                        setBackgroundFromUrl(linkImage[2], listBackgroundImage.getResourceId(2, 0));
+                    } else {
+                        setBackgroundImage(listBackgroundImage.getResourceId(2, 0));
+                    }
                 } else {
                     setColor(listTilesBackground[2]);
                 }
@@ -138,7 +156,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 8:
                 setTextColor(listTextColor[3]);
                 if (usingImage) {
-                    setBackgroundImage(listBackgroundImage.getResourceId(3, 0));
+                    if (usingUrl){
+                        setBackgroundFromUrl(linkImage[3], listBackgroundImage.getResourceId(3, 0));
+                    } else {
+                        setBackgroundImage(listBackgroundImage.getResourceId(3, 0));
+                    }
                 } else {
                     setColor(listTilesBackground[3]);
                 }
@@ -146,7 +168,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 16:
                 setTextColor(listTextColor[4]);
                 if (usingImage) {
-                    setBackgroundImage(listBackgroundImage.getResourceId(4, 0));
+                    if (usingUrl){
+                        setBackgroundFromUrl(linkImage[4], listBackgroundImage.getResourceId(4, 0));
+                    } else {
+                        setBackgroundImage(listBackgroundImage.getResourceId(4, 0));
+                    }
                 } else {
                     setColor(listTilesBackground[4]);
                 }
@@ -154,7 +180,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 32:
                 setTextColor(listTextColor[5]);
                 if (usingImage) {
-                    setBackgroundImage(listBackgroundImage.getResourceId(5, 0));
+                    if (usingUrl){
+                        setBackgroundFromUrl(linkImage[5], listBackgroundImage.getResourceId(5, 0));
+                    } else {
+                        setBackgroundImage(listBackgroundImage.getResourceId(5, 0));
+                    }
                 } else {
                     setColor(listTilesBackground[5]);
                 }
@@ -162,7 +192,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 64:
                 setTextColor(listTextColor[6]);
                 if (usingImage) {
-                    setBackgroundImage(listBackgroundImage.getResourceId(6, 0));
+                    if (usingUrl){
+                        setBackgroundFromUrl(linkImage[6], listBackgroundImage.getResourceId(6, 0));
+                    } else {
+                        setBackgroundImage(listBackgroundImage.getResourceId(6, 0));
+                    }
                 } else {
                     setColor(listTilesBackground[6]);
                 }
@@ -170,7 +204,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 128:
                 setTextColor(listTextColor[7]);
                 if (usingImage) {
-                    setBackgroundImage(listBackgroundImage.getResourceId(7, 0));
+                    if (usingUrl){
+                        setBackgroundFromUrl(linkImage[7], listBackgroundImage.getResourceId(7, 0));
+                    } else {
+                        setBackgroundImage(listBackgroundImage.getResourceId(7, 0));
+                    }
                 } else {
                     setColor(listTilesBackground[7]);
                 }
@@ -178,7 +216,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 256:
                 setTextColor(listTextColor[8]);
                 if (usingImage) {
-                    setBackgroundImage(listBackgroundImage.getResourceId(8, 0));
+                    if (usingUrl){
+                        setBackgroundFromUrl(linkImage[8], listBackgroundImage.getResourceId(8, 0));
+                    } else {
+                        setBackgroundImage(listBackgroundImage.getResourceId(8, 0));
+                    }
                 } else {
                     setColor(listTilesBackground[8]);
                 }
@@ -186,7 +228,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 512:
                 setTextColor(listTextColor[9]);
                 if (usingImage) {
-                    setBackgroundImage(listBackgroundImage.getResourceId(9, 0));
+                    if (usingUrl){
+                        setBackgroundFromUrl(linkImage[9], listBackgroundImage.getResourceId(9, 0));
+                    } else {
+                        setBackgroundImage(listBackgroundImage.getResourceId(9, 0));
+                    }
                 } else {
                     setColor(listTilesBackground[9]);
                 }
@@ -194,7 +240,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 1024:
                 setTextColor(listTextColor[10]);
                 if (usingImage) {
-                    setBackgroundImage(listBackgroundImage.getResourceId(10, 0));
+                    if (usingUrl){
+                        setBackgroundFromUrl(linkImage[10], listBackgroundImage.getResourceId(10, 0));
+                    } else {
+                        setBackgroundImage(listBackgroundImage.getResourceId(10, 0));
+                    }
                 } else {
                     setColor(listTilesBackground[10]);
                 }
@@ -202,7 +252,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 2048:
                 setTextColor(listTextColor[11]);
                 if (usingImage) {
-                    setBackgroundImage(listBackgroundImage.getResourceId(11, 0));
+                    if (usingUrl){
+                        setBackgroundFromUrl(linkImage[11], listBackgroundImage.getResourceId(11, 0));
+                    } else {
+                        setBackgroundImage(listBackgroundImage.getResourceId(11, 0));
+                    }
                 } else {
                     setColor(listTilesBackground[11]);
                 }
@@ -210,7 +264,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 4096:
                 setTextColor(listTextColor[12]);
                 if (usingImage) {
-                    setBackgroundImage(listBackgroundImage.getResourceId(12, 0));
+                    if (usingUrl){
+                        setBackgroundFromUrl(linkImage[12], listBackgroundImage.getResourceId(12, 0));
+                    } else {
+                        setBackgroundImage(listBackgroundImage.getResourceId(12, 0));
+                    }
                 } else {
                     setColor(listTilesBackground[12]);
                 }
@@ -218,7 +276,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 8192:
                 setTextColor(listTextColor[13]);
                 if (usingImage) {
-                    setBackgroundImage(listBackgroundImage.getResourceId(13, 0));
+                    if (usingUrl){
+                        setBackgroundFromUrl(linkImage[13], listBackgroundImage.getResourceId(13, 0));
+                    } else {
+                        setBackgroundImage(listBackgroundImage.getResourceId(13, 0));
+                    }
                 } else {
                     setColor(listTilesBackground[13]);
                 }
@@ -228,7 +290,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
                 textSize = textSize * 0.8f;
                 setTextSize(textSize);
                 if (usingImage) {
-                    setBackgroundImage(listBackgroundImage.getResourceId(14, 0));
+                    if (usingUrl){
+                        setBackgroundFromUrl(linkImage[14], listBackgroundImage.getResourceId(14, 0));
+                    } else {
+                        setBackgroundImage(listBackgroundImage.getResourceId(14, 0));
+                    }
                 } else {
                     setColor(listTilesBackground[14]);
                 }
@@ -238,7 +304,11 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
                 textSize = textSize * 0.8f;
                 setTextSize(textSize);
                 if (usingImage) {
-                    setBackgroundImage(listBackgroundImage.getResourceId(15, 0));
+                    if (usingUrl){
+                        setBackgroundFromUrl(linkImage[15], listBackgroundImage.getResourceId(15, 0));
+                    } else {
+                        setBackgroundImage(listBackgroundImage.getResourceId(15, 0));
+                    }
                 } else {
                     setColor(listTilesBackground[15]);
                 }
@@ -248,6 +318,21 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
 
     private void setBackgroundImage(int res) {
         setBackgroundResource(res);
+    }
+
+    // Important Function for request IMAGE
+    private void setBackgroundFromUrl(String imageUrl, int resourceImage){
+        Glide.with(this).load(imageUrl).into(new SimpleTarget<Drawable>() {
+            @Override
+            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    setBackground(resource);
+                }
+            }
+        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            setForeground(context.getDrawable(resourceImage));
+        }
     }
 
     private void setColor(int c) {

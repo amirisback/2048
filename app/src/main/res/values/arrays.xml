@@ -89,6 +89,44 @@
         <item>@color/colorTextWhite</item>
     </array>
 
+    <string-array name="background_image_url">
+        <item>NoLink</item> <!-- Dummy Data - Same With ArrayIndex 1-->
+        <item>https://images3.alphacoders.com/114/11439.png</item>
+        <item>https://images3.alphacoders.com/114/11439.png</item>
+        <item>https://images3.alphacoders.com/114/11439.png</item>
+        <item>https://images3.alphacoders.com/114/11439.png</item>
+        <item>https://images3.alphacoders.com/114/11439.png</item>
+        <item>https://images3.alphacoders.com/114/11439.png</item>
+        <item>https://images3.alphacoders.com/114/11439.png</item>
+        <item>https://images3.alphacoders.com/114/11439.png</item>
+        <item>https://images3.alphacoders.com/114/11439.png</item>
+        <item>https://images3.alphacoders.com/114/11439.png</item>
+        <item>https://images3.alphacoders.com/114/11439.png</item>
+        <item>https://images3.alphacoders.com/114/11439.png</item>
+        <item>https://images3.alphacoders.com/114/11439.png</item>
+        <item>https://images3.alphacoders.com/114/11439.png</item>
+        <item></item>
+    </string-array>
+
+<!--    <string-array name="background_image_url">-->
+<!--        <item>NoLink</item> &lt;!&ndash; Dummy Data - Same With ArrayIndex 1&ndash;&gt;-->
+<!--        <item></item>-->
+<!--        <item></item>-->
+<!--        <item></item>-->
+<!--        <item></item>-->
+<!--        <item></item>-->
+<!--        <item></item>-->
+<!--        <item></item>-->
+<!--        <item></item>-->
+<!--        <item></item>-->
+<!--        <item></item>-->
+<!--        <item></item>-->
+<!--        <item></item>-->
+<!--        <item></item>-->
+<!--        <item></item>-->
+<!--        <item></item>-->
+<!--    </string-array>-->
+
     <integer-array name="background_tiles_reskin">
         <item>@drawable/tiles_reskin_empty</item> <!-- Dummy Data - Same With ArrayIndex 1-->
         <item>@drawable/tiles_reskin_2</item>
