@@ -91,22 +91,23 @@
 
     <string-array name="background_image_url">
         <item>NoLink</item> <!-- Dummy Data - Same With ArrayIndex 1-->
-        <item>https://images3.alphacoders.com/114/11439.png</item>
-        <item>https://images3.alphacoders.com/114/11439.png</item>
-        <item>https://images3.alphacoders.com/114/11439.png</item>
-        <item>https://images3.alphacoders.com/114/11439.png</item>
-        <item>https://images3.alphacoders.com/114/11439.png</item>
-        <item>https://images3.alphacoders.com/114/11439.png</item>
-        <item>https://images3.alphacoders.com/114/11439.png</item>
-        <item>https://images3.alphacoders.com/114/11439.png</item>
-        <item>https://images3.alphacoders.com/114/11439.png</item>
-        <item>https://images3.alphacoders.com/114/11439.png</item>
-        <item>https://images3.alphacoders.com/114/11439.png</item>
-        <item>https://images3.alphacoders.com/114/11439.png</item>
-        <item>https://images3.alphacoders.com/114/11439.png</item>
-        <item>https://images3.alphacoders.com/114/11439.png</item>
-        <item></item>
+        <item>https://i.pinimg.com/736x/7a/5b/64/7a5b6423e55ec25c6e919953827db416.jpg</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSuuitPDCQ9uhz5qIaP7ZuMTpivAxQBPL-GA5C-bd1vN-0o2UWF</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR5bz4BT2e222KcSNRJOKQbIQwIla5o-iKgbH3wpUuznuZkJGlL</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSy_gKR_qCfFu2MVFZAMyCB0CQIVJ6SpH7WsfbM8ZXsyk9Dtgzn</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQKgKArGYkrDowqKxT7pOevYbo0-8BCArXqBYnQTV5VCgRfyIOB</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTQ3iGDSBes521PWB31zZyujnsl5AC0zWXxgIbm7r_ydaCg4vzT</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTzpRiwp8l1Gscwr5O3RpW9gZQYGLN5xcfsi2YpHPjnSxdZJgwf</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTYdHeCdO6S8cqHeZvxQfRaotcxZKrrZ1L-KEk8BRWxRAUlhZQ_</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRE-cJgJBiuJpyOLhkmRjdhwoCKq1LdCBxj4SXnGEBw2EQnM8IK</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSUmB2-iOToI7Oc4gEjX0tgESN6KezsvalsncN0i-aqjn9D6Mx1</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTCEB4giho42bRDkDE45diwrumg1-MkYN2Sy_Lg2v4k5LWcSFat</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8ZfBope_Ygjr0i0hR9qr4bSTLzTzi-o9GqHlZZQosM7xoR7Nx</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRSreXJmEU5pkq2fbVGLD0bm-f-9hdQ2pcjkCSO3Bh1MphpUL3a</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQuQLJyP6iVb8dGABfZyC11_TTegJjzOHwU3ERyhHhfbJBfZMns</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQxUIrhfT_LuPymPXzcb-45NzC7SL3IFLsYB5s-TdrVM1qRqMfv</item>
     </string-array>
+
 
 <!--    <string-array name="background_image_url">-->
 <!--        <item>NoLink</item> &lt;!&ndash; Dummy Data - Same With ArrayIndex 1&ndash;&gt;-->

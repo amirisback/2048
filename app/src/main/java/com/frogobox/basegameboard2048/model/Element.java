@@ -17,6 +17,8 @@ import com.bumptech.glide.request.transition.Transition;
 import com.frogobox.basegameboard2048.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_COLOR;
 
@@ -92,6 +94,16 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
         }
     }
 
+    private String[] shuffleArrayString(String[] data) {
+        ArrayList<String> shuffleTemp = new ArrayList<>(Arrays.asList(data).subList(0, data.length - 1));
+        Collections.shuffle(shuffleTemp);
+        String[] shuffleString = new String[shuffleTemp.size()];
+        for (int i = 0; i < shuffleTemp.size() - 1; i++) {
+            shuffleString[i] = shuffleTemp.get(i);
+        }
+        return shuffleString;
+    }
+    
     private void setupGamesTiles() {
         int[] textColor;
         int[] tilesColor = null;
@@ -115,7 +127,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             textColor = context.getResources().getIntArray(R.array.color_text_original);
         }
 
-        setupTiles(number, isUsingImage, isUsingUrl,textColor, tilesColor, tilesImage, linkImage);
+        setupTiles(number, isUsingImage, isUsingUrl, textColor, tilesColor, tilesImage, linkImage);
     }
 
     @SuppressLint("ResourceType")
@@ -132,7 +144,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 2:
                 setTextColor(listTextColor[1]);
                 if (usingImage) {
-                    if (usingUrl){
+                    if (usingUrl) {
                         setBackgroundFromUrl(linkImage[1], listBackgroundImage.getResourceId(1, 0));
                     } else {
                         setBackgroundImage(listBackgroundImage.getResourceId(1, 0));
@@ -144,7 +156,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 4:
                 setTextColor(listTextColor[2]);
                 if (usingImage) {
-                    if (usingUrl){
+                    if (usingUrl) {
                         setBackgroundFromUrl(linkImage[2], listBackgroundImage.getResourceId(2, 0));
                     } else {
                         setBackgroundImage(listBackgroundImage.getResourceId(2, 0));
@@ -156,7 +168,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 8:
                 setTextColor(listTextColor[3]);
                 if (usingImage) {
-                    if (usingUrl){
+                    if (usingUrl) {
                         setBackgroundFromUrl(linkImage[3], listBackgroundImage.getResourceId(3, 0));
                     } else {
                         setBackgroundImage(listBackgroundImage.getResourceId(3, 0));
@@ -168,7 +180,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 16:
                 setTextColor(listTextColor[4]);
                 if (usingImage) {
-                    if (usingUrl){
+                    if (usingUrl) {
                         setBackgroundFromUrl(linkImage[4], listBackgroundImage.getResourceId(4, 0));
                     } else {
                         setBackgroundImage(listBackgroundImage.getResourceId(4, 0));
@@ -180,7 +192,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 32:
                 setTextColor(listTextColor[5]);
                 if (usingImage) {
-                    if (usingUrl){
+                    if (usingUrl) {
                         setBackgroundFromUrl(linkImage[5], listBackgroundImage.getResourceId(5, 0));
                     } else {
                         setBackgroundImage(listBackgroundImage.getResourceId(5, 0));
@@ -192,7 +204,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 64:
                 setTextColor(listTextColor[6]);
                 if (usingImage) {
-                    if (usingUrl){
+                    if (usingUrl) {
                         setBackgroundFromUrl(linkImage[6], listBackgroundImage.getResourceId(6, 0));
                     } else {
                         setBackgroundImage(listBackgroundImage.getResourceId(6, 0));
@@ -204,7 +216,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 128:
                 setTextColor(listTextColor[7]);
                 if (usingImage) {
-                    if (usingUrl){
+                    if (usingUrl) {
                         setBackgroundFromUrl(linkImage[7], listBackgroundImage.getResourceId(7, 0));
                     } else {
                         setBackgroundImage(listBackgroundImage.getResourceId(7, 0));
@@ -216,7 +228,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 256:
                 setTextColor(listTextColor[8]);
                 if (usingImage) {
-                    if (usingUrl){
+                    if (usingUrl) {
                         setBackgroundFromUrl(linkImage[8], listBackgroundImage.getResourceId(8, 0));
                     } else {
                         setBackgroundImage(listBackgroundImage.getResourceId(8, 0));
@@ -228,7 +240,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 512:
                 setTextColor(listTextColor[9]);
                 if (usingImage) {
-                    if (usingUrl){
+                    if (usingUrl) {
                         setBackgroundFromUrl(linkImage[9], listBackgroundImage.getResourceId(9, 0));
                     } else {
                         setBackgroundImage(listBackgroundImage.getResourceId(9, 0));
@@ -240,7 +252,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 1024:
                 setTextColor(listTextColor[10]);
                 if (usingImage) {
-                    if (usingUrl){
+                    if (usingUrl) {
                         setBackgroundFromUrl(linkImage[10], listBackgroundImage.getResourceId(10, 0));
                     } else {
                         setBackgroundImage(listBackgroundImage.getResourceId(10, 0));
@@ -252,7 +264,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 2048:
                 setTextColor(listTextColor[11]);
                 if (usingImage) {
-                    if (usingUrl){
+                    if (usingUrl) {
                         setBackgroundFromUrl(linkImage[11], listBackgroundImage.getResourceId(11, 0));
                     } else {
                         setBackgroundImage(listBackgroundImage.getResourceId(11, 0));
@@ -264,7 +276,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 4096:
                 setTextColor(listTextColor[12]);
                 if (usingImage) {
-                    if (usingUrl){
+                    if (usingUrl) {
                         setBackgroundFromUrl(linkImage[12], listBackgroundImage.getResourceId(12, 0));
                     } else {
                         setBackgroundImage(listBackgroundImage.getResourceId(12, 0));
@@ -276,7 +288,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
             case 8192:
                 setTextColor(listTextColor[13]);
                 if (usingImage) {
-                    if (usingUrl){
+                    if (usingUrl) {
                         setBackgroundFromUrl(linkImage[13], listBackgroundImage.getResourceId(13, 0));
                     } else {
                         setBackgroundImage(listBackgroundImage.getResourceId(13, 0));
@@ -290,7 +302,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
                 textSize = textSize * 0.8f;
                 setTextSize(textSize);
                 if (usingImage) {
-                    if (usingUrl){
+                    if (usingUrl) {
                         setBackgroundFromUrl(linkImage[14], listBackgroundImage.getResourceId(14, 0));
                     } else {
                         setBackgroundImage(listBackgroundImage.getResourceId(14, 0));
@@ -304,7 +316,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
                 textSize = textSize * 0.8f;
                 setTextSize(textSize);
                 if (usingImage) {
-                    if (usingUrl){
+                    if (usingUrl) {
                         setBackgroundFromUrl(linkImage[15], listBackgroundImage.getResourceId(15, 0));
                     } else {
                         setBackgroundImage(listBackgroundImage.getResourceId(15, 0));
@@ -321,7 +333,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
     }
 
     // Important Function for request IMAGE
-    private void setBackgroundFromUrl(String imageUrl, int resourceImage){
+    private void setBackgroundFromUrl(String imageUrl, int resourceImage) {
         Glide.with(this).load(imageUrl).into(new SimpleTarget<Drawable>() {
             @Override
             public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
