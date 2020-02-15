@@ -7,17 +7,7 @@ apply plugin: 'kotlin-kapt'
 android {
 
     // Declaration app name
-    def nameApp = "2048"
-    def nameAppFull = "FrogoBox 2048"
-    def nameAppSub = "FrogoBox"
-    def nameThemeColorScheme = "2048 Euforia Reskin"
-
-    // Declaration apk / aab name
-    def nameAPK = "2048"
-
-    // Declaration DB Name
-    def dbRoom = '"frog_2048_room.db"'
-    def dbSqlite = '"frog_2048_sqlite"'
+    def nameApp = "2048 Base Code"
 
     def versionPropsFile = file('version.properties')
     Properties versionProps = new Properties()
@@ -27,6 +17,10 @@ android {
     } else {
         versionProps['VERSION_CODE'] = '0'
     }
+
+    def nameAPK = nameApp.toLowerCase().replace(" ", "-")
+    def nameThemeColorScheme = nameApp + " Theme"
+    def nameAppSub = nameApp.replace("2048 ", "")
 
     def code = versionProps['VERSION_CODE'].toInteger()
 
@@ -48,14 +42,10 @@ android {
         versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "ROOM_DATABASE_NAME", dbRoom)
-        buildConfigField("String", "SQLITE_DATABASE_NAME", dbSqlite)
-
         // Declaration apps name debug mode
         def debugAttribute = " Development"
         def nameAppDebug = nameApp + debugAttribute
-        def nameAppFullDebug = nameAppFull + debugAttribute
-        def nameAppSubDebug = nameAppSub + debugAttribute
+        def nameAppSubDebug = nameAppSub
 
         // Declaration admob id for debug
         def debugAdmobPublisherId = "ca-app-pub-3940256099942544~3347511713"
@@ -75,7 +65,6 @@ android {
 
         // Inject app name for debug
         resValue "string", "app_name", nameAppDebug
-        resValue "string", "app_name_long", nameAppFullDebug
         resValue "string", "app_name_subtitle", nameAppSubDebug
         resValue "string", "theme_color_scheme_reskin", nameThemeColorScheme
 
@@ -111,17 +100,16 @@ android {
             signingConfig signingConfigs.release
 
             // Declaration admob id for release
-            def releaseAdmobPublisherId = "ca-app-pub-3940256099942544~3347511713"
-            def releaseAdmobBanner = "ca-app-pub-3940256099942544/6300978111"
-            def releaseAdmobInterstitial = "ca-app-pub-3940256099942544/1033173712"
-            def releaseAdmobInterstitialVideo = "ca-app-pub-3940256099942544/8691691433"
-            def releaseAdmobRewardedVideo = "ca-app-pub-3940256099942544/5224354917"
-            def releaseAdmobNativeAdvanced = "ca-app-pub-3940256099942544/2247696110"
-            def releaseAdmobNativeAdvancedVideo = "ca-app-pub-3940256099942544/1044960115"
+            def releaseAdmobPublisherId = ""
+            def releaseAdmobBanner = ""
+            def releaseAdmobInterstitial = ""
+            def releaseAdmobInterstitialVideo = ""
+            def releaseAdmobRewardedVideo = ""
+            def releaseAdmobNativeAdvanced = ""
+            def releaseAdmobNativeAdvancedVideo = ""
 
             // Inject app name for release
             resValue "string", "app_name", nameApp
-            resValue "string", "app_name_long", nameAppFull
             resValue "string", "app_name_subtitle", nameAppSub
             resValue "string", "theme_color_scheme_reskin", nameThemeColorScheme
 
@@ -143,19 +131,19 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.google.android.material:material:1.2.0-alpha03'
+    implementation 'com.google.android.material:material:1.2.0-alpha04'
 
     // lib google ads
     implementation 'com.google.android.gms:play-services-ads:18.3.0'
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    implementation "com.squareup.okhttp3:okhttp:3.14.1"
-    implementation "com.squareup.okhttp3:logging-interceptor:3.14.1"
+    implementation "com.squareup.okhttp3:okhttp:4.2.2"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.2.2"
     implementation "com.squareup.picasso:picasso:2.71828"
     implementation "com.squareup.retrofit2:retrofit:2.6.0"
     implementation "com.squareup.retrofit2:adapter-rxjava:2.3.0"
@@ -181,11 +169,11 @@ dependencies {
     // Room components
     implementation "androidx.room:room-runtime:2.2.3"
     implementation "androidx.room:room-ktx:2.2.3"
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0-rc03"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     // ViewModel Kotlin support
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-rc03"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     //noinspection LifecycleAnnotationProcessorWithJava8
-    kapt "androidx.lifecycle:lifecycle-compiler:2.2.0-rc03"
+    kapt "androidx.lifecycle:lifecycle-compiler:2.2.0"
 
     // Play Console API 3
 //    implementation 'com.google.apis:google-api-services-androidpublisher:v3-rev20191113-1.30.3'
@@ -200,7 +188,7 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0"
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 

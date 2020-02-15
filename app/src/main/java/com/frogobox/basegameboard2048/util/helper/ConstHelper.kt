@@ -61,6 +61,10 @@ class ConstHelper {
     }
 
     object RoomDatabase {
+
+        const val ROOM_ATTRIBUTE = "_room.db"
+        val ROOM_DATABASE_NAME = BuildConfig.APPLICATION_ID.replace(".","_") + ROOM_ATTRIBUTE
+
         const val BASE_TABLE_NAME = "table"
         const val TABLE_NAME_DATA = "wallpaper_$BASE_TABLE_NAME"
         const val TABLE_NAME_FAVORITE = "favorite_$TABLE_NAME_DATA"
@@ -72,6 +76,10 @@ class ConstHelper {
     }
 
     object SQLiteDatabase {
+
+        const val SQLITE_ATTRIBUTE = "_sqlite"
+        val SQLITE_DATABASE_NAME = BuildConfig.APPLICATION_ID.replace(".","_") + SQLITE_ATTRIBUTE
+
         const val SQLITE_DATABASE_VERSION = 1
         // Names of table in the database
         const val TABLE_SAMPLEDATA = "SAMPLE_DATA"

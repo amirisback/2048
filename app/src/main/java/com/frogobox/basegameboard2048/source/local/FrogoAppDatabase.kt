@@ -7,9 +7,9 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.frogobox.basegameboard2048.BuildConfig
-import com.frogobox.basegameboard2048.BuildConfig.ROOM_DATABASE_NAME
 import com.frogobox.basegameboard2048.model.Favorite
 import com.frogobox.basegameboard2048.source.dao.FavoriteDao
+import com.frogobox.basegameboard2048.util.helper.ConstHelper.RoomDatabase.ROOM_DATABASE_NAME
 
 /**
  * Created by Faisal Amir

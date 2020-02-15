@@ -7,20 +7,23 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.frogobox.basegameboard2048.BuildConfig;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.frogobox.basegameboard2048.BuildConfig.SQLITE_DATABASE_NAME;
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.SQLiteDatabase.KEY_DOMAIN;
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.SQLiteDatabase.KEY_ID;
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.SQLiteDatabase.KEY_LENGTH;
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.SQLiteDatabase.KEY_USERNAME;
+import static com.frogobox.basegameboard2048.util.helper.ConstHelper.SQLiteDatabase.SQLITE_ATTRIBUTE;
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.SQLiteDatabase.SQLITE_DATABASE_VERSION;
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.SQLiteDatabase.TABLE_SAMPLEDATA;
 
 public class PFASQLiteHelper extends SQLiteOpenHelper {
 
 
+    private static final String SQLITE_DATABASE_NAME = BuildConfig.APPLICATION_ID.replace(".", "_") + SQLITE_ATTRIBUTE;
 
     public PFASQLiteHelper(Context context) {
         super(context, SQLITE_DATABASE_NAME, null, SQLITE_DATABASE_VERSION);
