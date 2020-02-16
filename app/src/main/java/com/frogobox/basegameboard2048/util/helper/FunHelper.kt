@@ -6,18 +6,12 @@ import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Environment
-import android.os.StrictMode
-import android.view.View
 import com.frogobox.basegameboard2048.BuildConfig
 import com.frogobox.basegameboard2048.R
-import com.frogobox.basegameboard2048.base.util.BaseHelper
-import com.frogobox.basegameboard2048.model.Wallpaper
-import com.frogobox.basegameboard2048.util.helper.ConstHelper.Const.TYPE_MAIN_WALLPAPER
+import com.frogobox.basegameboard2048.base.BaseHelper
 import com.frogobox.basegameboard2048.util.helper.ConstHelper.Dir.DIR_NAME
 import com.frogobox.basegameboard2048.util.helper.ConstHelper.Dir.VIDEO_FILE_NAME
 import com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_NAME
@@ -203,16 +197,6 @@ class FunHelper {
             return "Version " + BuildConfig.VERSION_NAME
         }
 
-        fun arrayFanArt(context: Context): MutableList<Wallpaper> {
-            val arrayLinkImage = RawDataHelper().fetchData(context, R.raw._background_main)
-
-            val arrayWallpaper = mutableListOf<Wallpaper>()
-            for (i in 0 until arrayLinkImage.size) {
-                arrayWallpaper.add(Wallpaper((i + TYPE_MAIN_WALLPAPER), arrayLinkImage[i]))
-            }
-            return arrayWallpaper
-        }
-
         private fun getBitmapFromURL(imageUrl: String?): Bitmap? {
             return try {
                 val url = URL(imageUrl)
@@ -225,17 +209,6 @@ class FunHelper {
                 e.printStackTrace()
                 null
             }
-        }
-
-        fun setBackgroundImage(context: Context, view: View){
-            val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-            StrictMode.setThreadPolicy(policy)
-
-            val myImage = getBitmapFromURL(arrayFanArt(context)[0].linkImage)
-            //BitmapDrawable(obj) convert Bitmap object into drawable object.
-            //BitmapDrawable(obj) convert Bitmap object into drawable object.
-            val dr: Drawable = BitmapDrawable(myImage)
-            view.setBackgroundDrawable(dr)
         }
 
     }

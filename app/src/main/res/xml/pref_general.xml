@@ -12,7 +12,7 @@
 
     <ListPreference
         android:defaultValue="1"
-        android:dialogIcon="@drawable/ic_dialog_pallete_color"
+        android:dialogIcon="@drawable/ic_dialog_theme"
         android:enabled="true"
         android:entries="@array/color_list"
         android:entryValues="@array/color_list_values"

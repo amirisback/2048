@@ -3,7 +3,7 @@ package com.frogobox.basegameboard2048.util.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.frogobox.basegameboard2048.source.local.db.PFASQLiteHelper;
+import com.frogobox.basegameboard2048.source.PFASQLiteHelper;
 
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.IS_FIRST_TIME_LAUNCH;
 import static com.frogobox.basegameboard2048.util.helper.ConstHelper.Pref.PREF_NAME;

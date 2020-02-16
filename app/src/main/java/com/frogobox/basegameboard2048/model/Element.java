@@ -86,7 +86,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
     private void setupBackgroundTiles() {
         if (settingColor.equals("1")) {
             // Reskin Background
-            setColor(justGetColorId(R.color.tiles_empty));
+            setColor(justGetColorId(R.color.tiles_originial_empty));
         } else if (settingColor.equals("2")) {
             setColor(justGetColorId(R.color.tiles_empty));
         } else {
