@@ -22,31 +22,31 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <activity android:name=".mvvm.stats.StatsActivity" />
+        <activity android:name=".mvvm.main.AboutUsActivity" />
+        <activity android:name=".mvvm.settings.SettingsActivity" />
+
         <activity
-            android:name="com.frogobox.board.mvvm.main.SplashActivity"
-            android:theme="@style/SplashTheme"
-            android:exported="true">
+            android:name=".mvvm.main.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppThemeNoToolbar" />
+        <activity
+            android:name=".mvvm.tutorial.TutorialActivity"
+            android:theme="@style/AppThemeNoToolbar" />
+        <activity
+            android:name=".mvvm.game.GameActivity"
+            android:theme="@style/AppThemeNoToolbar" />
+
+        <activity
+            android:name=".mvvm.main.SplashActivity"
+            android:exported="true"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name="com.frogobox.board.mvvm.main.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppThemeNoToolbar" />
-        <activity
-            android:name="com.frogobox.board.mvvm.tutorial.TutorialActivity"
-            android:theme="@style/AppThemeNoToolbar" />
-        <activity android:name="com.frogobox.board.mvvm.stats.StatsActivity" />
-        <activity android:name="com.frogobox.board.mvvm.main.AboutUsActivity" />
-        <activity android:name="com.frogobox.board.mvvm.settings.SettingsActivity" />
-        <activity
-            android:name="com.frogobox.board.mvvm.game.GameActivity"
-            android:theme="@style/AppThemeNoToolbar" />
-
 
         <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
