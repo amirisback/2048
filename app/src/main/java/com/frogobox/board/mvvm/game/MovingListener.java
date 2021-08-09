@@ -22,15 +22,13 @@ import com.frogobox.board.util.SingleConst;
 
 public class MovingListener extends AnimatorListenerAdapter {
     Element e = null;
-    long SCALINGSPEED = 100;
-    float scalingFactor = 1.5f;
+    long SCALINGSPEED = SingleConst.Games.INIT_SCALINGSPEED;
+    float scalingFactor = SingleConst.Games.INIT_SCALINGFACTOR;
     boolean scale = false;
 
     public MovingListener(Element e, boolean scale) {
         super();
         this.e = e;
-        this.SCALINGSPEED = SingleConst.Games.INIT_SCALINGSPEED;
-        this.scalingFactor = SingleConst.Games.INIT_SCALINGFACTOR;
         this.scale = scale;
     }
 
