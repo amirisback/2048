@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.frogobox.basegameboard2048">
+    package="com.frogobox.board">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -23,8 +23,9 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ui.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:name="com.frogobox.board.ui.SplashActivity"
+            android:theme="@style/SplashTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,17 +34,17 @@
         </activity>
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name="com.frogobox.board.ui.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppThemeNoToolbar" />
         <activity
-            android:name=".ui.TutorialActivity"
+            android:name="com.frogobox.board.ui.TutorialActivity"
             android:theme="@style/AppThemeNoToolbar" />
-        <activity android:name=".ui.StatsActivity" />
-        <activity android:name=".ui.AboutUsActivity" />
-        <activity android:name=".ui.SettingsActivity" />
+        <activity android:name="com.frogobox.board.ui.StatsActivity" />
+        <activity android:name="com.frogobox.board.ui.AboutUsActivity" />
+        <activity android:name="com.frogobox.board.ui.SettingsActivity" />
         <activity
-            android:name=".ui.GameActivity"
+            android:name="com.frogobox.board.ui.GameActivity"
             android:theme="@style/AppThemeNoToolbar" />
 
 

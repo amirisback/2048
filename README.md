@@ -1,13 +1,13 @@
 ![ScreenShoot Apps](https://raw.githubusercontent.com/amirisback/amirisback/master/docs/image/deprecated.png?raw=true)
 
-## Base 2048
+## 2048
 2048 Game Free For Reskin
 
 ## Screen Shoot
 
 | UI 1 | UI 2 | UI 3 |
 |:----:|:----:|:----:|
-|<span align="center"><img width="200px" height="360px" src="docs/image/ss_1.png"></span> | <span align="center"><img width="200px" height="360px" src="docs/image/ss_2.png"></span> | <span align="center"><img width="200px" height="360px" src="docs/image/ss_3.png"></span> |
+|<img width="200px" height="360px" src="docs/image/ss_1.png"> | <img width="200px" height="360px" src="docs/image/ss_2.png"> | <img width="200px" height="360px" src="docs/image/ss_3.png"> |
 
 ## Version Release
 This Is Latest Release
