@@ -1,5 +1,3 @@
-![ScreenShoot Apps](https://raw.githubusercontent.com/amirisback/amirisback/master/docs/image/deprecated.png?raw=true)
-
 ## 2048
 2048 Game Free For Reskin
 
