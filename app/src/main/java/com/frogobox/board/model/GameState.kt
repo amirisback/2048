@@ -1,4 +1,8 @@
-package com.frogobox.board.model;
+package com.frogobox.board.model
+
+import com.frogobox.board.widget.Element
+import java.io.Serializable
+import java.lang.StringBuilder
 
 /*
  * Created by Faisal Amir
@@ -17,113 +21,97 @@ package com.frogobox.board.model;
  * com.frogobox.basegameboard2048.model
  */
 
-import androidx.annotation.NonNull;
+class GameState : Serializable {
 
-import com.frogobox.board.widget.Element;
+    @JvmField
+    var n = 4
 
-import java.io.Serializable;
+    @JvmField
+    var points = 0
 
-public class GameState implements Serializable {
+    @JvmField
+    var last_points = 0
 
-    public int n = 4;
-    public int points = 0;
-    public int last_points = 0;
+    @JvmField
+    var numbers: IntArray
 
-    public int[] numbers;
-    public int[] last_numbers;
+    @JvmField
+    var undo = false
 
-    public boolean undo = false;
+    private lateinit var last_numbers: IntArray
 
-    public GameState(int size) {
-        numbers = new int[size * size];
+    constructor(size: Int) {
+        numbers = IntArray(size * size)
     }
 
-    public GameState(int[][] e) {
-        int length = 1;
-        for (int[] ints : e) {
-            if (ints.length > length)
-                length = ints.length;
+    constructor(e: Array<IntArray>) {
+        var length = 1
+        for (ints in e) {
+            if (ints.size > length) length = ints.size
         }
-        this.n = e.length;
-        numbers = new int[e.length * e.length];
-        int c = 0;
-        for (int[] ints : e) {
-            for (int anInt : ints) {
-                numbers[c++] = anInt;
+        n = e.size
+        numbers = IntArray(e.size * e.size)
+        var c = 0
+        for (ints in e) {
+            for (anInt in ints) {
+                numbers[c++] = anInt
             }
         }
-        last_numbers = numbers;
+        last_numbers = numbers
     }
 
-    public GameState(Element[][] e, Element[][] e2) {
-        int length = 1;
-
-        for (Element[] elements : e) {
-            if (elements.length > length)
-                length = elements.length;
+    constructor(e: Array<Array<Element>>, e2: Array<Array<Element>>) {
+        var length = 1
+        for (elements in e) {
+            if (elements.size > length) length = elements.size
         }
-
-        this.n = e.length;
-        numbers = new int[e.length * e.length];
-        int c = 0;
-
-        for (Element[] elements : e) {
-            for (Element element : elements) {
-                numbers[c++] = element.number;
+        n = e.size
+        numbers = IntArray(e.size * e.size)
+        var c = 0
+        for (elements in e) {
+            for (element in elements) {
+                numbers[c++] = element.number
             }
         }
-
-        length = 1;
-
-        for (Element[] elements : e2) {
-            if (elements.length > length)
-                length = elements.length;
+        length = 1
+        for (elements in e2) {
+            if (elements.size > length) length = elements.size
         }
-
-        last_numbers = new int[e2.length * e2.length];
-        c = 0;
-
-        for (Element[] elements : e2) {
-            for (Element element : elements) {
-
-                last_numbers[c++] = element.number;
+        last_numbers = IntArray(e2.size * e2.size)
+        c = 0
+        for (elements in e2) {
+            for (element in elements) {
+                last_numbers[c++] = element.number
             }
         }
     }
 
-    public int getNumber(int i, int j) {
+    fun getNumber(i: Int, j: Int): Int {
         try {
-            return numbers[i * n + j];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
+            return numbers[i * n + j]
+        } catch (e: ArrayIndexOutOfBoundsException) {
+            e.printStackTrace()
         }
-
-        return 0;
+        return 0
     }
 
-    public int getLastNumber(int i, int j) {
-
+    fun getLastNumber(i: Int, j: Int): Int {
         try {
-            return last_numbers[i * n + j];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
+            return last_numbers[i * n + j]
+        } catch (e: ArrayIndexOutOfBoundsException) {
+            e.printStackTrace()
         }
-
-        return 0;
+        return 0
     }
 
-
-    @NonNull
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder("numbers: ");
-        for (int i : numbers) {
-            result.append(i).append(" ");
+    override fun toString(): String {
+        val result = StringBuilder("numbers: ")
+        for (i in numbers) {
+            result.append(i).append(" ")
         }
-        result.append(", n: ").append(n);
-        result.append(", points: ").append(points);
-        result.append(", undo: ").append(undo);
-        return result.toString();
+        result.append(", n: ").append(n)
+        result.append(", points: ").append(points)
+        result.append(", undo: ").append(undo)
+        return result.toString()
     }
-
 }
