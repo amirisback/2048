@@ -25,7 +25,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
-        /**
+        /*
          * Create the table sample data on the first start
          * Be careful with the final line of the query and the SQL syntax that is used in the String.
          */
@@ -54,7 +54,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
      *
      * @param sampleData data that will be added
      */
-    public void addSampleData(PFASampleDataType sampleData) {
+    public void addSampleData(PFADataType sampleData) {
         SQLiteDatabase database = this.getWritableDatabase();
 
         //To adjust this class for your own data, please add your values here.
@@ -75,7 +75,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
      * @param sampleData data that will be added
      *                   Only use this for undo options and re-insertions
      */
-    public void addSampleDataWithID(PFASampleDataType sampleData) {
+    public void addSampleDataWithID(PFADataType sampleData) {
         SQLiteDatabase database = this.getWritableDatabase();
 
         //To adjust this class for your own data, please add your values here.
@@ -98,7 +98,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
      * @param id of the sampleData that is requested, could be get by the get-method
      * @return the sampleData that is requested.
      */
-    public PFASampleDataType getSampleData(int id) {
+    public PFADataType getSampleData(int id) {
         SQLiteDatabase database = this.getWritableDatabase();
 
         Log.d("DATABASE", Integer.toString(id));
@@ -107,7 +107,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
                         SingleConst.SQLiteDatabase.KEY_DOMAIN, SingleConst.SQLiteDatabase.KEY_USERNAME, SingleConst.SQLiteDatabase.KEY_LENGTH}, SingleConst.SQLiteDatabase.KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
-        PFASampleDataType sampleData = new PFASampleDataType();
+        PFADataType sampleData = new PFADataType();
 
         if (cursor != null && cursor.moveToFirst()) {
             sampleData.setID(Integer.parseInt(cursor.getString(0)));
@@ -130,21 +130,21 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
      *
      * @return A list of all available sampleData in the Database
      */
-    public List<PFASampleDataType> getAllSampleData() {
-        List<PFASampleDataType> sampleDataList = new ArrayList<PFASampleDataType>();
+    public List<PFADataType> getAllSampleData() {
+        List<PFADataType> sampleDataList = new ArrayList<PFADataType>();
 
         String selectQuery = "SELECT  * FROM " + SingleConst.SQLiteDatabase.TABLE_SAMPLEDATA;
 
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
 
-        PFASampleDataType sampleData = null;
+        PFADataType sampleData = null;
 
         if (cursor.moveToFirst()) {
             do {
                 //To adjust this class for your own data, please add your values here.
                 //be careful to use the right get-method to get the data from the cursor
-                sampleData = new PFASampleDataType();
+                sampleData = new PFADataType();
                 sampleData.setID(Integer.parseInt(cursor.getString(0)));
                 sampleData.setDOMAIN(cursor.getString(1));
                 sampleData.setUSERNAME(cursor.getString(2));
@@ -163,7 +163,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
      * @param sampleData
      * @return actually makes the update
      */
-    public int updateSampleData(PFASampleDataType sampleData) {
+    public int updateSampleData(PFADataType sampleData) {
         SQLiteDatabase database = this.getWritableDatabase();
 
         //To adjust this class for your own data, please add your values here.
@@ -182,7 +182,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
      *
      * @param sampleData that will be deleted
      */
-    public void deleteSampleData(PFASampleDataType sampleData) {
+    public void deleteSampleData(PFADataType sampleData) {
         SQLiteDatabase database = this.getWritableDatabase();
         database.delete(SingleConst.SQLiteDatabase.TABLE_SAMPLEDATA, SingleConst.SQLiteDatabase.KEY_ID + " = ?",
                 new String[]{Integer.toString(sampleData.getID())});
