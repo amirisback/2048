@@ -67,7 +67,7 @@ class Element(context: Context) : AppCompatButton(context) {
         textSize = textSized
         settingColor = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_COLOR, "1")
         setBackgroundResource(R.drawable.background_game_brick)
-        setupBackgroundTiles() // SetupBackgroundTiles
+        setupBackgroundTiles()
     }
 
     fun drawItem() {
@@ -77,10 +77,10 @@ class Element(context: Context) : AppCompatButton(context) {
             visibility = INVISIBLE
             text = ""
         } else {
-            text = "" + number
+            text = number.toString()
             if (visibility != VISIBLE) visibility = VISIBLE
         }
-        setupGamesTiles() // SetupGamesTiles
+        setupGamesTiles()
     }
 
     private fun justGetColorId(colorRes: Int): Int {
@@ -88,12 +88,16 @@ class Element(context: Context) : AppCompatButton(context) {
     }
 
     private fun setupBackgroundTiles() {
-        if (settingColor == "1") {
-            setColor(justGetColorId(R.color.tiles_originial_empty))
-        } else if (settingColor == "2") {
-            setColor(justGetColorId(R.color.tiles_empty))
-        } else {
-            setColor(justGetColorId(R.color.tiles_originial_empty))
+        when (settingColor) {
+            "1" -> {
+                setColor(justGetColorId(R.color.tiles_originial_empty))
+            }
+            "2" -> {
+                setColor(justGetColorId(R.color.tiles_empty))
+            }
+            else -> {
+                setColor(justGetColorId(R.color.tiles_originial_empty))
+            }
         }
     }
 
@@ -114,6 +118,7 @@ class Element(context: Context) : AppCompatButton(context) {
         var isUsingImage = false
         var isUsingUrl = false
         var tilesImage: TypedArray? = null
+
         when (settingColor) {
             "1" -> {
                 // Reskin Image
@@ -133,6 +138,30 @@ class Element(context: Context) : AppCompatButton(context) {
             }
         }
         setupTiles(number, isUsingImage, isUsingUrl, textColor, tilesColor, tilesImage, linkImage)
+    }
+
+    private fun setTiles(
+        number: Int,
+        usingImage: Boolean,
+        usingUrl: Boolean,
+        listTextColor: IntArray,
+        listTilesBackground: IntArray?,
+        listBackgroundImage: TypedArray?,
+        linkImage: Array<String>?
+    ) {
+        setTextColor(listTextColor[number])
+        if (usingImage) {
+            if (usingUrl) {
+                setBackgroundFromUrl(
+                    linkImage!![number],
+                    listBackgroundImage!!.getResourceId(number, 0)
+                )
+            } else {
+                setBackgroundImage(listBackgroundImage!!.getResourceId(number, 0))
+            }
+        } else {
+            setColor(listTilesBackground!![number])
+        }
     }
 
     @SuppressLint("ResourceType")
@@ -155,233 +184,173 @@ class Element(context: Context) : AppCompatButton(context) {
                 }
             }
             2 -> {
-                setTextColor(listTextColor[1])
-                if (usingImage) {
-                    if (usingUrl) {
-                        setBackgroundFromUrl(
-                            linkImage!![1],
-                            listBackgroundImage!!.getResourceId(1, 0)
-                        )
-                    } else {
-                        setBackgroundImage(listBackgroundImage!!.getResourceId(1, 0))
-                    }
-                } else {
-                    setColor(listTilesBackground!![1])
-                }
+                setTiles(
+                    1,
+                    usingImage,
+                    usingUrl,
+                    listTextColor,
+                    listTilesBackground,
+                    listBackgroundImage,
+                    linkImage
+                )
             }
             4 -> {
-                setTextColor(listTextColor[2])
-                if (usingImage) {
-                    if (usingUrl) {
-                        setBackgroundFromUrl(
-                            linkImage!![2],
-                            listBackgroundImage!!.getResourceId(2, 0)
-                        )
-                    } else {
-                        setBackgroundImage(listBackgroundImage!!.getResourceId(2, 0))
-                    }
-                } else {
-                    setColor(listTilesBackground!![2])
-                }
+                setTiles(
+                    2,
+                    usingImage,
+                    usingUrl,
+                    listTextColor,
+                    listTilesBackground,
+                    listBackgroundImage,
+                    linkImage
+                )
             }
             8 -> {
-                setTextColor(listTextColor[3])
-                if (usingImage) {
-                    if (usingUrl) {
-                        setBackgroundFromUrl(
-                            linkImage!![3],
-                            listBackgroundImage!!.getResourceId(3, 0)
-                        )
-                    } else {
-                        setBackgroundImage(listBackgroundImage!!.getResourceId(3, 0))
-                    }
-                } else {
-                    setColor(listTilesBackground!![3])
-                }
+                setTiles(
+                    3,
+                    usingImage,
+                    usingUrl,
+                    listTextColor,
+                    listTilesBackground,
+                    listBackgroundImage,
+                    linkImage
+                )
             }
             16 -> {
-                setTextColor(listTextColor[4])
-                if (usingImage) {
-                    if (usingUrl) {
-                        setBackgroundFromUrl(
-                            linkImage!![4],
-                            listBackgroundImage!!.getResourceId(4, 0)
-                        )
-                    } else {
-                        setBackgroundImage(listBackgroundImage!!.getResourceId(4, 0))
-                    }
-                } else {
-                    setColor(listTilesBackground!![4])
-                }
+                setTiles(
+                    4,
+                    usingImage,
+                    usingUrl,
+                    listTextColor,
+                    listTilesBackground,
+                    listBackgroundImage,
+                    linkImage
+                )
             }
             32 -> {
-                setTextColor(listTextColor[5])
-                if (usingImage) {
-                    if (usingUrl) {
-                        setBackgroundFromUrl(
-                            linkImage!![5],
-                            listBackgroundImage!!.getResourceId(5, 0)
-                        )
-                    } else {
-                        setBackgroundImage(listBackgroundImage!!.getResourceId(5, 0))
-                    }
-                } else {
-                    setColor(listTilesBackground!![5])
-                }
+                setTiles(
+                    5,
+                    usingImage,
+                    usingUrl,
+                    listTextColor,
+                    listTilesBackground,
+                    listBackgroundImage,
+                    linkImage
+                )
             }
             64 -> {
-                setTextColor(listTextColor[6])
-                if (usingImage) {
-                    if (usingUrl) {
-                        setBackgroundFromUrl(
-                            linkImage!![6],
-                            listBackgroundImage!!.getResourceId(6, 0)
-                        )
-                    } else {
-                        setBackgroundImage(listBackgroundImage!!.getResourceId(6, 0))
-                    }
-                } else {
-                    setColor(listTilesBackground!![6])
-                }
+                setTiles(
+                    6,
+                    usingImage,
+                    usingUrl,
+                    listTextColor,
+                    listTilesBackground,
+                    listBackgroundImage,
+                    linkImage
+                )
             }
             128 -> {
-                setTextColor(listTextColor[7])
-                if (usingImage) {
-                    if (usingUrl) {
-                        setBackgroundFromUrl(
-                            linkImage!![7],
-                            listBackgroundImage!!.getResourceId(7, 0)
-                        )
-                    } else {
-                        setBackgroundImage(listBackgroundImage!!.getResourceId(7, 0))
-                    }
-                } else {
-                    setColor(listTilesBackground!![7])
-                }
+                setTiles(
+                    7,
+                    usingImage,
+                    usingUrl,
+                    listTextColor,
+                    listTilesBackground,
+                    listBackgroundImage,
+                    linkImage
+                )
             }
             256 -> {
-                setTextColor(listTextColor[8])
-                if (usingImage) {
-                    if (usingUrl) {
-                        setBackgroundFromUrl(
-                            linkImage!![8],
-                            listBackgroundImage!!.getResourceId(8, 0)
-                        )
-                    } else {
-                        setBackgroundImage(listBackgroundImage!!.getResourceId(8, 0))
-                    }
-                } else {
-                    setColor(listTilesBackground!![8])
-                }
+                setTiles(
+                    8,
+                    usingImage,
+                    usingUrl,
+                    listTextColor,
+                    listTilesBackground,
+                    listBackgroundImage,
+                    linkImage
+                )
             }
             512 -> {
-                setTextColor(listTextColor[9])
-                if (usingImage) {
-                    if (usingUrl) {
-                        setBackgroundFromUrl(
-                            linkImage!![9],
-                            listBackgroundImage!!.getResourceId(9, 0)
-                        )
-                    } else {
-                        setBackgroundImage(listBackgroundImage!!.getResourceId(9, 0))
-                    }
-                } else {
-                    setColor(listTilesBackground!![9])
-                }
+                setTiles(
+                    9,
+                    usingImage,
+                    usingUrl,
+                    listTextColor,
+                    listTilesBackground,
+                    listBackgroundImage,
+                    linkImage
+                )
             }
             1024 -> {
-                setTextColor(listTextColor[10])
-                if (usingImage) {
-                    if (usingUrl) {
-                        setBackgroundFromUrl(
-                            linkImage!![10],
-                            listBackgroundImage!!.getResourceId(10, 0)
-                        )
-                    } else {
-                        setBackgroundImage(listBackgroundImage!!.getResourceId(10, 0))
-                    }
-                } else {
-                    setColor(listTilesBackground!![10])
-                }
+                setTiles(
+                    10,
+                    usingImage,
+                    usingUrl,
+                    listTextColor,
+                    listTilesBackground,
+                    listBackgroundImage,
+                    linkImage
+                )
             }
             2048 -> {
-                setTextColor(listTextColor[11])
-                if (usingImage) {
-                    if (usingUrl) {
-                        setBackgroundFromUrl(
-                            linkImage!![11],
-                            listBackgroundImage!!.getResourceId(11, 0)
-                        )
-                    } else {
-                        setBackgroundImage(listBackgroundImage!!.getResourceId(11, 0))
-                    }
-                } else {
-                    setColor(listTilesBackground!![11])
-                }
+                setTiles(
+                    11,
+                    usingImage,
+                    usingUrl,
+                    listTextColor,
+                    listTilesBackground,
+                    listBackgroundImage,
+                    linkImage
+                )
             }
             4096 -> {
-                setTextColor(listTextColor[12])
-                if (usingImage) {
-                    if (usingUrl) {
-                        setBackgroundFromUrl(
-                            linkImage!![12],
-                            listBackgroundImage!!.getResourceId(12, 0)
-                        )
-                    } else {
-                        setBackgroundImage(listBackgroundImage!!.getResourceId(12, 0))
-                    }
-                } else {
-                    setColor(listTilesBackground!![12])
-                }
+                setTiles(
+                    12,
+                    usingImage,
+                    usingUrl,
+                    listTextColor,
+                    listTilesBackground,
+                    listBackgroundImage,
+                    linkImage
+                )
             }
             8192 -> {
-                setTextColor(listTextColor[13])
-                if (usingImage) {
-                    if (usingUrl) {
-                        setBackgroundFromUrl(
-                            linkImage!![13],
-                            listBackgroundImage!!.getResourceId(13, 0)
-                        )
-                    } else {
-                        setBackgroundImage(listBackgroundImage!!.getResourceId(13, 0))
-                    }
-                } else {
-                    setColor(listTilesBackground!![13])
-                }
+                setTiles(
+                    13,
+                    usingImage,
+                    usingUrl,
+                    listTextColor,
+                    listTilesBackground,
+                    listBackgroundImage,
+                    linkImage
+                )
             }
             16384 -> {
-                setTextColor(listTextColor[14])
+                setTiles(
+                    14,
+                    usingImage,
+                    usingUrl,
+                    listTextColor,
+                    listTilesBackground,
+                    listBackgroundImage,
+                    linkImage
+                )
                 textSized *= 0.8f
                 textSize = textSized
-                if (usingImage) {
-                    if (usingUrl) {
-                        setBackgroundFromUrl(
-                            linkImage!![14],
-                            listBackgroundImage!!.getResourceId(14, 0)
-                        )
-                    } else {
-                        setBackgroundImage(listBackgroundImage!!.getResourceId(14, 0))
-                    }
-                } else {
-                    setColor(listTilesBackground!![14])
-                }
             }
             32768 -> {
-                setTextColor(listTextColor[15])
+                setTiles(
+                    15,
+                    usingImage,
+                    usingUrl,
+                    listTextColor,
+                    listTilesBackground,
+                    listBackgroundImage,
+                    linkImage
+                )
                 textSized *= 0.8f
                 textSize = textSized
-                if (usingImage) {
-                    if (usingUrl) {
-                        setBackgroundFromUrl(
-                            linkImage!![15],
-                            listBackgroundImage!!.getResourceId(15, 0)
-                        )
-                    } else {
-                        setBackgroundImage(listBackgroundImage!!.getResourceId(15, 0))
-                    }
-                } else {
-                    setColor(listTilesBackground!![15])
-                }
             }
         }
     }
@@ -408,13 +377,16 @@ class Element(context: Context) : AppCompatButton(context) {
 
     private fun setColor(c: Int) {
         color = c
-        val background = background
-        if (background is ShapeDrawable) {
-            background.paint.color = c
-        } else if (background is GradientDrawable) {
-            background.setColor(c)
-        } else if (background is ColorDrawable) {
-            background.color = c
+        when (val mBackground = background) {
+            is ShapeDrawable -> {
+                mBackground.paint.color = c
+            }
+            is GradientDrawable -> {
+                mBackground.setColor(c)
+            }
+            is ColorDrawable -> {
+                mBackground.color = c
+            }
         }
     }
 
