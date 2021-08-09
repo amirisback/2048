@@ -1,95 +1,79 @@
-package com.frogobox.board.mvvm.stats;
+package com.frogobox.board.mvvm.stats
 
-import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
+import com.frogobox.board.core.BaseActivity
+import com.frogobox.board.R
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import com.frogobox.board.util.SingleConst
+import kotlinx.android.synthetic.main.activity_stats.*
+import java.io.File
+import java.lang.Exception
 
-import androidx.viewpager.widget.ViewPager;
+class StatsActivity : BaseActivity() {
 
-import com.frogobox.board.R;
-import com.frogobox.board.core.BaseActivity;
-import com.frogobox.board.util.SingleConst;
-import com.google.android.material.tabs.TabLayout;
+    private var TABNAMES = arrayOf("4 x 4", "5 x 5", "6 x 6", "7 x 7")
 
-import java.io.File;
+    private val layouts = intArrayOf(
+        R.layout.fragment_stats,
+        R.layout.fragment_stats,
+        R.layout.fragment_stats,
+        R.layout.fragment_stats
+    )
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_stats)
 
-public class StatsActivity extends BaseActivity {
+        setupDetailActivity("")
+        setupViewPager()
 
-    String[] TABNAMES = {"4 x 4", "5 x 5", "6 x 6", "7 x 7"};
-    private int[] layouts = new int[]{
-            R.layout.fragment_stats,
-            R.layout.fragment_stats,
-            R.layout.fragment_stats,
-            R.layout.fragment_stats
-    };
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stats);
-
-        setupDetailActivity("");
-        getSupportActionBar().setElevation(0f);
-
-        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        StatsPager mSectionsPagerAdapter = new StatsPager(layoutInflater, layouts, TABNAMES, this);
-
-        // Set up the ViewPager with the sections adapter.
-        ViewPager mViewPager = findViewById(R.id.viewpager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        TabLayout tabLayout = findViewById(R.id.tablayout);
-        tabLayout.setupWithViewPager(mViewPager);
-        //tabLayout.setTabTextColors(Color.WHITE,Color.YELLOW);
-        setupShowAdsBanner(findViewById(R.id.ads_banner));
-
+        setupShowAdsBanner(findViewById(R.id.ads_banner))
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_toolbar_stats, menu);
-        //getMenuInflater().inflate(R.menu.menu_stats, menu);
-        return true;
-        //return false;
+    override fun setupDetailActivity(title: String) {
+        super.setupDetailActivity(title)
+        supportActionBar!!.elevation = 0f
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        //noinspection SimplifiableIfStatement
-        switch (item.getItemId()) {
-            case R.id.action_reset:
-                //    SaveLoadStatistics.resetStats(this);
-                //    mSectionsPagerAdapter.refresh(this);
-
-                resetGameStatistics();
-                return true;
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_toolbar_stats, menu)
+        return true
     }
 
-    public void resetGameStatistics() {
-        for (int n = 4; n <= 7; n++) {
-            try {
-                File file = new File(getFilesDir(), SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT);
-                file.delete();
-            } catch (Exception e) {
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_reset -> {
+                resetGameStatistics()
+                return true
+            }
+            android.R.id.home -> {
+                finish()
+                return true
             }
         }
-        finish();
-        startActivity(getIntent());
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun setupViewPager() {
+        val layoutInflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val mSectionsPagerAdapter = StatsPager(layoutInflater, layouts, TABNAMES, this)
+        viewpager.adapter = mSectionsPagerAdapter
+        tablayout.setupWithViewPager(viewpager)
+    }
+
+    private fun resetGameStatistics() {
+        for (n in 4..7) {
+            try {
+                val file =
+                    File(filesDir, SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT)
+                file.delete()
+            } catch (e: Exception) {
+            }
+        }
+        finish()
+        startActivity(intent)
     }
 
 }

@@ -60,7 +60,7 @@ open class BaseActivity : FrogoAdmobActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    protected fun setupDetailActivity(title: String) {
+    protected open fun setupDetailActivity(title: String) {
         setTitle(title)
         val upArrow = ContextCompat.getDrawable(this, R.drawable.ic_toolbar_back_home)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -92,6 +92,5 @@ open class BaseActivity : FrogoAdmobActivity() {
     protected fun setupToolbar() {
         setSupportActionBar(toolbar_main)
     }
-
 
 }

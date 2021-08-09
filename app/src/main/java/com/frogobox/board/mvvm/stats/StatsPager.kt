@@ -1,26 +1,25 @@
-package com.frogobox.board.mvvm.stats;
+package com.frogobox.board.mvvm.stats
 
-import android.content.ContextWrapper;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.viewpager.widget.PagerAdapter;
-
-import com.bumptech.glide.Glide;
-import com.frogobox.board.R;
-import com.frogobox.board.model.GameStatistics;
-import com.frogobox.board.util.SingleConst;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InvalidClassException;
-import java.io.ObjectInputStream;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.concurrent.TimeUnit;
+import android.view.LayoutInflater
+import android.content.ContextWrapper
+import android.view.View
+import androidx.viewpager.widget.PagerAdapter
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import com.frogobox.board.R
+import com.bumptech.glide.Glide
+import com.frogobox.board.model.GameStatistics
+import com.frogobox.board.util.SingleConst
+import java.io.File
+import java.io.FileInputStream
+import java.io.InvalidClassException
+import java.io.ObjectInputStream
+import java.lang.Exception
+import java.lang.StringBuilder
+import java.math.RoundingMode
+import java.text.DecimalFormat
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by Faisal Amir
@@ -38,129 +37,119 @@ import java.util.concurrent.TimeUnit;
  * FrogoBox Software Industries
  * com.frogobox.basegameboard2048.view.pager
  */
-public class StatsPager extends PagerAdapter {
-    private LayoutInflater layoutInflater;
-    private int[] layouts;
-    private String[] tabNames;
-    private ContextWrapper contextWrapper;
 
-    public StatsPager(LayoutInflater layoutInflater, int[] layouts, String[] tabNames, ContextWrapper contextWrapper) {
-        this.layoutInflater = layoutInflater;
-        this.layouts = layouts;
-        this.tabNames = tabNames;
-        this.contextWrapper = contextWrapper;
-    }
+class StatsPager(
+    private val layoutInflater: LayoutInflater,
+    private val layouts: IntArray,
+    private val tabNames: Array<String>,
+    private val contextWrapper: ContextWrapper
+) : PagerAdapter() {
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return tabNames[position];
-    }
-
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        View view = layoutInflater.inflate(layouts[position], container, false);
-        container.addView(view);
-        TextView highestNumber = view.findViewById(R.id.highest_number4);
-        TextView timePlayed = view.findViewById(R.id.time_played4);
-        TextView undo = view.findViewById(R.id.undo_number4);
-        TextView moves = view.findViewById(R.id.moves_All4);
-        TextView tpm = view.findViewById(R.id.time_swipes4);
-        TextView rekord = view.findViewById(R.id.highest_score4);
-        ImageView img = view.findViewById(R.id.stat_img4);
-        switch (position) {
-            case 0:
-                Glide.with(container.getContext()).load(R.drawable.layout4x4_o).into(img);
-                break;
-            case 1:
-                Glide.with(container.getContext()).load(R.drawable.layout5x5_o).into(img);
-                break;
-            case 2:
-                Glide.with(container.getContext()).load(R.drawable.layout6x6_o).into(img);
-                break;
-            case 3:
-                Glide.with(container.getContext()).load(R.drawable.layout7x7_o).into(img);
-                break;
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
+        val view = layoutInflater.inflate(layouts[position], container, false)
+        container.addView(view)
+        val highestNumber = view.findViewById<TextView>(R.id.highest_number4)
+        val timePlayed = view.findViewById<TextView>(R.id.time_played4)
+        val undo = view.findViewById<TextView>(R.id.undo_number4)
+        val moves = view.findViewById<TextView>(R.id.moves_All4)
+        val tpm = view.findViewById<TextView>(R.id.time_swipes4)
+        val record = view.findViewById<TextView>(R.id.highest_score4)
+        val img = view.findViewById<ImageView>(R.id.stat_img4)
+        when (position) {
+            0 -> Glide.with(container.context).load(R.drawable.layout4x4_o).into(img)
+            1 -> Glide.with(container.context).load(R.drawable.layout5x5_o).into(img)
+            2 -> Glide.with(container.context).load(R.drawable.layout6x6_o).into(img)
+            3 -> Glide.with(container.context).load(R.drawable.layout7x7_o).into(img)
         }
-        GameStatistics gameStatistics = readStatisticsFromFile(position + 4);
-        highestNumber.setText("" + gameStatistics.getHighestNumber());
-        timePlayed.setText(formatMillis(gameStatistics.getTimePlayed()));
-        undo.setText("" + gameStatistics.getUndo());
-        moves.setText("" + gameStatistics.getMoves());
-        if (gameStatistics.getMoves() != 0)
-            tpm.setText("" + formatSmallMillis(gameStatistics.getTimePlayed() / gameStatistics.getMoves()));
-        else
-            tpm.setText("0");
-        rekord.setText("" + gameStatistics.getRecord());
-
-        return view;
+        val gameStatistics = readStatisticsFromFile(position + 4)
+        highestNumber.text = "" + gameStatistics.highestNumber
+        timePlayed.text = formatMillis(gameStatistics.timePlayed)
+        undo.text = "" + gameStatistics.undo
+        moves.text = "" + gameStatistics.moves
+        if (gameStatistics.moves != 0L) tpm.text =
+            "" + formatSmallMillis(gameStatistics.timePlayed / gameStatistics.moves) else tpm.text =
+            "0"
+        record.text = "" + gameStatistics.record
+        return view
     }
 
-    private String formatSmallMillis(long timeInMillis) {
-        String sign = "";
-        if (timeInMillis < 0) {
-            sign = "-";
-            timeInMillis = Math.abs(timeInMillis);
-        }
-        Double seconds = new Double(((double) timeInMillis) / (double) TimeUnit.SECONDS.toMillis(1));
-        StringBuilder sb = new StringBuilder(",##0.00");
-        DecimalFormat df = new DecimalFormat(sb.toString());
-        df.setRoundingMode(RoundingMode.HALF_UP);
-        final StringBuilder formatted = new StringBuilder(20);
-        formatted.append(sign);
-        formatted.append(df.format(seconds));
-        formatted.append(" s");
-        return formatted.toString();
+    override fun getPageTitle(position: Int): CharSequence {
+        return tabNames[position]
     }
 
-    private String formatMillis(long timeInMillis) {
-        String sign = "";
-        if (timeInMillis < 0) {
-            sign = "-";
-            timeInMillis = Math.abs(timeInMillis);
-        }
-        Double seconds = new Double(((double) timeInMillis) / (double) TimeUnit.HOURS.toMillis(1));
-        StringBuilder sb = new StringBuilder(",##0.00");
-        DecimalFormat df = new DecimalFormat(sb.toString());
-        df.setRoundingMode(RoundingMode.HALF_UP);
-        final StringBuilder formatted = new StringBuilder(20);
-        formatted.append(sign);
-        formatted.append(df.format(seconds));
-        formatted.append(" h");
-        return formatted.toString();
+    override fun getCount(): Int {
+        return layouts.size
     }
 
-    @Override
-    public int getCount() {
-        return layouts.length;
+    override fun isViewFromObject(view: View, obj: Any): Boolean {
+        return view === obj
     }
 
-    @Override
-    public boolean isViewFromObject(View view, Object obj) {
-        return view == obj;
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+        val view = `object` as View
+        container.removeView(view)
     }
 
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        View view = (View) object;
-        container.removeView(view);
-    }
-
-    private GameStatistics readStatisticsFromFile(int n) {
-        GameStatistics gS = new GameStatistics(n);
+    private fun readStatisticsFromFile(n: Int): GameStatistics {
+        var gS = GameStatistics(n)
         try {
-            File file = new File(contextWrapper.getFilesDir(), SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT);
-            FileInputStream fileIn = new FileInputStream(file);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            gS = (GameStatistics) in.readObject();
-            in.close();
-            fileIn.close();
-        } catch (InvalidClassException ice) {
-            File file = new File(contextWrapper.getFilesDir(), SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT);
-            file.delete();
-        } catch (Exception e) {
-            e.printStackTrace();
+            val file = File(
+                contextWrapper.filesDir,
+                SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT
+            )
+            val fileIn = FileInputStream(file)
+            val `in` = ObjectInputStream(fileIn)
+            gS = `in`.readObject() as GameStatistics
+            `in`.close()
+            fileIn.close()
+        } catch (ice: InvalidClassException) {
+            val file = File(
+                contextWrapper.filesDir,
+                SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT
+            )
+            file.delete()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        return gS;
+        return gS
     }
+
+    private fun formatSmallMillis(timeInMilli: Long): String {
+        var timeInMillis = timeInMilli
+        var sign = ""
+        if (timeInMillis < 0) {
+            sign = "-"
+            timeInMillis = Math.abs(timeInMillis)
+        }
+        val seconds = timeInMillis.toDouble() / TimeUnit.SECONDS.toMillis(1)
+            .toDouble()
+        val sb = StringBuilder(",##0.00")
+        val df = DecimalFormat(sb.toString())
+        df.roundingMode = RoundingMode.HALF_UP
+        val formatted = StringBuilder(20)
+        formatted.append(sign)
+        formatted.append(df.format(seconds))
+        formatted.append(" s")
+        return formatted.toString()
+    }
+
+    private fun formatMillis(timeInMilli: Long): String {
+        var timeInMillis = timeInMilli
+        var sign = ""
+        if (timeInMillis < 0) {
+            sign = "-"
+            timeInMillis = Math.abs(timeInMillis)
+        }
+        val seconds = timeInMillis.toDouble() / TimeUnit.HOURS.toMillis(1)
+            .toDouble()
+        val sb = StringBuilder(",##0.00")
+        val df = DecimalFormat(sb.toString())
+        df.roundingMode = RoundingMode.HALF_UP
+        val formatted = StringBuilder(20)
+        formatted.append(sign)
+        formatted.append(df.format(seconds))
+        formatted.append(" h")
+        return formatted.toString()
+    }
+
 }
