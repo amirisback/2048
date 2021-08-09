@@ -1,4 +1,4 @@
-package com.frogobox.board.model;
+package com.frogobox.board.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -418,7 +418,6 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
         temp.textSize = textSize;
         temp.color = color;
         temp.setTextSize(textSize);
-        //temp.setBackgroundResource(backGroundResource);
         temp.setColor(color);
         temp.setVisibility(getVisibility());
         temp.setLayoutParams(getLayoutParams());

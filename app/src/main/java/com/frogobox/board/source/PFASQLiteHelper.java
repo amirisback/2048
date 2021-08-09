@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.frogobox.board.BuildConfig;
+import com.frogobox.board.model.PFADataType;
 import com.frogobox.board.util.SingleConst;
 
 import java.util.ArrayList;

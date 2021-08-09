@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.frogobox.board.R;
 import com.frogobox.board.core.BaseActivity;
-import com.frogobox.board.model.Element;
+import com.frogobox.board.widget.Element;
 import com.frogobox.board.model.GameState;
 import com.frogobox.board.model.GameStatistics;
 import com.frogobox.board.util.SingleConst;
@@ -37,10 +37,14 @@ import java.util.Calendar;
 
 @SuppressWarnings("StringConcatenationInLoop")
 public class GameActivity extends BaseActivity {
+
     public static int n = 4;
     public static int points = 0;
     public static int last_points = 0;
+
     public static long record = 0;
+    public static long startingTime;
+
     public static boolean moved = false;
     public static boolean firstTime = true;
     public static boolean newGame;
@@ -49,26 +53,28 @@ public class GameActivity extends BaseActivity {
     public static boolean undo = false;
     public static boolean animationActivated = true;
     public static boolean saveState = true;
-    public static long startingTime;
-    static Element[][] elements = null;
-    static Element[][] last_elements = null;
-    static Element[][] backgroundElements;
-    static GameState gameState = null;
-    static String filename;
+
+    public int numberFieldSize = 0;
+    public int highestNumber;
+
+    public boolean won2048 = false;
 
     public TextView textFieldPoints;
     public TextView textFieldRecord;
-    public int numberFieldSize = 0;
-    public boolean won2048 = false;
-    public int highestNumber;
-    RelativeLayout number_field;
-    RelativeLayout number_field_background;
-    RelativeLayout touch_field;
-    ImageView restartButton;
-    ImageView undoButton;
-    View.OnTouchListener swipeListener;
-    SharedPreferences sharedPref;
-    GameStatistics gameStatistics = new GameStatistics(n);
+
+    private static Element[][] elements = null;
+    private static Element[][] last_elements = null;
+    private static Element[][] backgroundElements;
+    private static GameState gameState = null;
+    private static String filename;
+
+    private RelativeLayout number_field;
+    private RelativeLayout number_field_background;
+    private RelativeLayout touch_field;
+    private ImageView restartButton;
+    private ImageView undoButton;
+    private View.OnTouchListener swipeListener;
+    private GameStatistics gameStatistics = new GameStatistics(n);
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -101,7 +107,7 @@ public class GameActivity extends BaseActivity {
             }
         }
 
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         animationActivated = sharedPref.getBoolean(SingleConst.Pref.PREF_ANIMATION_ACTIVATED, true);
 
         if (sharedPref.getBoolean(SingleConst.Pref.PREF_SETTINGS_DISPLAY, true))
@@ -112,6 +118,55 @@ public class GameActivity extends BaseActivity {
 
         setupShowAdsBanner(findViewById(R.id.ads_banner));
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        createNewGame = false;
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onBackPressed() {
+        save();
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar_game, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+
+        if (id == R.id.action_settings) {
+            return true;
+        } else if (id == android.R.id.home) {
+            save();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        start();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        save();
     }
 
     public void initResources() {
@@ -162,13 +217,6 @@ public class GameActivity extends BaseActivity {
         startingTime = Calendar.getInstance().getTimeInMillis();
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        // TODO Auto-generated method stub
-        createNewGame = false;
-        super.onConfigurationChanged(newConfig);
-    }
-
     public void save() {
         Log.i("saving", "save");
         if (!createNewGame)
@@ -177,12 +225,6 @@ public class GameActivity extends BaseActivity {
         startingTime = Calendar.getInstance().getTimeInMillis();
         saveStatisticsToFile(gameStatistics);
         firstTime = true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        save();
-        super.onBackPressed();
     }
 
     public void createNewGame() {
@@ -710,10 +752,10 @@ public class GameActivity extends BaseActivity {
     }
 
     public void updateHighestNumber() {
-        for (int i = 0; i < elements.length; i++) {
-            for (int j = 0; j < elements[i].length; j++) {
-                if (highestNumber < elements[i][j].number) {
-                    highestNumber = elements[i][j].number;
+        for (Element[] element : elements) {
+            for (Element value : element) {
+                if (highestNumber < value.number) {
+                    highestNumber = value.number;
                     gameStatistics.setHighestNumber(highestNumber);
                 }
             }
@@ -745,7 +787,6 @@ public class GameActivity extends BaseActivity {
                 }
             }
     }
-
 
     public void setDPositions(boolean animation) {
         long SCALINGSPEED = SingleConst.Games.INIT_SCALINGSPEED;
@@ -877,48 +918,6 @@ public class GameActivity extends BaseActivity {
                 .setCancelable(false)
                 .create().show();
         Log.i("record", "danach");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_toolbar_game, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == android.R.id.home) {
-            save();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        // TODO Auto-generated method stub
-        super.onWindowFocusChanged(hasFocus);
-        start();
-
-
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-
-        save();
-
     }
 
     public void saveStateToFile(GameState nS) {

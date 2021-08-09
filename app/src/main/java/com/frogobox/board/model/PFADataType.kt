@@ -1,4 +1,4 @@
-package com.frogobox.board.source
+package com.frogobox.board.model
 
 class PFADataType {
 

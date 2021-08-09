@@ -19,6 +19,8 @@ package com.frogobox.board.model;
 
 import androidx.annotation.NonNull;
 
+import com.frogobox.board.widget.Element;
+
 import java.io.Serializable;
 
 public class GameState implements Serializable {
