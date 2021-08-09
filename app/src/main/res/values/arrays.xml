@@ -92,7 +92,7 @@
     <string-array name="background_image_url">
         <item>NoLink</item> <!-- Dummy Data - Same With ArrayIndex 1-->
         <item>https://i.pinimg.com/736x/7a/5b/64/7a5b6423e55ec25c6e919953827db416.jpg</item>
-        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSuuitPDCQ9uhz5qIaP7ZuMTpivAxQBPL-GA5C-bd1vN-0o2UWF</item>
+        <item>https://avatars.githubusercontent.com/u/24654871?v=4</item>
         <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR5bz4BT2e222KcSNRJOKQbIQwIla5o-iKgbH3wpUuznuZkJGlL</item>
         <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSy_gKR_qCfFu2MVFZAMyCB0CQIVJ6SpH7WsfbM8ZXsyk9Dtgzn</item>
         <item>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQKgKArGYkrDowqKxT7pOevYbo0-8BCArXqBYnQTV5VCgRfyIOB</item>

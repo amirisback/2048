@@ -1,28 +1,21 @@
-package com.frogobox.board.widget;
+package com.frogobox.board.widget
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.os.Build;
-import android.preference.PreferenceManager;
-import android.view.View;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.frogobox.board.R;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-
-import static com.frogobox.board.util.SingleConst.Pref.PREF_COLOR;
-
-import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton
+import com.frogobox.board.R
+import android.content.res.TypedArray
+import android.annotation.SuppressLint
+import android.content.Context
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import android.os.Build
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import android.preference.PreferenceManager
+import com.bumptech.glide.request.transition.Transition
+import com.frogobox.board.util.SingleConst.Pref.PREF_COLOR
+import java.util.*
 
 /**
  * Created by Faisal Amir
@@ -40,387 +33,442 @@ import androidx.annotation.NonNull;
  * FrogoBox Software Industries
  * com.frogobox.basegameboard2048.model
  */
+class Element(context: Context) : AppCompatButton(context) {
 
-public class Element extends androidx.appcompat.widget.AppCompatButton {
+    @JvmField
+    var number = 0
 
-    public int number = 0;
-    public int dNumber = 0;
-    public int posX = 0;
-    public int posY = 0;
-    public int dPosX = 0;
-    public int dPosY = 0;
+    @JvmField
+    var dNumber = 0
 
-    public boolean activated;
-    public boolean animateMoving = false;
+    @JvmField
+    var posX = 0
 
-    public float textSize = 24;
+    @JvmField
+    var posY = 0
 
-    private final Context context;
-    private final String settingColor;
+    @JvmField
+    var dPosX = 0
 
-    private int color;
+    @JvmField
+    var dPosY = 0
 
-    public Element(Context c) {
-        super(c);
-        context = c;
-        setAllCaps(false);
-        setTextSize(textSize);
-        settingColor = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_COLOR, "1");
-        setBackgroundResource(R.drawable.background_game_brick);
-        setupBackgroundTiles(); // SetupBackgroundTiles
+    @JvmField
+    var animateMoving = false
+
+    var activateds = false
+    var textSized = 24f
+
+    private val settingColor: String?
+    private var color = 0
+
+    init {
+        isAllCaps = false
+        textSize = textSized
+        settingColor = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_COLOR, "1")
+        setBackgroundResource(R.drawable.background_game_brick)
+        setupBackgroundTiles() // SetupBackgroundTiles
     }
 
-    public void drawItem() {
-        dNumber = number;
-        activated = (number != 0);
+    fun drawItem() {
+        dNumber = number
+        activateds = number != 0
         if (number == 0) {
-            setVisibility(View.INVISIBLE);
-            setText("");
+            visibility = INVISIBLE
+            text = ""
         } else {
-            setText("" + number);
-            if (getVisibility() != View.VISIBLE)
-                setVisibility(View.VISIBLE);
+            text = "" + number
+            if (visibility != VISIBLE) visibility = VISIBLE
         }
-        setupGamesTiles(); // SetupGamesTiles
+        setupGamesTiles() // SetupGamesTiles
     }
 
-    private int justGetColorId(int colorRes) {
-        return context.getResources().getColor(colorRes);
+    private fun justGetColorId(colorRes: Int): Int {
+        return context.resources.getColor(colorRes)
     }
 
-    private void setupBackgroundTiles() {
-        if (settingColor.equals("1")) {
-            // Reskin Background
-            setColor(justGetColorId(R.color.tiles_originial_empty));
-        } else if (settingColor.equals("2")) {
-            setColor(justGetColorId(R.color.tiles_empty));
+    private fun setupBackgroundTiles() {
+        if (settingColor == "1") {
+            setColor(justGetColorId(R.color.tiles_originial_empty))
+        } else if (settingColor == "2") {
+            setColor(justGetColorId(R.color.tiles_empty))
         } else {
-            setColor(justGetColorId(R.color.tiles_originial_empty));
+            setColor(justGetColorId(R.color.tiles_originial_empty))
         }
     }
 
-    private String[] shuffleArrayString(String[] data) {
-        ArrayList<String> shuffleTemp = new ArrayList<>(Arrays.asList(data).subList(0, data.length - 1));
-        Collections.shuffle(shuffleTemp);
-        String[] shuffleString = new String[shuffleTemp.size()];
-        for (int i = 0; i < shuffleTemp.size() - 1; i++) {
-            shuffleString[i] = shuffleTemp.get(i);
+    private fun shuffleArrayString(data: Array<String>): Array<String?> {
+        val shuffleTemp = ArrayList(mutableListOf(*data).subList(0, data.size - 1))
+        shuffleTemp.shuffle()
+        val shuffleString = arrayOfNulls<String>(shuffleTemp.size)
+        for (i in 0 until shuffleTemp.size - 1) {
+            shuffleString[i] = shuffleTemp[i]
         }
-        return shuffleString;
+        return shuffleString
     }
-    
-    private void setupGamesTiles() {
-        int[] textColor;
-        int[] tilesColor = null;
-        String[] linkImage = null;
-        boolean isUsingImage = false;
-        boolean isUsingUrl = false;
-        TypedArray tilesImage = null;
 
-        if (settingColor.equals("1")) {
-            // Reskin Image
-            tilesImage = context.getResources().obtainTypedArray(R.array.background_tiles_reskin);
-            textColor = context.getResources().getIntArray(R.array.color_text_reskin);
-            linkImage = context.getResources().getStringArray(R.array.background_image_url);
-            isUsingImage = true;
-            isUsingUrl = true;
-        } else if (settingColor.equals("2")) {
-            tilesColor = context.getResources().getIntArray(R.array.color_tiles_default);
-            textColor = context.getResources().getIntArray(R.array.color_text_default);
-        } else {
-            tilesColor = context.getResources().getIntArray(R.array.color_tiles_original);
-            textColor = context.getResources().getIntArray(R.array.color_text_original);
+    private fun setupGamesTiles() {
+        val textColor: IntArray
+        var tilesColor: IntArray? = null
+        var linkImage: Array<String>? = null
+        var isUsingImage = false
+        var isUsingUrl = false
+        var tilesImage: TypedArray? = null
+        when (settingColor) {
+            "1" -> {
+                // Reskin Image
+                tilesImage = context.resources.obtainTypedArray(R.array.background_tiles_reskin)
+                textColor = context.resources.getIntArray(R.array.color_text_reskin)
+                linkImage = context.resources.getStringArray(R.array.background_image_url)
+                isUsingImage = true
+                isUsingUrl = true
+            }
+            "2" -> {
+                tilesColor = context.resources.getIntArray(R.array.color_tiles_default)
+                textColor = context.resources.getIntArray(R.array.color_text_default)
+            }
+            else -> {
+                tilesColor = context.resources.getIntArray(R.array.color_tiles_original)
+                textColor = context.resources.getIntArray(R.array.color_text_original)
+            }
         }
-
-        setupTiles(number, isUsingImage, isUsingUrl, textColor, tilesColor, tilesImage, linkImage);
+        setupTiles(number, isUsingImage, isUsingUrl, textColor, tilesColor, tilesImage, linkImage)
     }
 
     @SuppressLint("ResourceType")
-    private void setupTiles(int number, boolean usingImage, boolean usingUrl, int[] listTextColor, int[] listTilesBackground, TypedArray listBackgroundImage, String[] linkImage) {
-        switch (number) {
-            case 0:
-                setTextColor(listTextColor[0]);
+    private fun setupTiles(
+        number: Int,
+        usingImage: Boolean,
+        usingUrl: Boolean,
+        listTextColor: IntArray,
+        listTilesBackground: IntArray?,
+        listBackgroundImage: TypedArray?,
+        linkImage: Array<String>?
+    ) {
+        when (number) {
+            0 -> {
+                setTextColor(listTextColor[0])
                 if (usingImage) {
-                    setColor(R.color.tiles_empty);
+                    setColor(R.color.tiles_empty)
                 } else {
-                    setColor(listTilesBackground[1]);
+                    setColor(listTilesBackground!![1])
                 }
-                break;
-            case 2:
-                setTextColor(listTextColor[1]);
-                if (usingImage) {
-                    if (usingUrl) {
-                        setBackgroundFromUrl(linkImage[1], listBackgroundImage.getResourceId(1, 0));
-                    } else {
-                        setBackgroundImage(listBackgroundImage.getResourceId(1, 0));
-                    }
-                } else {
-                    setColor(listTilesBackground[1]);
-                }
-                break;
-            case 4:
-                setTextColor(listTextColor[2]);
+            }
+            2 -> {
+                setTextColor(listTextColor[1])
                 if (usingImage) {
                     if (usingUrl) {
-                        setBackgroundFromUrl(linkImage[2], listBackgroundImage.getResourceId(2, 0));
+                        setBackgroundFromUrl(
+                            linkImage!![1],
+                            listBackgroundImage!!.getResourceId(1, 0)
+                        )
                     } else {
-                        setBackgroundImage(listBackgroundImage.getResourceId(2, 0));
+                        setBackgroundImage(listBackgroundImage!!.getResourceId(1, 0))
                     }
                 } else {
-                    setColor(listTilesBackground[2]);
+                    setColor(listTilesBackground!![1])
                 }
-                break;
-            case 8:
-                setTextColor(listTextColor[3]);
+            }
+            4 -> {
+                setTextColor(listTextColor[2])
                 if (usingImage) {
                     if (usingUrl) {
-                        setBackgroundFromUrl(linkImage[3], listBackgroundImage.getResourceId(3, 0));
+                        setBackgroundFromUrl(
+                            linkImage!![2],
+                            listBackgroundImage!!.getResourceId(2, 0)
+                        )
                     } else {
-                        setBackgroundImage(listBackgroundImage.getResourceId(3, 0));
+                        setBackgroundImage(listBackgroundImage!!.getResourceId(2, 0))
                     }
                 } else {
-                    setColor(listTilesBackground[3]);
+                    setColor(listTilesBackground!![2])
                 }
-                break;
-            case 16:
-                setTextColor(listTextColor[4]);
+            }
+            8 -> {
+                setTextColor(listTextColor[3])
                 if (usingImage) {
                     if (usingUrl) {
-                        setBackgroundFromUrl(linkImage[4], listBackgroundImage.getResourceId(4, 0));
+                        setBackgroundFromUrl(
+                            linkImage!![3],
+                            listBackgroundImage!!.getResourceId(3, 0)
+                        )
                     } else {
-                        setBackgroundImage(listBackgroundImage.getResourceId(4, 0));
+                        setBackgroundImage(listBackgroundImage!!.getResourceId(3, 0))
                     }
                 } else {
-                    setColor(listTilesBackground[4]);
+                    setColor(listTilesBackground!![3])
                 }
-                break;
-            case 32:
-                setTextColor(listTextColor[5]);
+            }
+            16 -> {
+                setTextColor(listTextColor[4])
                 if (usingImage) {
                     if (usingUrl) {
-                        setBackgroundFromUrl(linkImage[5], listBackgroundImage.getResourceId(5, 0));
+                        setBackgroundFromUrl(
+                            linkImage!![4],
+                            listBackgroundImage!!.getResourceId(4, 0)
+                        )
                     } else {
-                        setBackgroundImage(listBackgroundImage.getResourceId(5, 0));
+                        setBackgroundImage(listBackgroundImage!!.getResourceId(4, 0))
                     }
                 } else {
-                    setColor(listTilesBackground[5]);
+                    setColor(listTilesBackground!![4])
                 }
-                break;
-            case 64:
-                setTextColor(listTextColor[6]);
+            }
+            32 -> {
+                setTextColor(listTextColor[5])
                 if (usingImage) {
                     if (usingUrl) {
-                        setBackgroundFromUrl(linkImage[6], listBackgroundImage.getResourceId(6, 0));
+                        setBackgroundFromUrl(
+                            linkImage!![5],
+                            listBackgroundImage!!.getResourceId(5, 0)
+                        )
                     } else {
-                        setBackgroundImage(listBackgroundImage.getResourceId(6, 0));
+                        setBackgroundImage(listBackgroundImage!!.getResourceId(5, 0))
                     }
                 } else {
-                    setColor(listTilesBackground[6]);
+                    setColor(listTilesBackground!![5])
                 }
-                break;
-            case 128:
-                setTextColor(listTextColor[7]);
+            }
+            64 -> {
+                setTextColor(listTextColor[6])
                 if (usingImage) {
                     if (usingUrl) {
-                        setBackgroundFromUrl(linkImage[7], listBackgroundImage.getResourceId(7, 0));
+                        setBackgroundFromUrl(
+                            linkImage!![6],
+                            listBackgroundImage!!.getResourceId(6, 0)
+                        )
                     } else {
-                        setBackgroundImage(listBackgroundImage.getResourceId(7, 0));
+                        setBackgroundImage(listBackgroundImage!!.getResourceId(6, 0))
                     }
                 } else {
-                    setColor(listTilesBackground[7]);
+                    setColor(listTilesBackground!![6])
                 }
-                break;
-            case 256:
-                setTextColor(listTextColor[8]);
+            }
+            128 -> {
+                setTextColor(listTextColor[7])
                 if (usingImage) {
                     if (usingUrl) {
-                        setBackgroundFromUrl(linkImage[8], listBackgroundImage.getResourceId(8, 0));
+                        setBackgroundFromUrl(
+                            linkImage!![7],
+                            listBackgroundImage!!.getResourceId(7, 0)
+                        )
                     } else {
-                        setBackgroundImage(listBackgroundImage.getResourceId(8, 0));
+                        setBackgroundImage(listBackgroundImage!!.getResourceId(7, 0))
                     }
                 } else {
-                    setColor(listTilesBackground[8]);
+                    setColor(listTilesBackground!![7])
                 }
-                break;
-            case 512:
-                setTextColor(listTextColor[9]);
+            }
+            256 -> {
+                setTextColor(listTextColor[8])
                 if (usingImage) {
                     if (usingUrl) {
-                        setBackgroundFromUrl(linkImage[9], listBackgroundImage.getResourceId(9, 0));
+                        setBackgroundFromUrl(
+                            linkImage!![8],
+                            listBackgroundImage!!.getResourceId(8, 0)
+                        )
                     } else {
-                        setBackgroundImage(listBackgroundImage.getResourceId(9, 0));
+                        setBackgroundImage(listBackgroundImage!!.getResourceId(8, 0))
                     }
                 } else {
-                    setColor(listTilesBackground[9]);
+                    setColor(listTilesBackground!![8])
                 }
-                break;
-            case 1024:
-                setTextColor(listTextColor[10]);
+            }
+            512 -> {
+                setTextColor(listTextColor[9])
                 if (usingImage) {
                     if (usingUrl) {
-                        setBackgroundFromUrl(linkImage[10], listBackgroundImage.getResourceId(10, 0));
+                        setBackgroundFromUrl(
+                            linkImage!![9],
+                            listBackgroundImage!!.getResourceId(9, 0)
+                        )
                     } else {
-                        setBackgroundImage(listBackgroundImage.getResourceId(10, 0));
+                        setBackgroundImage(listBackgroundImage!!.getResourceId(9, 0))
                     }
                 } else {
-                    setColor(listTilesBackground[10]);
+                    setColor(listTilesBackground!![9])
                 }
-                break;
-            case 2048:
-                setTextColor(listTextColor[11]);
+            }
+            1024 -> {
+                setTextColor(listTextColor[10])
                 if (usingImage) {
                     if (usingUrl) {
-                        setBackgroundFromUrl(linkImage[11], listBackgroundImage.getResourceId(11, 0));
+                        setBackgroundFromUrl(
+                            linkImage!![10],
+                            listBackgroundImage!!.getResourceId(10, 0)
+                        )
                     } else {
-                        setBackgroundImage(listBackgroundImage.getResourceId(11, 0));
+                        setBackgroundImage(listBackgroundImage!!.getResourceId(10, 0))
                     }
                 } else {
-                    setColor(listTilesBackground[11]);
+                    setColor(listTilesBackground!![10])
                 }
-                break;
-            case 4096:
-                setTextColor(listTextColor[12]);
+            }
+            2048 -> {
+                setTextColor(listTextColor[11])
                 if (usingImage) {
                     if (usingUrl) {
-                        setBackgroundFromUrl(linkImage[12], listBackgroundImage.getResourceId(12, 0));
+                        setBackgroundFromUrl(
+                            linkImage!![11],
+                            listBackgroundImage!!.getResourceId(11, 0)
+                        )
                     } else {
-                        setBackgroundImage(listBackgroundImage.getResourceId(12, 0));
+                        setBackgroundImage(listBackgroundImage!!.getResourceId(11, 0))
                     }
                 } else {
-                    setColor(listTilesBackground[12]);
+                    setColor(listTilesBackground!![11])
                 }
-                break;
-            case 8192:
-                setTextColor(listTextColor[13]);
+            }
+            4096 -> {
+                setTextColor(listTextColor[12])
                 if (usingImage) {
                     if (usingUrl) {
-                        setBackgroundFromUrl(linkImage[13], listBackgroundImage.getResourceId(13, 0));
+                        setBackgroundFromUrl(
+                            linkImage!![12],
+                            listBackgroundImage!!.getResourceId(12, 0)
+                        )
                     } else {
-                        setBackgroundImage(listBackgroundImage.getResourceId(13, 0));
+                        setBackgroundImage(listBackgroundImage!!.getResourceId(12, 0))
                     }
                 } else {
-                    setColor(listTilesBackground[13]);
+                    setColor(listTilesBackground!![12])
                 }
-                break;
-            case 16384:
-                setTextColor(listTextColor[14]);
-                textSize = textSize * 0.8f;
-                setTextSize(textSize);
+            }
+            8192 -> {
+                setTextColor(listTextColor[13])
                 if (usingImage) {
                     if (usingUrl) {
-                        setBackgroundFromUrl(linkImage[14], listBackgroundImage.getResourceId(14, 0));
+                        setBackgroundFromUrl(
+                            linkImage!![13],
+                            listBackgroundImage!!.getResourceId(13, 0)
+                        )
                     } else {
-                        setBackgroundImage(listBackgroundImage.getResourceId(14, 0));
+                        setBackgroundImage(listBackgroundImage!!.getResourceId(13, 0))
                     }
                 } else {
-                    setColor(listTilesBackground[14]);
+                    setColor(listTilesBackground!![13])
                 }
-                break;
-            case 32768:
-                setTextColor(listTextColor[15]);
-                textSize = textSize * 0.8f;
-                setTextSize(textSize);
+            }
+            16384 -> {
+                setTextColor(listTextColor[14])
+                textSized *= 0.8f
+                textSize = textSized
                 if (usingImage) {
                     if (usingUrl) {
-                        setBackgroundFromUrl(linkImage[15], listBackgroundImage.getResourceId(15, 0));
+                        setBackgroundFromUrl(
+                            linkImage!![14],
+                            listBackgroundImage!!.getResourceId(14, 0)
+                        )
                     } else {
-                        setBackgroundImage(listBackgroundImage.getResourceId(15, 0));
+                        setBackgroundImage(listBackgroundImage!!.getResourceId(14, 0))
                     }
                 } else {
-                    setColor(listTilesBackground[15]);
+                    setColor(listTilesBackground!![14])
                 }
-                break;
+            }
+            32768 -> {
+                setTextColor(listTextColor[15])
+                textSized *= 0.8f
+                textSize = textSized
+                if (usingImage) {
+                    if (usingUrl) {
+                        setBackgroundFromUrl(
+                            linkImage!![15],
+                            listBackgroundImage!!.getResourceId(15, 0)
+                        )
+                    } else {
+                        setBackgroundImage(listBackgroundImage!!.getResourceId(15, 0))
+                    }
+                } else {
+                    setColor(listTilesBackground!![15])
+                }
+            }
         }
     }
 
-    private void setBackgroundImage(int res) {
-        setBackgroundResource(res);
+    private fun setBackgroundImage(res: Int) {
+        setBackgroundResource(res)
     }
 
     // Important Function for request IMAGE
-    private void setBackgroundFromUrl(String imageUrl, int resourceImage) {
-        Glide.with(this).load(imageUrl).into(new SimpleTarget<Drawable>() {
-            @Override
-            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                setBackground(resource);
+    private fun setBackgroundFromUrl(imageUrl: String, resourceImage: Int) {
+        Glide.with(this).load(imageUrl).into(object : SimpleTarget<Drawable?>() {
+            override fun onResourceReady(
+                resource: Drawable,
+                transition: Transition<in Drawable?>?
+            ) {
+                background = resource
             }
-        });
+        })
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            setForeground(context.getDrawable(resourceImage));
+            foreground = context.resources.getDrawable(resourceImage)
         }
     }
 
-    private void setColor(int c) {
-        color = c;
-        Drawable background = getBackground();
-        if (background instanceof ShapeDrawable) {
-            ((ShapeDrawable) background).getPaint().setColor(c);
-        } else if (background instanceof GradientDrawable) {
-            ((GradientDrawable) background).setColor(c);
-        } else if (background instanceof ColorDrawable) {
-            ((ColorDrawable) background).setColor(c);
+    private fun setColor(c: Int) {
+        color = c
+        val background = background
+        if (background is ShapeDrawable) {
+            background.paint.color = c
+        } else if (background is GradientDrawable) {
+            background.setColor(c)
+        } else if (background is ColorDrawable) {
+            background.color = c
         }
     }
 
-    @NonNull
-    public String toString() {
-        return "number: " + number;
+    override fun toString(): String {
+        return "number: $number"
     }
 
-    public int getNumber() {
-        return number;
+    fun getNumber(): Int {
+        return number
     }
 
-    public void setNumber(int i) {
-        number = i;
+    fun setNumber(i: Int) {
+        number = i
     }
 
-    public void setDPosition(int i, int j) {
-        dPosX = i;
-        dPosY = j;
+    fun setDPosition(i: Int, j: Int) {
+        dPosX = i
+        dPosY = j
     }
 
-    public int getdPosX() {
-        return dPosX;
+    fun getdPosX(): Int {
+        return dPosX
     }
 
-    public int getdPosY() {
-        return dPosY;
+    fun getdPosY(): Int {
+        return dPosY
     }
 
-    public int getdNumber() {
-        return dNumber;
+    fun getdNumber(): Int {
+        return dNumber
     }
 
-    public int getPosX() {
-        return posX;
+    fun updateFontSize() {
+        textSized = (layoutParams.width / 7.0).toFloat()
+        textSize = textSized
     }
 
-    public int getPosY() {
-        return posY;
+    fun copy(): Element {
+        val temp = Element(context)
+        temp.number = number
+        temp.dNumber = dNumber
+        temp.posX = posX
+        temp.posY = posY
+        temp.dPosX = dPosX
+        temp.dPosY = dPosY
+        temp.activateds = activateds
+        temp.animateMoving = animateMoving
+        temp.textSized = textSized
+        temp.color = color
+        temp.textSize = textSized
+        temp.setColor(color)
+        temp.visibility = visibility
+        temp.layoutParams = layoutParams
+        return temp
     }
 
-    public void updateFontSize() {
-        textSize = (float) (getLayoutParams().width / 7.0);
-        setTextSize(textSize);
-    }
-
-    public Element copy() {
-        Element temp = new Element(context);
-        temp.number = number;
-        temp.dNumber = dNumber;
-        temp.posX = posX;
-        temp.posY = posY;
-        temp.dPosX = dPosX;
-        temp.dPosY = dPosY;
-        temp.activated = activated;
-        temp.animateMoving = animateMoving;
-        temp.textSize = textSize;
-        temp.color = color;
-        temp.setTextSize(textSize);
-        temp.setColor(color);
-        temp.setVisibility(getVisibility());
-        temp.setLayoutParams(getLayoutParams());
-        return temp;
-    }
 }
