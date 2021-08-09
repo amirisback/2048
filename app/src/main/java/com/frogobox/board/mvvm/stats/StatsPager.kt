@@ -20,6 +20,7 @@ import java.lang.StringBuilder
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit
+import kotlin.math.abs
 
 /**
  * Created by Faisal Amir
@@ -48,6 +49,7 @@ class StatsPager(
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = layoutInflater.inflate(layouts[position], container, false)
         container.addView(view)
+
         val highestNumber = view.findViewById<TextView>(R.id.highest_number4)
         val timePlayed = view.findViewById<TextView>(R.id.time_played4)
         val undo = view.findViewById<TextView>(R.id.undo_number4)
@@ -55,21 +57,28 @@ class StatsPager(
         val tpm = view.findViewById<TextView>(R.id.time_swipes4)
         val record = view.findViewById<TextView>(R.id.highest_score4)
         val img = view.findViewById<ImageView>(R.id.stat_img4)
+
         when (position) {
             0 -> Glide.with(container.context).load(R.drawable.layout4x4_o).into(img)
             1 -> Glide.with(container.context).load(R.drawable.layout5x5_o).into(img)
             2 -> Glide.with(container.context).load(R.drawable.layout6x6_o).into(img)
             3 -> Glide.with(container.context).load(R.drawable.layout7x7_o).into(img)
         }
+
         val gameStatistics = readStatisticsFromFile(position + 4)
-        highestNumber.text = "" + gameStatistics.highestNumber
+        highestNumber.text = "${gameStatistics.getHighestNumber()}"
         timePlayed.text = formatMillis(gameStatistics.timePlayed)
-        undo.text = "" + gameStatistics.undo
-        moves.text = "" + gameStatistics.moves
-        if (gameStatistics.moves != 0L) tpm.text =
-            "" + formatSmallMillis(gameStatistics.timePlayed / gameStatistics.moves) else tpm.text =
-            "0"
-        record.text = "" + gameStatistics.record
+        undo.text = "${gameStatistics.undo}"
+        moves.text = "${gameStatistics.moves}"
+
+        if (gameStatistics.moves != 0L) {
+            val tempText = formatSmallMillis(gameStatistics.timePlayed / gameStatistics.moves)
+            tpm.text = tempText
+        } else {
+            tpm.text = "0"
+        }
+
+        record.text = "${gameStatistics.record}"
         return view
     }
 
@@ -119,17 +128,19 @@ class StatsPager(
         var sign = ""
         if (timeInMillis < 0) {
             sign = "-"
-            timeInMillis = Math.abs(timeInMillis)
+            timeInMillis = abs(timeInMillis)
         }
-        val seconds = timeInMillis.toDouble() / TimeUnit.SECONDS.toMillis(1)
-            .toDouble()
+
+        val seconds = timeInMillis.toDouble() / TimeUnit.SECONDS.toMillis(1).toDouble()
         val sb = StringBuilder(",##0.00")
         val df = DecimalFormat(sb.toString())
-        df.roundingMode = RoundingMode.HALF_UP
         val formatted = StringBuilder(20)
+
+        df.roundingMode = RoundingMode.HALF_UP
         formatted.append(sign)
         formatted.append(df.format(seconds))
         formatted.append(" s")
+
         return formatted.toString()
     }
 
@@ -138,17 +149,19 @@ class StatsPager(
         var sign = ""
         if (timeInMillis < 0) {
             sign = "-"
-            timeInMillis = Math.abs(timeInMillis)
+            timeInMillis = abs(timeInMillis)
         }
-        val seconds = timeInMillis.toDouble() / TimeUnit.HOURS.toMillis(1)
-            .toDouble()
+
+        val seconds = timeInMillis.toDouble() / TimeUnit.HOURS.toMillis(1).toDouble()
         val sb = StringBuilder(",##0.00")
         val df = DecimalFormat(sb.toString())
-        df.roundingMode = RoundingMode.HALF_UP
         val formatted = StringBuilder(20)
+
+        df.roundingMode = RoundingMode.HALF_UP
         formatted.append(sign)
         formatted.append(df.format(seconds))
         formatted.append(" h")
+
         return formatted.toString()
     }
 

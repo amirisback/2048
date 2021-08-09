@@ -1,6 +1,9 @@
-package com.frogobox.board.model;
+package com.frogobox.board.model
 
-/**
+import com.frogobox.board.util.SingleConst
+import java.io.Serializable
+
+/*
  * Created by Faisal Amir
  * FrogoBox Inc License
  * =========================================
@@ -16,117 +19,72 @@ package com.frogobox.board.model;
  * FrogoBox Software Industries
  * com.frogobox.basegameboard2048.model
  */
+class GameStatistics(n: Int) : Serializable {
 
-import com.frogobox.board.util.SingleConst;
+    private var highestNumber: Long = 2
 
-import java.io.Serializable;
+    var moves: Long = 0
+    var timePlayed: Long = 0
+    var record: Long = 0
+    var n = 4
+    var undo = 0
+    var moves_l = 0
+    var moves_r = 0
+    var moves_t = 0
+    var moves_d = 0
 
-public class GameStatistics implements Serializable {
-    private long moves = 0;
-    private long timePlayed = 0;
-    private long highestNumber = 2;
-    private int n = 4;
-    private String filename = SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT;
-    private long record = 0;
-    private int undo = 0;
-    private int moves_l = 0;
-    private int moves_r = 0;
-    private int moves_t = 0;
-    private int moves_d = 0;
+    val filename = SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT
 
-    public GameStatistics(int n) {
-        this.n = n;
-        filename = SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT;
+    fun getHighestNumber(): Long {
+        return highestNumber
     }
 
-
-    public long getHighestNumber() {
-        return highestNumber;
+    fun setHighestNumber(highestNumber: Long) {
+        if (this.highestNumber < highestNumber) this.highestNumber = highestNumber
     }
 
-    public void setHighestNumber(long highestNumber) {
-        if (this.highestNumber < highestNumber)
-            this.highestNumber = highestNumber;
+    fun addTimePlayed(timePlayed: Long) {
+        this.timePlayed += timePlayed
     }
 
-    public long getTimePlayed() {
-        return timePlayed;
+    fun resetTimePlayed(): Boolean {
+        timePlayed = 0
+        return true
     }
 
-    public void addTimePlayed(long timePlayed) {
-        this.timePlayed += timePlayed;
+    fun addMoves(moves: Long) {
+        this.moves += moves
     }
 
-    public boolean resetTimePlayed() {
-        this.timePlayed = 0;
-        return true;
+    fun undo() {
+        undo++
     }
 
-    public long getMoves() {
-        return moves;
+    fun moveL() {
+        moves_l++
     }
 
-    public void addMoves(long moves) {
-        this.moves += moves;
+    fun moveR() {
+        moves_r++
     }
 
-    public String getFilename() {
-        return filename;
+    fun moveT() {
+        moves_t++
     }
 
-    public long getRecord() {
-        return record;
+    fun moveD() {
+        moves_d++
     }
 
-    public void setRecord(long record) {
-        this.record = record;
-    }
-
-    public void undo() {
-        undo++;
-    }
-
-    public void moveL() {
-        moves_l++;
-    }
-
-    public void moveR() {
-        moves_r++;
-    }
-
-    public void moveT() {
-        moves_t++;
-    }
-
-    public void moveD() {
-        moves_d++;
-    }
-
-    public int getUndo() {
-        return undo;
-    }
-
-    @Override
-    public String toString() {
+    override fun toString(): String {
         return "moves " + moves +
                 " timePlayed " + timePlayed / 1000.0f +
                 " highest Number " + highestNumber +
-                " record" + record;
+                " record" + record
     }
 
-    public int getMoves_d() {
-        return moves_d;
+    init {
+        this.n = n
     }
 
-    public int getMoves_t() {
-        return moves_t;
-    }
-
-    public int getMoves_r() {
-        return moves_r;
-    }
-
-    public int getMoves_l() {
-        return moves_l;
-    }
 }

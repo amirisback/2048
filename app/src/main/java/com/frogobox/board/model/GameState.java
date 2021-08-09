@@ -1,6 +1,6 @@
 package com.frogobox.board.model;
 
-/**
+/*
  * Created by Faisal Amir
  * FrogoBox Inc License
  * =========================================
@@ -17,14 +17,19 @@ package com.frogobox.board.model;
  * com.frogobox.basegameboard2048.model
  */
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class GameState implements Serializable {
+
     public int n = 4;
-    public int[] numbers;
-    public int[] last_numbers;
     public int points = 0;
     public int last_points = 0;
+
+    public int[] numbers;
+    public int[] last_numbers;
+
     public boolean undo = false;
 
     public GameState(int size) {
@@ -33,16 +38,16 @@ public class GameState implements Serializable {
 
     public GameState(int[][] e) {
         int length = 1;
-        for (int i = 0; i < e.length; i++) {
-            if (e[i].length > length)
-                length = e[i].length;
+        for (int[] ints : e) {
+            if (ints.length > length)
+                length = ints.length;
         }
         this.n = e.length;
         numbers = new int[e.length * e.length];
         int c = 0;
-        for (int i = 0; i < e.length; i++) {
-            for (int j = 0; j < e[i].length; j++) {
-                numbers[c++] = e[i][j];
+        for (int[] ints : e) {
+            for (int anInt : ints) {
+                numbers[c++] = anInt;
             }
         }
         last_numbers = numbers;
@@ -50,36 +55,41 @@ public class GameState implements Serializable {
 
     public GameState(Element[][] e, Element[][] e2) {
         int length = 1;
-        for (int i = 0; i < e.length; i++) {
-            if (e[i].length > length)
-                length = e[i].length;
+
+        for (Element[] elements : e) {
+            if (elements.length > length)
+                length = elements.length;
         }
+
         this.n = e.length;
         numbers = new int[e.length * e.length];
         int c = 0;
-        for (int i = 0; i < e.length; i++) {
-            for (int j = 0; j < e[i].length; j++) {
 
-                numbers[c++] = e[i][j].number;
+        for (Element[] elements : e) {
+            for (Element element : elements) {
+                numbers[c++] = element.number;
             }
         }
+
         length = 1;
-        for (int i = 0; i < e2.length; i++) {
-            if (e2[i].length > length)
-                length = e2[i].length;
+
+        for (Element[] elements : e2) {
+            if (elements.length > length)
+                length = elements.length;
         }
+
         last_numbers = new int[e2.length * e2.length];
         c = 0;
-        for (int i = 0; i < e2.length; i++) {
-            for (int j = 0; j < e2[i].length; j++) {
 
-                last_numbers[c++] = e2[i][j].number;
+        for (Element[] elements : e2) {
+            for (Element element : elements) {
+
+                last_numbers[c++] = element.number;
             }
         }
     }
 
     public int getNumber(int i, int j) {
-
         try {
             return numbers[i * n + j];
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -101,15 +111,17 @@ public class GameState implements Serializable {
     }
 
 
+    @NonNull
     @Override
     public String toString() {
-        String result = "numbers: ";
+        StringBuilder result = new StringBuilder("numbers: ");
         for (int i : numbers) {
-            result += i + " ";
+            result.append(i).append(" ");
         }
-        result += ", n: " + n;
-        result += ", points: " + points;
-        result += ", undo: " + undo;
-        return result;
+        result.append(", n: ").append(n);
+        result.append(", points: ").append(points);
+        result.append(", undo: ").append(undo);
+        return result.toString();
     }
+
 }

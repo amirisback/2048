@@ -22,6 +22,8 @@ import java.util.Collections;
 
 import static com.frogobox.board.util.SingleConst.Pref.PREF_COLOR;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by Faisal Amir
  * FrogoBox Inc License
@@ -40,19 +42,23 @@ import static com.frogobox.board.util.SingleConst.Pref.PREF_COLOR;
  */
 
 public class Element extends androidx.appcompat.widget.AppCompatButton {
+
     public int number = 0;
     public int dNumber = 0;
     public int posX = 0;
     public int posY = 0;
     public int dPosX = 0;
     public int dPosY = 0;
+
     public boolean activated;
     public boolean animateMoving = false;
-    public float textSize = 24;
-    Context context;
-    int color;
-    private String settingColor;
 
+    public float textSize = 24;
+
+    private final Context context;
+    private final String settingColor;
+
+    private int color;
 
     public Element(Context c) {
         super(c);
@@ -62,7 +68,6 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
         settingColor = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_COLOR, "1");
         setBackgroundResource(R.drawable.background_game_brick);
         setupBackgroundTiles(); // SetupBackgroundTiles
-
     }
 
     public void drawItem() {
@@ -337,9 +342,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
         Glide.with(this).load(imageUrl).into(new SimpleTarget<Drawable>() {
             @Override
             public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    setBackground(resource);
-                }
+                setBackground(resource);
             }
         });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -359,6 +362,7 @@ public class Element extends androidx.appcompat.widget.AppCompatButton {
         }
     }
 
+    @NonNull
     public String toString() {
         return "number: " + number;
     }
