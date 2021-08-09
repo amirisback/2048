@@ -1,5 +1,7 @@
 package com.frogobox.board.mvvm.game;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -350,7 +352,7 @@ public class GameActivity extends BaseActivity {
     }
 
     public void setListener() {
-        swipeListener = new GameGesture(this) {
+        swipeListener = new Gestures(this) {
             public boolean onSwipeTop() {
                 Element[][] temp = deepCopy(elements);
                 int temp_points = points;
@@ -1003,4 +1005,80 @@ public class GameActivity extends BaseActivity {
         }
     }
 
+    class MovingListener extends AnimatorListenerAdapter {
+        Element e = null;
+        long SCALINGSPEED = 100;
+        float scalingFactor = 1.5f;
+        boolean scale = false;
+
+        public MovingListener(Element e, boolean scale) {
+            super();
+            this.e = e;
+            this.SCALINGSPEED = SingleConst.Games.INIT_SCALINGSPEED;
+            this.scalingFactor = SingleConst.Games.INIT_SCALINGFACTOR;
+            this.scale = scale;
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+            super.onAnimationCancel(animation);
+            animation.setupEndValues();
+            if (e != null)
+                e.drawItem();
+        }
+
+        @Override
+        public void onAnimationPause(Animator animation) {
+            super.onAnimationPause(animation);
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            super.onAnimationEnd(animation);
+            if (e != null) {
+                e.drawItem();
+                if (scale)
+                    e.animate().scaleX(scalingFactor).scaleY(scalingFactor).setDuration(SCALINGSPEED).setStartDelay(0).setInterpolator(new LinearInterpolator()).setListener(new ScalingListener(e)).start();
+            }
+
+        }
+    }
+
+    class ScalingListener extends AnimatorListenerAdapter {
+        Element e = null;
+
+        public ScalingListener(Element e) {
+            super();
+            this.e = e;
+        }
+
+        public ScalingListener() {
+            super();
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+            super.onAnimationCancel(animation);
+            animation.setupEndValues();
+        }
+
+        @Override
+        public void onAnimationPause(Animator animation) {
+            super.onAnimationPause(animation);
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            super.onAnimationEnd(animation);
+            if (e != null) {
+                e.animate().scaleX(1.0f).scaleY(1.0f).setDuration(SingleConst.Games.INIT_SCALINGSPEED).setStartDelay(0).setInterpolator(new LinearInterpolator()).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                        super.onAnimationCancel(animation);
+                    }
+                }).start();
+            }
+
+        }
+    }
 }

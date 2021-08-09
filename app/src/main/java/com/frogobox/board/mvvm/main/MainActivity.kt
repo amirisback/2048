@@ -8,7 +8,6 @@ import com.frogobox.board.util.SingleConst
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.content.Intent
-import com.frogobox.board.mvvm.game.GameActivity
 import android.os.Build
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -16,9 +15,9 @@ import android.text.Html
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Button
 import androidx.core.app.TaskStackBuilder
+import com.frogobox.board.mvvm.game.GameActivity
 import com.frogobox.board.mvvm.setting.SettingActivity
 import com.frogobox.board.mvvm.stats.StatsActivity
 import kotlinx.android.synthetic.main.activity_main.*
