@@ -1,92 +1,84 @@
-package com.frogobox.board.mvvm.setting;
+package com.frogobox.board.mvvm.setting
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.content.Context
+import com.frogobox.board.core.BaseActivity
+import android.os.Bundle
+import com.frogobox.board.R
+import android.content.Intent
+import android.content.res.Configuration
+import android.preference.ListPreference
+import android.preference.Preference
+import android.preference.PreferenceFragment
+import android.preference.PreferenceManager
+import android.view.Menu
+import android.view.MenuItem
+import com.frogobox.board.mvvm.main.AboutUsActivity
+import com.frogobox.board.mvvm.tutorial.TutorialActivity
 
-import com.frogobox.board.R;
-import com.frogobox.board.core.BaseActivity;
-import com.frogobox.board.mvvm.main.AboutUsActivity;
-import com.frogobox.board.mvvm.tutorial.TutorialActivity;
+class SettingActivity : BaseActivity() {
 
-public class SettingActivity extends BaseActivity {
+    companion object {
+        private val sBindPreferenceSummaryToValueListener =
+            Preference.OnPreferenceChangeListener { preference: Preference, value: Any ->
+                val stringValue = value.toString()
+                if (preference is ListPreference) {
+                    val index = preference.findIndexOfValue(stringValue)
+                    preference.setSummary(
+                        if (index >= 0) preference.entries[index] else null
+                    )
+                } else {
+                    preference.summary = stringValue
+                }
+                true
+            }
 
-    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = (preference, value) -> {
-        String stringValue = value.toString();
-
-        if (preference instanceof ListPreference) {
-            // For list preferences, look up the correct display value in
-            // the preference's 'entries' list.
-            ListPreference listPreference = (ListPreference) preference;
-            int index = listPreference.findIndexOfValue(stringValue);
-
-            // Set the summary to reflect the new value.
-            preference.setSummary(
-                    index >= 0
-                            ? listPreference.getEntries()[index]
-                            : null);
-        } else {
-            // For all other preferences, set the summary to the value's
-            // simple string representation.
-            preference.setSummary(stringValue);
+        private fun isXLargeTablet(context: Context): Boolean {
+            return (context.resources.configuration.screenLayout
+                    and Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE
         }
-        return true;
-    };
 
-    private static boolean isXLargeTablet(Context context) {
-        return (context.getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
+        private fun bindPreferenceSummaryToValue(preference: Preference) {
+            preference.onPreferenceChangeListener = sBindPreferenceSummaryToValueListener
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(
+                preference,
+                PreferenceManager.getDefaultSharedPreferences(preference.context)
+                    .getString(preference.key, "")
+            )
+        }
     }
 
-    private static void bindPreferenceSummaryToValue(Preference preference) {
-        // Set the listener to watch for value changes.
-        preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_setting)
 
-        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                PreferenceManager
-                        .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
+        setupDetailActivity("")
+        setupShowAdsBanner(findViewById(R.id.ads_banner))
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
-        setupDetailActivity("");
-        getSupportActionBar().setElevation(0f);
-        setupShowAdsBanner(findViewById(R.id.ads_banner));
+    override fun setupDetailActivity(title: String) {
+        super.setupDetailActivity(title)
+        supportActionBar!!.elevation = 0f
     }
 
-    protected boolean isValidFragment(String fragmentName) {
-        return PreferenceFragment.class.getName().equals(fragmentName)
-                || SettingFragment.class.getName().equals(fragmentName);
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_toolbar_setting, menu)
+        return true
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_toolbar_setting, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
         if (id == R.id.toolbar_menu_about) {
-            startActivity(new Intent(this, AboutUsActivity.class));
-            return true;
+            startActivity(Intent(this, AboutUsActivity::class.java))
+            return true
         } else if (id == R.id.toolbar_menu_help) {
-            startActivity(new Intent(this, TutorialActivity.class));
-            return true;
+            startActivity(Intent(this, TutorialActivity::class.java))
+            return true
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun isValidFragment(fragmentName: String): Boolean {
+        return PreferenceFragment::class.java.name == fragmentName || SettingFragment::class.java.name == fragmentName
     }
 
 }

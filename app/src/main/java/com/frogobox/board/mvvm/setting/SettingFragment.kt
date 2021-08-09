@@ -1,4 +1,8 @@
-package com.frogobox.board.mvvm.setting;
+package com.frogobox.board.mvvm.setting
+
+import android.os.Bundle
+import android.preference.PreferenceFragment
+import com.frogobox.board.R
 
 /*
  * Created by faisalamir on 09/08/21
@@ -13,17 +17,11 @@ package com.frogobox.board.mvvm.setting;
  *
  */
 
-import android.os.Bundle;
-import android.preference.PreferenceFragment;
+class SettingFragment : PreferenceFragment() {
 
-import com.frogobox.board.R;
-
-public class SettingFragment extends PreferenceFragment {
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.fragment_setting);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        addPreferencesFromResource(R.xml.fragment_setting)
     }
 
 }
