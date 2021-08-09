@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.frogobox.board.BuildConfig;
-import com.frogobox.board.util.ConstHelper;
+import com.frogobox.board.util.SingleConst;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +16,10 @@ import java.util.List;
 public class PFASQLiteHelper extends SQLiteOpenHelper {
 
 
-    private static final String SQLITE_DATABASE_NAME = BuildConfig.APPLICATION_ID.replace(".", "_") + ConstHelper.SQLiteDatabase.SQLITE_ATTRIBUTE;
+    private static final String SQLITE_DATABASE_NAME = BuildConfig.APPLICATION_ID.replace(".", "_") + SingleConst.SQLiteDatabase.SQLITE_ATTRIBUTE;
 
     public PFASQLiteHelper(Context context) {
-        super(context, SQLITE_DATABASE_NAME, null, ConstHelper.SQLiteDatabase.SQLITE_DATABASE_VERSION);
+        super(context, SQLITE_DATABASE_NAME, null, SingleConst.SQLiteDatabase.SQLITE_DATABASE_VERSION);
     }
 
     @Override
@@ -29,19 +29,19 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
          * Create the table sample data on the first start
          * Be careful with the final line of the query and the SQL syntax that is used in the String.
          */
-        String CREATE_SAMPLEDATA_TABLE = "CREATE TABLE " + ConstHelper.SQLiteDatabase.TABLE_SAMPLEDATA +
+        String CREATE_SAMPLEDATA_TABLE = "CREATE TABLE " + SingleConst.SQLiteDatabase.TABLE_SAMPLEDATA +
                 "(" +
-                ConstHelper.SQLiteDatabase.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                ConstHelper.SQLiteDatabase.KEY_DOMAIN + " TEXT NOT NULL," +
-                ConstHelper.SQLiteDatabase.KEY_USERNAME + " TEXT NOT NULL," +
-                ConstHelper.SQLiteDatabase.KEY_LENGTH + " INTEGER);";
+                SingleConst.SQLiteDatabase.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                SingleConst.SQLiteDatabase.KEY_DOMAIN + " TEXT NOT NULL," +
+                SingleConst.SQLiteDatabase.KEY_USERNAME + " TEXT NOT NULL," +
+                SingleConst.SQLiteDatabase.KEY_LENGTH + " INTEGER);";
 
         sqLiteDatabase.execSQL(CREATE_SAMPLEDATA_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ConstHelper.SQLiteDatabase.TABLE_SAMPLEDATA);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SingleConst.SQLiteDatabase.TABLE_SAMPLEDATA);
 
         onCreate(sqLiteDatabase);
     }
@@ -59,11 +59,11 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
 
         //To adjust this class for your own data, please add your values here.
         ContentValues values = new ContentValues();
-        values.put(ConstHelper.SQLiteDatabase.KEY_DOMAIN, sampleData.getDOMAIN());
-        values.put(ConstHelper.SQLiteDatabase.KEY_USERNAME, sampleData.getUSERNAME());
-        values.put(ConstHelper.SQLiteDatabase.KEY_LENGTH, sampleData.getLENGTH());
+        values.put(SingleConst.SQLiteDatabase.KEY_DOMAIN, sampleData.getDOMAIN());
+        values.put(SingleConst.SQLiteDatabase.KEY_USERNAME, sampleData.getUSERNAME());
+        values.put(SingleConst.SQLiteDatabase.KEY_LENGTH, sampleData.getLENGTH());
 
-        database.insert(ConstHelper.SQLiteDatabase.TABLE_SAMPLEDATA, null, values);
+        database.insert(SingleConst.SQLiteDatabase.TABLE_SAMPLEDATA, null, values);
         database.close();
     }
 
@@ -80,12 +80,12 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
 
         //To adjust this class for your own data, please add your values here.
         ContentValues values = new ContentValues();
-        values.put(ConstHelper.SQLiteDatabase.KEY_ID, sampleData.getID());
-        values.put(ConstHelper.SQLiteDatabase.KEY_DOMAIN, sampleData.getDOMAIN());
-        values.put(ConstHelper.SQLiteDatabase.KEY_USERNAME, sampleData.getUSERNAME());
-        values.put(ConstHelper.SQLiteDatabase.KEY_LENGTH, sampleData.getLENGTH());
+        values.put(SingleConst.SQLiteDatabase.KEY_ID, sampleData.getID());
+        values.put(SingleConst.SQLiteDatabase.KEY_DOMAIN, sampleData.getDOMAIN());
+        values.put(SingleConst.SQLiteDatabase.KEY_USERNAME, sampleData.getUSERNAME());
+        values.put(SingleConst.SQLiteDatabase.KEY_LENGTH, sampleData.getLENGTH());
 
-        database.insert(ConstHelper.SQLiteDatabase.TABLE_SAMPLEDATA, null, values);
+        database.insert(SingleConst.SQLiteDatabase.TABLE_SAMPLEDATA, null, values);
 
         //always close the database after insertion
         database.close();
@@ -103,8 +103,8 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
 
         Log.d("DATABASE", Integer.toString(id));
 
-        Cursor cursor = database.query(ConstHelper.SQLiteDatabase.TABLE_SAMPLEDATA, new String[]{ConstHelper.SQLiteDatabase.KEY_ID,
-                        ConstHelper.SQLiteDatabase.KEY_DOMAIN, ConstHelper.SQLiteDatabase.KEY_USERNAME, ConstHelper.SQLiteDatabase.KEY_LENGTH}, ConstHelper.SQLiteDatabase.KEY_ID + "=?",
+        Cursor cursor = database.query(SingleConst.SQLiteDatabase.TABLE_SAMPLEDATA, new String[]{SingleConst.SQLiteDatabase.KEY_ID,
+                        SingleConst.SQLiteDatabase.KEY_DOMAIN, SingleConst.SQLiteDatabase.KEY_USERNAME, SingleConst.SQLiteDatabase.KEY_LENGTH}, SingleConst.SQLiteDatabase.KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
         PFASampleDataType sampleData = new PFASampleDataType();
@@ -133,7 +133,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
     public List<PFASampleDataType> getAllSampleData() {
         List<PFASampleDataType> sampleDataList = new ArrayList<PFASampleDataType>();
 
-        String selectQuery = "SELECT  * FROM " + ConstHelper.SQLiteDatabase.TABLE_SAMPLEDATA;
+        String selectQuery = "SELECT  * FROM " + SingleConst.SQLiteDatabase.TABLE_SAMPLEDATA;
 
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
@@ -168,11 +168,11 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
 
         //To adjust this class for your own data, please add your values here.
         ContentValues values = new ContentValues();
-        values.put(ConstHelper.SQLiteDatabase.KEY_DOMAIN, sampleData.getDOMAIN());
-        values.put(ConstHelper.SQLiteDatabase.KEY_USERNAME, sampleData.getUSERNAME());
-        values.put(ConstHelper.SQLiteDatabase.KEY_LENGTH, sampleData.getLENGTH());
+        values.put(SingleConst.SQLiteDatabase.KEY_DOMAIN, sampleData.getDOMAIN());
+        values.put(SingleConst.SQLiteDatabase.KEY_USERNAME, sampleData.getUSERNAME());
+        values.put(SingleConst.SQLiteDatabase.KEY_LENGTH, sampleData.getLENGTH());
 
-        return database.update(ConstHelper.SQLiteDatabase.TABLE_SAMPLEDATA, values, ConstHelper.SQLiteDatabase.KEY_ID + " = ?",
+        return database.update(SingleConst.SQLiteDatabase.TABLE_SAMPLEDATA, values, SingleConst.SQLiteDatabase.KEY_ID + " = ?",
                 new String[]{String.valueOf(sampleData.getID())});
     }
 
@@ -184,7 +184,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
      */
     public void deleteSampleData(PFASampleDataType sampleData) {
         SQLiteDatabase database = this.getWritableDatabase();
-        database.delete(ConstHelper.SQLiteDatabase.TABLE_SAMPLEDATA, ConstHelper.SQLiteDatabase.KEY_ID + " = ?",
+        database.delete(SingleConst.SQLiteDatabase.TABLE_SAMPLEDATA, SingleConst.SQLiteDatabase.KEY_ID + " = ?",
                 new String[]{Integer.toString(sampleData.getID())});
         //always close the DB after deletion of single entries
         database.close();
@@ -196,7 +196,7 @@ public class PFASQLiteHelper extends SQLiteOpenHelper {
      */
     public void deleteAllSampleData() {
         SQLiteDatabase database = this.getWritableDatabase();
-        database.execSQL("delete from " + ConstHelper.SQLiteDatabase.TABLE_SAMPLEDATA);
+        database.execSQL("delete from " + SingleConst.SQLiteDatabase.TABLE_SAMPLEDATA);
     }
 
 }

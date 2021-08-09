@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static com.frogobox.board.util.ConstHelper.Pref.PREF_COLOR;
+import static com.frogobox.board.util.SingleConst.Pref.PREF_COLOR;
 
 /**
  * Created by Faisal Amir

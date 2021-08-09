@@ -1,4 +1,4 @@
-package com.frogobox.board.ui;
+package com.frogobox.board.mvvm.tutorial;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,9 +20,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.frogobox.board.R;
-import com.frogobox.board.base.BaseActivity;
+import com.frogobox.board.core.BaseActivity;
+import com.frogobox.board.mvvm.main.MainActivity;
 import com.frogobox.board.util.FirstLaunchManager;
-import com.frogobox.board.view.TutorialPagerAdapter;
 
 public class TutorialActivity extends BaseActivity {
 
@@ -99,7 +99,6 @@ public class TutorialActivity extends BaseActivity {
         TutorialPagerAdapter tutorialPagerAdapter = new TutorialPagerAdapter(layoutInflater, layouts);
         viewPager.setAdapter(tutorialPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
-
 
         try {
             ImageView imageView = findViewById(R.id.iv_tutorial);

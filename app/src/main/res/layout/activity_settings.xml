@@ -12,7 +12,7 @@
 
     <fragment
         android:id="@+id/settings_fragment"
-        android:name="com.frogobox.board.ui.SettingsActivity$GeneralPreferenceFragment"
+        android:name="com.frogobox.board.mvvm.settings.SettingsActivity$GeneralPreferenceFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ads_banner"

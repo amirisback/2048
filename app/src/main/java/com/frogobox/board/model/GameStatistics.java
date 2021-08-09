@@ -17,7 +17,7 @@ package com.frogobox.board.model;
  * com.frogobox.basegameboard2048.model
  */
 
-import com.frogobox.board.util.ConstHelper;
+import com.frogobox.board.util.SingleConst;
 
 import java.io.Serializable;
 
@@ -26,7 +26,7 @@ public class GameStatistics implements Serializable {
     private long timePlayed = 0;
     private long highestNumber = 2;
     private int n = 4;
-    private String filename = ConstHelper.Const.FILE_STATISTIC + n + ConstHelper.Ext.TXT;
+    private String filename = SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT;
     private long record = 0;
     private int undo = 0;
     private int moves_l = 0;
@@ -36,7 +36,7 @@ public class GameStatistics implements Serializable {
 
     public GameStatistics(int n) {
         this.n = n;
-        filename = ConstHelper.Const.FILE_STATISTIC + n + ConstHelper.Ext.TXT;
+        filename = SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT;
     }
 
 

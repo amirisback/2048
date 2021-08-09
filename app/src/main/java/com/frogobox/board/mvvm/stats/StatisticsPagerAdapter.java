@@ -1,4 +1,4 @@
-package com.frogobox.board.view;
+package com.frogobox.board.mvvm.stats;
 
 import android.content.ContextWrapper;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.bumptech.glide.Glide;
 import com.frogobox.board.R;
 import com.frogobox.board.model.GameStatistics;
-import com.frogobox.board.util.ConstHelper;
+import com.frogobox.board.util.SingleConst;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -149,14 +149,14 @@ public class StatisticsPagerAdapter extends PagerAdapter {
     private GameStatistics readStatisticsFromFile(int n) {
         GameStatistics gS = new GameStatistics(n);
         try {
-            File file = new File(contextWrapper.getFilesDir(), ConstHelper.Const.FILE_STATISTIC + n + ConstHelper.Ext.TXT);
+            File file = new File(contextWrapper.getFilesDir(), SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT);
             FileInputStream fileIn = new FileInputStream(file);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             gS = (GameStatistics) in.readObject();
             in.close();
             fileIn.close();
         } catch (InvalidClassException ice) {
-            File file = new File(contextWrapper.getFilesDir(), ConstHelper.Const.FILE_STATISTIC + n + ConstHelper.Ext.TXT);
+            File file = new File(contextWrapper.getFilesDir(), SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT);
             file.delete();
         } catch (Exception e) {
             e.printStackTrace();

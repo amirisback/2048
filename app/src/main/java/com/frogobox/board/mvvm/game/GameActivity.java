@@ -1,4 +1,4 @@
-package com.frogobox.board.ui;
+package com.frogobox.board.mvvm.game;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -21,12 +21,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.frogobox.board.R;
-import com.frogobox.board.base.BaseActivity;
+import com.frogobox.board.core.BaseActivity;
 import com.frogobox.board.model.Element;
 import com.frogobox.board.model.GameState;
 import com.frogobox.board.model.GameStatistics;
 import com.frogobox.board.util.Gestures;
-import com.frogobox.board.util.ConstHelper;
+import com.frogobox.board.util.SingleConst;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -96,16 +96,16 @@ public class GameActivity extends BaseActivity {
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();
-            if (firstTime && intent.getBooleanExtra(ConstHelper.Extra.EXTRA_NEW, true)) {
+            if (firstTime && intent.getBooleanExtra(SingleConst.Extra.EXTRA_NEW, true)) {
                 createNewGame = true;
                 firstTime = false;
             }
         }
 
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        animationActivated = sharedPref.getBoolean(ConstHelper.Pref.PREF_ANIMATION_ACTIVATED, true);
+        animationActivated = sharedPref.getBoolean(SingleConst.Pref.PREF_ANIMATION_ACTIVATED, true);
 
-        if (sharedPref.getBoolean(ConstHelper.Pref.PREF_SETTINGS_DISPLAY, true))
+        if (sharedPref.getBoolean(SingleConst.Pref.PREF_SETTINGS_DISPLAY, true))
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_game);
 
@@ -188,7 +188,7 @@ public class GameActivity extends BaseActivity {
 
     public void createNewGame() {
         createNewGame = true;
-        getIntent().putExtra(ConstHelper.Extra.EXTRA_NEW, true);
+        getIntent().putExtra(SingleConst.Extra.EXTRA_NEW, true);
         number_field.removeAllViews();
         number_field_background.removeAllViews();
         initialize();
@@ -221,10 +221,10 @@ public class GameActivity extends BaseActivity {
     public void initializeState() {
         points = 0;
         Intent intent = getIntent();
-        n = intent.getIntExtra(ConstHelper.Extra.EXTRA_N, 4);
-        newGame = intent.getBooleanExtra(ConstHelper.Extra.EXTRA_NEW, true);
-        filename = intent.getStringExtra(ConstHelper.Extra.EXTRA_FILENAME);
-        undo = intent.getBooleanExtra(ConstHelper.Extra.EXTRA_UNDO, false);
+        n = intent.getIntExtra(SingleConst.Extra.EXTRA_N, 4);
+        newGame = intent.getBooleanExtra(SingleConst.Extra.EXTRA_NEW, true);
+        filename = intent.getStringExtra(SingleConst.Extra.EXTRA_FILENAME);
+        undo = intent.getBooleanExtra(SingleConst.Extra.EXTRA_UNDO, false);
         if (!newGame) {
             gameState = readStateFromFile();
             points = gameState.points;
@@ -262,7 +262,7 @@ public class GameActivity extends BaseActivity {
 
     public void initialize() {
         Log.i("activity", "initialize");
-        if (getIntent().getIntExtra(ConstHelper.Extra.EXTRA_N, 4) != n || createNewGame) {
+        if (getIntent().getIntExtra(SingleConst.Extra.EXTRA_N, 4) != n || createNewGame) {
             initializeState();
 
         }
@@ -297,7 +297,7 @@ public class GameActivity extends BaseActivity {
                 elements[i][j].setNumber(gameState.getNumber(i, j));
 
                 elements[i][j].drawItem();
-                if (elements[i][j].getNumber() >= ConstHelper.Games.WINTHRESHOLD)
+                if (elements[i][j].getNumber() >= SingleConst.Games.WINTHRESHOLD)
                     won2048 = true;
                 RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(number_size, number_size);
                 lp.setMarginStart(abstand + j * (number_size + abstand));
@@ -725,7 +725,7 @@ public class GameActivity extends BaseActivity {
         if (!won2048)
             for (Element[] element : elements) {
                 for (Element value : element) {
-                    if (value.number == ConstHelper.Games.WINTHRESHOLD) {
+                    if (value.number == SingleConst.Games.WINTHRESHOLD) {
 
                         saveStatisticsToFile(gameStatistics);
                         //MESSAGE
@@ -749,9 +749,9 @@ public class GameActivity extends BaseActivity {
 
 
     public void setDPositions(boolean animation) {
-        long SCALINGSPEED = ConstHelper.Games.INIT_SCALINGSPEED;
-        long ADDINGSPEED = ConstHelper.Games.INIT_ADDINGSPEED;
-        long MOVINGSPEED = ConstHelper.Games.INIT_MOVINGSPEED;
+        long SCALINGSPEED = SingleConst.Games.INIT_SCALINGSPEED;
+        long ADDINGSPEED = SingleConst.Games.INIT_ADDINGSPEED;
+        long MOVINGSPEED = SingleConst.Games.INIT_MOVINGSPEED;
         boolean scale = true;
         if (!animation) {
             SCALINGSPEED = 1;
@@ -827,14 +827,14 @@ public class GameActivity extends BaseActivity {
             if (counter > 0) {
                 int index = (int) (Math.random() * counter);
                 int number = 2;
-                if (Math.random() > ConstHelper.Games.PROPABILITYFORTWO)
+                if (Math.random() > SingleConst.Games.PROPABILITYFORTWO)
                     number = 4;
 
                 empty_fields[index].setNumber(number);
                 empty_fields[index].drawItem();
                 if (animationActivated) {
                     empty_fields[index].setAlpha(0);
-                    empty_fields[index].animate().alpha(1).setInterpolator(new LinearInterpolator()).setStartDelay(ConstHelper.Games.INIT_MOVINGSPEED).setDuration(ConstHelper.Games.INIT_ADDINGSPEED).start();
+                    empty_fields[index].animate().alpha(1).setInterpolator(new LinearInterpolator()).setStartDelay(SingleConst.Games.INIT_MOVINGSPEED).setDuration(SingleConst.Games.INIT_ADDINGSPEED).start();
                 }
                 if (counter == 1) {
                     gameOver = true;
@@ -864,7 +864,7 @@ public class GameActivity extends BaseActivity {
                 .setMessage(this.getResources().getString(R.string.Lost_Message, points))
                 .setNegativeButton((this.getResources().getString(R.string.No_Message)), (dialog, which) -> {
                     createNewGame = true;
-                    getIntent().putExtra(ConstHelper.Extra.EXTRA_NEW, true);
+                    getIntent().putExtra(SingleConst.Extra.EXTRA_NEW, true);
                     initialize();
                     deleteStateFile();
                     saveState = false;
@@ -926,7 +926,7 @@ public class GameActivity extends BaseActivity {
         if (saveState)
             try {
                 if (filename == null)
-                    filename = ConstHelper.Const.FILE_STATE + n + ConstHelper.Ext.TXT;
+                    filename = SingleConst.Const.FILE_STATE + n + SingleConst.Ext.TXT;
                 File file = new File(getFilesDir(), filename);
                 FileOutputStream fileOut = new FileOutputStream(file);
                 ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -941,7 +941,7 @@ public class GameActivity extends BaseActivity {
     public boolean deleteStateFile() {
         try {
             if (filename == null)
-                filename = ConstHelper.Const.FILE_STATE + n + ConstHelper.Ext.TXT;
+                filename = SingleConst.Const.FILE_STATE + n + SingleConst.Ext.TXT;
             File directory = getFilesDir();
             File f = new File(directory, filename);
             return f.delete();
@@ -981,7 +981,7 @@ public class GameActivity extends BaseActivity {
     public GameStatistics readStatisticsFromFile() {
         GameStatistics gS = new GameStatistics(n);
         try {
-            File file = new File(getFilesDir(), ConstHelper.Const.FILE_STATISTIC + n + ConstHelper.Ext.TXT);
+            File file = new File(getFilesDir(), SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT);
             FileInputStream fileIn = new FileInputStream(file);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             gS = (GameStatistics) in.readObject();
@@ -1015,8 +1015,8 @@ public class GameActivity extends BaseActivity {
         public MovingListener(Element e, boolean scale) {
             super();
             this.e = e;
-            this.SCALINGSPEED = ConstHelper.Games.INIT_SCALINGSPEED;
-            this.scalingFactor = ConstHelper.Games.INIT_SCALINGFACTOR;
+            this.SCALINGSPEED = SingleConst.Games.INIT_SCALINGSPEED;
+            this.scalingFactor = SingleConst.Games.INIT_SCALINGFACTOR;
             this.scale = scale;
         }
 
@@ -1072,7 +1072,7 @@ public class GameActivity extends BaseActivity {
         public void onAnimationEnd(Animator animation) {
             super.onAnimationEnd(animation);
             if (e != null) {
-                e.animate().scaleX(1.0f).scaleY(1.0f).setDuration(ConstHelper.Games.INIT_SCALINGSPEED).setStartDelay(0).setInterpolator(new LinearInterpolator()).setListener(new AnimatorListenerAdapter() {
+                e.animate().scaleX(1.0f).scaleY(1.0f).setDuration(SingleConst.Games.INIT_SCALINGSPEED).setStartDelay(0).setInterpolator(new LinearInterpolator()).setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationCancel(Animator animation) {
                         super.onAnimationCancel(animation);

@@ -1,4 +1,4 @@
-package com.frogobox.board.view;
+package com.frogobox.board.mvvm.main;
 
 import android.view.LayoutInflater;
 import android.view.View;

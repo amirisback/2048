@@ -1,4 +1,4 @@
-package com.frogobox.board.ui;
+package com.frogobox.board.mvvm.settings;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.frogobox.board.R;
-import com.frogobox.board.base.BaseActivity;
+import com.frogobox.board.core.BaseActivity;
+import com.frogobox.board.mvvm.main.AboutUsActivity;
+import com.frogobox.board.mvvm.tutorial.TutorialActivity;
 
 public class SettingsActivity extends BaseActivity {
 

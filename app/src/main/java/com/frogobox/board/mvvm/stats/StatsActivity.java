@@ -1,4 +1,4 @@
-package com.frogobox.board.ui;
+package com.frogobox.board.mvvm.stats;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,9 +9,8 @@ import android.view.MenuItem;
 import androidx.viewpager.widget.ViewPager;
 
 import com.frogobox.board.R;
-import com.frogobox.board.base.BaseActivity;
-import com.frogobox.board.util.ConstHelper;
-import com.frogobox.board.view.StatisticsPagerAdapter;
+import com.frogobox.board.core.BaseActivity;
+import com.frogobox.board.util.SingleConst;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.File;
@@ -83,7 +82,7 @@ public class StatsActivity extends BaseActivity {
     public void resetGameStatistics() {
         for (int n = 4; n <= 7; n++) {
             try {
-                File file = new File(getFilesDir(), ConstHelper.Const.FILE_STATISTIC + n + ConstHelper.Ext.TXT);
+                File file = new File(getFilesDir(), SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT);
                 file.delete();
             } catch (Exception e) {
 

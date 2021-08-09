@@ -1,4 +1,4 @@
-package com.frogobox.board.util;
+package com.frogobox.board.core;
 
 /**
  * Created by Faisal Amir
@@ -31,7 +31,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
-public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
+public abstract class BasePreferenceActivity extends PreferenceActivity {
 
     private AppCompatDelegate mDelegate;
 

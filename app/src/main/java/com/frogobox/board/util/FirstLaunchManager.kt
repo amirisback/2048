@@ -1,35 +1,25 @@
-package com.frogobox.board.util;
+package com.frogobox.board.util
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Context
+import com.frogobox.board.source.PFASQLiteHelper
+import android.content.SharedPreferences
+import com.frogobox.board.util.SingleConst.Pref.IS_FIRST_TIME_LAUNCH
+import com.frogobox.board.util.SingleConst.Pref.PREF_NAME
 
-import com.frogobox.board.source.PFASQLiteHelper;
+class FirstLaunchManager(context: Context) {
 
-import static com.frogobox.board.util.ConstHelper.Pref.IS_FIRST_TIME_LAUNCH;
-import static com.frogobox.board.util.ConstHelper.Pref.PREF_NAME;
-import static com.frogobox.board.util.ConstHelper.Pref.PRIVATE_MODE;
+    private val dbHandler: PFASQLiteHelper = PFASQLiteHelper(context)
+    private val pref: SharedPreferences = context.getSharedPreferences(PREF_NAME, 0)
+    private val editor: SharedPreferences.Editor = pref.edit()
 
-public class FirstLaunchManager {
-    private PFASQLiteHelper dbHandler;
-    private SharedPreferences pref;
-    private SharedPreferences.Editor editor;
+    var isFirstTimeLaunch: Boolean
+        get() = pref.getBoolean(IS_FIRST_TIME_LAUNCH, true)
+        set(isFirstTime) {
+            editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTime)
+            editor.commit()
+        }
 
-    public FirstLaunchManager(Context context) {
-        pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
-        dbHandler = new PFASQLiteHelper(context);
-        editor = pref.edit();
-    }
-
-    public boolean isFirstTimeLaunch() {
-        return pref.getBoolean(IS_FIRST_TIME_LAUNCH, true);
-    }
-
-    public void setFirstTimeLaunch(boolean isFirstTime) {
-        editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTime);
-        editor.commit();
-    }
-
-    public void initFirstTimeLaunch() {
+    fun initFirstTimeLaunch() {
         if (pref.getBoolean(IS_FIRST_TIME_LAUNCH, true)) {
             // First time setup in here
         }

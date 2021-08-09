@@ -1,4 +1,4 @@
-package com.frogobox.board.ui;
+package com.frogobox.board.mvvm.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,10 +19,12 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.frogobox.board.R;
-import com.frogobox.board.base.BaseActivity;
-import com.frogobox.board.util.ConstHelper;
+import com.frogobox.board.core.BaseActivity;
+import com.frogobox.board.mvvm.game.GameActivity;
+import com.frogobox.board.mvvm.settings.SettingsActivity;
+import com.frogobox.board.mvvm.stats.StatsActivity;
+import com.frogobox.board.util.SingleConst;
 import com.frogobox.board.util.FirstLaunchManager;
-import com.frogobox.board.view.MainPagerAdapter;
 
 import java.io.File;
 
@@ -53,7 +55,7 @@ public class MainActivity extends BaseActivity {
         public void onPageSelected(int position) {
             addBottomDots(position);
             currentPage = position;
-            editor.putInt(ConstHelper.Pref.PREF_CURRENT_PAGE, currentPage);
+            editor.putInt(SingleConst.Pref.PREF_CURRENT_PAGE, currentPage);
             editor.commit();
             updateButtons(position);
 
@@ -90,7 +92,7 @@ public class MainActivity extends BaseActivity {
             for (File file : files) {
                 Log.i("files", file.getName());
                 for (int j = 0; j < gameResumeable.length; j++) {
-                    if (file.getName().equals(ConstHelper.Const.FILE_STATE + (j + 4) + ConstHelper.Ext.TXT))
+                    if (file.getName().equals(SingleConst.Const.FILE_STATE + (j + 4) + SingleConst.Ext.TXT))
                         gameResumeable[j] = true;
                 }
             }
@@ -111,9 +113,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences(ConstHelper.Pref.PREF_MY, Context.MODE_PRIVATE);
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(SingleConst.Pref.PREF_MY, Context.MODE_PRIVATE);
         editor = preferences.edit();
-        currentPage = preferences.getInt(ConstHelper.Pref.PREF_CURRENT_PAGE, 0);
+        currentPage = preferences.getInt(SingleConst.Pref.PREF_CURRENT_PAGE, 0);
         viewPager.setCurrentItem(currentPage);
         updateButtons(currentPage);
     }
@@ -123,20 +125,20 @@ public class MainActivity extends BaseActivity {
         final int temp = n;
         b1.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, GameActivity.class);
-            intent.putExtra(ConstHelper.Extra.EXTRA_N, temp);
-            intent.putExtra(ConstHelper.Extra.EXTRA_POINTS, 0);
-            intent.putExtra(ConstHelper.Extra.EXTRA_NEW, true);
-            intent.putExtra(ConstHelper.Extra.EXTRA_FILENAME, ConstHelper.Const.FILE_STATE + temp + ConstHelper.Ext.TXT);
-            intent.putExtra(ConstHelper.Extra.EXTRA_UNDO, false);
+            intent.putExtra(SingleConst.Extra.EXTRA_N, temp);
+            intent.putExtra(SingleConst.Extra.EXTRA_POINTS, 0);
+            intent.putExtra(SingleConst.Extra.EXTRA_NEW, true);
+            intent.putExtra(SingleConst.Extra.EXTRA_FILENAME, SingleConst.Const.FILE_STATE + temp + SingleConst.Ext.TXT);
+            intent.putExtra(SingleConst.Extra.EXTRA_UNDO, false);
             createBackStack(intent);
             setupShowAdsInterstitial();
         });
         b2.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, GameActivity.class);
-            intent.putExtra(ConstHelper.Extra.EXTRA_N, temp);
-            intent.putExtra(ConstHelper.Extra.EXTRA_NEW, false);
-            intent.putExtra(ConstHelper.Extra.EXTRA_FILENAME, ConstHelper.Const.FILE_STATE + temp + ConstHelper.Ext.TXT);
-            intent.putExtra(ConstHelper.Extra.EXTRA_UNDO, false);
+            intent.putExtra(SingleConst.Extra.EXTRA_N, temp);
+            intent.putExtra(SingleConst.Extra.EXTRA_NEW, false);
+            intent.putExtra(SingleConst.Extra.EXTRA_FILENAME, SingleConst.Const.FILE_STATE + temp + SingleConst.Ext.TXT);
+            intent.putExtra(SingleConst.Extra.EXTRA_UNDO, false);
             createBackStack(intent);
             setupShowAdsInterstitial();
         });

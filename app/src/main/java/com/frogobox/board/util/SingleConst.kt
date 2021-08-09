@@ -20,7 +20,7 @@ import com.frogobox.board.BuildConfig
  * com.frogobox.publicspeakingbooster.helper
  *
  */
-class ConstHelper {
+object SingleConst {
 
     object SQLiteDatabase {
 
@@ -63,7 +63,6 @@ class ConstHelper {
         const val EXTRA_FILENAME = "$BASE_EXTRA.EXTRA_FILENAME"
         const val EXTRA_UNDO = "$BASE_EXTRA.EXTRA_UNDO"
         const val EXTRA_POINTS = "$BASE_EXTRA.EXTRA_POINTS"
-
 
     }
 

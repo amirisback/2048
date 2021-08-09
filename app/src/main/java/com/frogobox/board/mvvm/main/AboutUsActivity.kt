@@ -1,8 +1,8 @@
-package  com.frogobox.board.ui
+package  com.frogobox.board.mvvm.main
 
 import android.os.Bundle
 import com.frogobox.board.R
-import com.frogobox.board.base.BaseActivity
+import com.frogobox.board.core.BaseActivity
 
 class AboutUsActivity : BaseActivity() {
 
