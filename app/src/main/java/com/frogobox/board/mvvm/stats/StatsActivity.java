@@ -29,13 +29,13 @@ public class StatsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_statistics);
+        setContentView(R.layout.activity_stats);
 
         setupDetailActivity("");
         getSupportActionBar().setElevation(0f);
 
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        StatisticsPagerAdapter mSectionsPagerAdapter = new StatisticsPagerAdapter(layoutInflater, layouts, TABNAMES, this);
+        StatsPagerAdapter mSectionsPagerAdapter = new StatsPagerAdapter(layoutInflater, layouts, TABNAMES, this);
 
         // Set up the ViewPager with the sections adapter.
         ViewPager mViewPager = findViewById(R.id.viewpager);

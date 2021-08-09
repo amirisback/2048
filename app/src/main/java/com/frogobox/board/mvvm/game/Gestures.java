@@ -1,4 +1,4 @@
-package com.frogobox.board.util;
+package com.frogobox.board.mvvm.game;
 
 /**
  * Created by Faisal Amir

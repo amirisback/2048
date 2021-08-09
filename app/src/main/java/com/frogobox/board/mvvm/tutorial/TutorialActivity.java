@@ -22,7 +22,6 @@ import com.bumptech.glide.Glide;
 import com.frogobox.board.R;
 import com.frogobox.board.core.BaseActivity;
 import com.frogobox.board.mvvm.main.MainActivity;
-import com.frogobox.board.util.FirstLaunchManager;
 
 public class TutorialActivity extends BaseActivity {
 
@@ -30,7 +29,7 @@ public class TutorialActivity extends BaseActivity {
     private ViewPager viewPager;
     private LinearLayout dotsLayout;
     private Button btnSkip, btnNext;
-    private FirstLaunchManager firstLaunchManager;
+    private TutorialController tutorialController;
     // layouts of all welcome sliders
     // add few more layouts if you want
     private int[] layouts = new int[]{
@@ -81,7 +80,7 @@ public class TutorialActivity extends BaseActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
 
-        firstLaunchManager = new FirstLaunchManager(this);
+        tutorialController = new TutorialController(this);
 
         viewPager = findViewById(R.id.view_pager);
         dotsLayout = findViewById(R.id.layoutDots);
@@ -146,10 +145,10 @@ public class TutorialActivity extends BaseActivity {
     }
 
     private void launchHomeScreen() {
-        if (firstLaunchManager.isFirstTimeLaunch()) {
+        if (tutorialController.isFirstTimeLaunch()) {
             Intent intent = new Intent(TutorialActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            firstLaunchManager.setFirstTimeLaunch(false);
+            tutorialController.setFirstTimeLaunch(false);
             startActivity(intent);
         }
         finish();

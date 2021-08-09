@@ -1,4 +1,4 @@
-package com.frogobox.board.util
+package com.frogobox.board.mvvm.tutorial
 
 import android.content.Context
 import com.frogobox.board.source.PFASQLiteHelper
@@ -6,7 +6,7 @@ import android.content.SharedPreferences
 import com.frogobox.board.util.SingleConst.Pref.IS_FIRST_TIME_LAUNCH
 import com.frogobox.board.util.SingleConst.Pref.PREF_NAME
 
-class FirstLaunchManager(context: Context) {
+class TutorialController(context: Context) {
 
     private val dbHandler: PFASQLiteHelper = PFASQLiteHelper(context)
     private val pref: SharedPreferences = context.getSharedPreferences(PREF_NAME, 0)

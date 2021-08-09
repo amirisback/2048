@@ -21,10 +21,10 @@ import androidx.viewpager.widget.ViewPager;
 import com.frogobox.board.R;
 import com.frogobox.board.core.BaseActivity;
 import com.frogobox.board.mvvm.game.GameActivity;
-import com.frogobox.board.mvvm.settings.SettingsActivity;
+import com.frogobox.board.mvvm.setting.SettingActivity;
 import com.frogobox.board.mvvm.stats.StatsActivity;
 import com.frogobox.board.util.SingleConst;
-import com.frogobox.board.util.FirstLaunchManager;
+import com.frogobox.board.mvvm.tutorial.TutorialController;
 
 import java.io.File;
 
@@ -79,7 +79,7 @@ public class MainActivity extends BaseActivity {
 
         setupToolbar();
 
-        FirstLaunchManager firstLaunchManager = new FirstLaunchManager(this);
+        TutorialController tutorialController = new TutorialController(this);
 
         viewPager = findViewById(R.id.view_pager);
         dotsLayout = findViewById(R.id.layoutDots);
@@ -206,7 +206,7 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.toolbar_menu_setting:
-                startActivity(new Intent(this, SettingsActivity.class));
+                startActivity(new Intent(this, SettingActivity.class));
                 setupShowAdsInterstitial();
                 return true;
             case R.id.toolbar_menu_stats:

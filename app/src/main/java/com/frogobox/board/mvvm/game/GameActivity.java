@@ -25,7 +25,6 @@ import com.frogobox.board.core.BaseActivity;
 import com.frogobox.board.model.Element;
 import com.frogobox.board.model.GameState;
 import com.frogobox.board.model.GameStatistics;
-import com.frogobox.board.util.Gestures;
 import com.frogobox.board.util.SingleConst;
 
 import java.io.File;

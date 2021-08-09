@@ -3,7 +3,7 @@ package com.frogobox.board.mvvm.main
 import com.frogobox.board.core.BaseActivity
 import android.os.Bundle
 import android.content.Intent
-import com.frogobox.board.util.FirstLaunchManager
+import com.frogobox.board.mvvm.tutorial.TutorialController
 import com.frogobox.board.mvvm.tutorial.TutorialActivity
 
 class SplashActivity : BaseActivity() {
@@ -12,7 +12,7 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         val mainIntent: Intent
-        val firstStartPref = FirstLaunchManager(this)
+        val firstStartPref = TutorialController(this)
 
         if (firstStartPref.isFirstTimeLaunch) {
             firstStartPref.initFirstTimeLaunch()

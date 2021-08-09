@@ -24,7 +24,7 @@
 
         <activity android:name=".mvvm.stats.StatsActivity" />
         <activity android:name=".mvvm.main.AboutUsActivity" />
-        <activity android:name=".mvvm.settings.SettingsActivity" />
+        <activity android:name=".mvvm.setting.SettingActivity" />
 
         <activity
             android:name=".mvvm.main.MainActivity"

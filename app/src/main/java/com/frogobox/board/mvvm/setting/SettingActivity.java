@@ -1,4 +1,4 @@
-package com.frogobox.board.mvvm.settings;
+package com.frogobox.board.mvvm.setting;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,31 +16,28 @@ import com.frogobox.board.core.BaseActivity;
 import com.frogobox.board.mvvm.main.AboutUsActivity;
 import com.frogobox.board.mvvm.tutorial.TutorialActivity;
 
-public class SettingsActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity {
 
-    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object value) {
-            String stringValue = value.toString();
+    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = (preference, value) -> {
+        String stringValue = value.toString();
 
-            if (preference instanceof ListPreference) {
-                // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
-                ListPreference listPreference = (ListPreference) preference;
-                int index = listPreference.findIndexOfValue(stringValue);
+        if (preference instanceof ListPreference) {
+            // For list preferences, look up the correct display value in
+            // the preference's 'entries' list.
+            ListPreference listPreference = (ListPreference) preference;
+            int index = listPreference.findIndexOfValue(stringValue);
 
-                // Set the summary to reflect the new value.
-                preference.setSummary(
-                        index >= 0
-                                ? listPreference.getEntries()[index]
-                                : null);
-            } else {
-                // For all other preferences, set the summary to the value's
-                // simple string representation.
-                preference.setSummary(stringValue);
-            }
-            return true;
+            // Set the summary to reflect the new value.
+            preference.setSummary(
+                    index >= 0
+                            ? listPreference.getEntries()[index]
+                            : null);
+        } else {
+            // For all other preferences, set the summary to the value's
+            // simple string representation.
+            preference.setSummary(stringValue);
         }
+        return true;
     };
 
     private static boolean isXLargeTablet(Context context) {
@@ -61,7 +58,7 @@ public class SettingsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_setting);
         setupDetailActivity("");
         getSupportActionBar().setElevation(0f);
         setupShowAdsBanner(findViewById(R.id.ads_banner));
@@ -91,14 +88,5 @@ public class SettingsActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public static class GeneralPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_general);
-        }
-    }
-
 
 }
