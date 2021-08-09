@@ -77,23 +77,6 @@ public class GameActivity extends BaseActivity {
     private GameStatistics gameStatistics = new GameStatistics(n);
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.action_settings);
-        item.setVisible(false);
-        super.onPrepareOptionsMenu(menu);
-        return true;
-    }
-
-    @Override
-    public void onPause() {
-        Log.i("lifecycle", "pause");
-        save();
-
-        super.onPause();
-
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -134,26 +117,18 @@ public class GameActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_toolbar_game, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-
         if (id == R.id.action_settings) {
             return true;
         } else if (id == android.R.id.home) {
             save();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -167,6 +142,113 @@ public class GameActivity extends BaseActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         save();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_settings);
+        item.setVisible(false);
+        super.onPrepareOptionsMenu(menu);
+        return true;
+    }
+
+    @Override
+    public void onPause() {
+        Log.i("lifecycle", "pause");
+        save();
+        super.onPause();
+    }
+
+    public String display(Element[][] e) {
+        String result = "\n";
+        for (int i = 0; i < e.length; i++) {
+            for (int j = 0; j < e[i].length; j++)
+                result = result + " " + elements[i][j].number; //+ " "+elements[i][j];
+            result = result + "\n";
+        }
+        result += "\n";
+        for (int i = 0; i < e.length; i++) {
+            for (int j = 0; j < e[i].length; j++)
+                result = result + " (" + elements[i][j].getX() + " , " + elements[i][j].getY() + ")" + " v:" + elements[i][j].getVisibility();//+" "+elements[i][j];
+            result = result + "\n";
+        }
+        return result;
+    }
+
+    public Element[][] deepCopy(Element[][] e) {
+        Element[][] r = new Element[e.length][];
+        for (int i = 0; i < r.length; i++) {
+            r[i] = new Element[e[i].length];
+            for (int j = 0; j < r[i].length; j++) {
+                r[i][j] = e[i][j].copy();
+            }
+        }
+        return r;
+    }
+
+    public GameState readStateFromFile() {
+        GameState nS = new GameState(n);
+        try {
+            File file = new File(getFilesDir(), filename);
+            FileInputStream fileIn = new FileInputStream(file);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            nS = (GameState) in.readObject();
+            boolean emptyField = true;
+            for (int i = 0; i < nS.numbers.length; i++) {
+                if (nS.numbers[i] > 0) {
+                    emptyField = false;
+                    break;
+                }
+            }
+            if (emptyField || nS.n != n) {
+                nS = new GameState(n);
+                newGame = true;
+            }
+            in.close();
+            fileIn.close();
+        } catch (Exception e) {
+            newGame = true;
+            e.printStackTrace();
+        }
+        return nS;
+    }
+
+    public GameStatistics readStatisticsFromFile() {
+        GameStatistics gS = new GameStatistics(n);
+        try {
+            File file = new File(getFilesDir(), SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT);
+            FileInputStream fileIn = new FileInputStream(file);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            gS = (GameStatistics) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return gS;
+    }
+
+    public void start() {
+        Log.i("activity", "start");
+        saveState = true;
+        ViewGroup.LayoutParams lp = number_field.getLayoutParams();
+
+        //setting squared Number Field
+        if (number_field.getHeight() > number_field.getWidth())
+            lp.height = number_field.getWidth();
+        else
+            lp.width = number_field.getHeight();
+        number_field.setLayoutParams(lp);
+        number_field_background.setLayoutParams(lp);
+
+        initialize();
+        setListener();
+        if (newGame) {
+            moved = true;
+            addNumber();
+        }
+        newGame = false;
+
     }
 
     public void initResources() {
@@ -233,30 +315,6 @@ public class GameActivity extends BaseActivity {
         number_field.removeAllViews();
         number_field_background.removeAllViews();
         initialize();
-
-    }
-
-    protected void start() {
-        Log.i("activity", "start");
-        saveState = true;
-        ViewGroup.LayoutParams lp = number_field.getLayoutParams();
-
-        //setting squared Number Field
-        if (number_field.getHeight() > number_field.getWidth())
-            lp.height = number_field.getWidth();
-        else
-            lp.width = number_field.getHeight();
-        number_field.setLayoutParams(lp);
-        number_field_background.setLayoutParams(lp);
-
-        initialize();
-        setListener();
-        if (newGame) {
-            moved = true;
-            addNumber();
-        }
-        newGame = false;
-
     }
 
     public void initializeState() {
@@ -278,8 +336,6 @@ public class GameActivity extends BaseActivity {
         last_elements = new Element[n][n];
         backgroundElements = new Element[n][n];
         saveState = true;
-
-
     }
 
     public void drawAllElements(Element[][] e) {
@@ -298,7 +354,6 @@ public class GameActivity extends BaseActivity {
         gameState.undo = undo;
         updateHighestNumber();
         check2048();
-
     }
 
     public void initialize() {
@@ -321,6 +376,7 @@ public class GameActivity extends BaseActivity {
 
         textFieldRecord.setText("" + record);
         textFieldPoints.setText("" + points);
+
         if (undo)
             undoButton.setVisibility(View.VISIBLE);
         else
@@ -380,17 +436,6 @@ public class GameActivity extends BaseActivity {
         e2.animateMoving = false;
         e2.setDPosition(i, j);
 
-    }
-
-    public Element[][] deepCopy(Element[][] e) {
-        Element[][] r = new Element[e.length][];
-        for (int i = 0; i < r.length; i++) {
-            r[i] = new Element[e[i].length];
-            for (int j = 0; j < r[i].length; j++) {
-                r[i][j] = e[i][j].copy();
-            }
-        }
-        return r;
     }
 
     public void setListener() {
@@ -471,7 +516,6 @@ public class GameActivity extends BaseActivity {
                 addNumber();
                 setDPositions(animationActivated);
                 updateGameState();
-                //es wurde nach oben gewischt, hier den Code einfügen
                 return false;
             }
 
@@ -735,22 +779,6 @@ public class GameActivity extends BaseActivity {
         }
     }
 
-    public String display(Element[][] e) {
-        String result = "\n";
-        for (int i = 0; i < e.length; i++) {
-            for (int j = 0; j < e[i].length; j++)
-                result = result + " " + elements[i][j].number; //+ " "+elements[i][j];
-            result = result + "\n";
-        }
-        result += "\n";
-        for (int i = 0; i < e.length; i++) {
-            for (int j = 0; j < e[i].length; j++)
-                result = result + " (" + elements[i][j].getX() + " , " + elements[i][j].getY() + ")" + " v:" + elements[i][j].getVisibility();//+" "+elements[i][j];
-            result = result + "\n";
-        }
-        return result;
-    }
-
     public void updateHighestNumber() {
         for (Element[] element : elements) {
             for (Element value : element) {
@@ -882,6 +910,7 @@ public class GameActivity extends BaseActivity {
                         for (int j = 0; j < elements[i].length; j++) {
                             if ((i + 1 < elements.length && elements[i][j].number == elements[i + 1][j].number) || (j + 1 < elements[i].length && elements[i][j].number == elements[i][j + 1].number)) {
                                 gameOver = false;
+                                break;
                             }
                         }
                     }
@@ -947,48 +976,6 @@ public class GameActivity extends BaseActivity {
             e.printStackTrace();
         }
         return false;
-    }
-
-    public GameState readStateFromFile() {
-        GameState nS = new GameState(n);
-        try {
-            File file = new File(getFilesDir(), filename);
-            FileInputStream fileIn = new FileInputStream(file);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            nS = (GameState) in.readObject();
-            boolean emptyField = true;
-            for (int i = 0; i < nS.numbers.length; i++) {
-                if (nS.numbers[i] > 0) {
-                    emptyField = false;
-                    break;
-                }
-            }
-            if (emptyField || nS.n != n) {
-                nS = new GameState(n);
-                newGame = true;
-            }
-            in.close();
-            fileIn.close();
-        } catch (Exception e) {
-            newGame = true;
-            e.printStackTrace();
-        }
-        return nS;
-    }
-
-    public GameStatistics readStatisticsFromFile() {
-        GameStatistics gS = new GameStatistics(n);
-        try {
-            File file = new File(getFilesDir(), SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT);
-            FileInputStream fileIn = new FileInputStream(file);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            gS = (GameStatistics) in.readObject();
-            in.close();
-            fileIn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return gS;
     }
 
     public void saveStatisticsToFile(GameStatistics gS) {
@@ -1080,4 +1067,5 @@ public class GameActivity extends BaseActivity {
 
         }
     }
+
 }

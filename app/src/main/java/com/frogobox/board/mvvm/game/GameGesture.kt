@@ -1,4 +1,13 @@
-package com.frogobox.board.mvvm.game;
+package com.frogobox.board.mvvm.game
+
+import android.content.Context
+import android.view.View.OnTouchListener
+import android.view.GestureDetector
+import android.view.MotionEvent
+import android.view.GestureDetector.SimpleOnGestureListener
+import android.view.View
+import java.lang.Exception
+import kotlin.math.abs
 
 /**
  * Created by Faisal Amir
@@ -17,92 +26,88 @@ package com.frogobox.board.mvvm.game;
  * com.frogobox.basegameboard2048.model
  *
  */
+open class GameGesture(context: Context?) : OnTouchListener {
 
-import android.content.Context;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
-import android.view.View;
-
-public class GameGesture implements View.OnTouchListener {
-
-    private GestureDetector gestureDetector = null;
-    private Context cxt = null;
-
-    public GameGesture(Context context) {
-        gestureDetector = new GestureDetector(context, new GameGestureListener());
-        cxt = context;
+    companion object {
+        private const val SWIPE_THRESHOLD = 50
+        private const val SWIPE_VELOCITY_THRESHOLD = 0
     }
 
-    public boolean onTouch(View v, MotionEvent event) {
-        boolean res = gestureDetector.onTouchEvent(event);
-        return res;
+    private var gestureDetector: GestureDetector? = null
+    private var cxt: Context? = null
+
+    init {
+        gestureDetector = GestureDetector(context, GameGestureListener())
+        cxt = context
     }
 
-    private final class GameGestureListener extends GestureDetector.SimpleOnGestureListener {
+    override fun onTouch(v: View, event: MotionEvent): Boolean {
+        return gestureDetector!!.onTouchEvent(event)
+    }
 
-        private static final int SWIPE_THRESHOLD = 50;
-        private static final int SWIPE_VELOCITY_THRESHOLD = 0;
+    private inner class GameGestureListener : SimpleOnGestureListener() {
 
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return true;
+        override fun onDown(e: MotionEvent): Boolean {
+            return true
         }
 
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            
-            boolean result = false;
+        override fun onFling(
+            e1: MotionEvent,
+            e2: MotionEvent,
+            velocityX: Float,
+            velocityY: Float
+        ): Boolean {
+            var result = false
             try {
-                float diffY = e2.getY() - e1.getY();
-                float diffX = e2.getX() - e1.getX();
-                if (Math.abs(diffX) > Math.abs(diffY)) {
-                    if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                val diffY = e2.y - e1.y
+                val diffX = e2.x - e1.x
+                result = if (abs(diffX) > abs(diffY)) {
+                    if (abs(diffX) > Companion.SWIPE_THRESHOLD && abs(velocityX) > Companion.SWIPE_VELOCITY_THRESHOLD) {
                         if (diffX > 0) {
-                            result = onSwipeRight();
+                            onSwipeRight()
                         } else {
-                            result = onSwipeLeft();
+                            onSwipeLeft()
                         }
-                    }else{
-                        result = nichts();
+                    } else {
+                        nichts()
                     }
                 } else {
-                    if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                    if (abs(diffY) > Companion.SWIPE_THRESHOLD && abs(velocityY) > Companion.SWIPE_VELOCITY_THRESHOLD) {
                         if (diffY > 0) {
-                            result = onSwipeBottom();
+                            onSwipeBottom()
                         } else {
-                            result = onSwipeTop();
+                            onSwipeTop()
                         }
-                    }else{
-                        result = nichts();
+                    } else {
+                        nichts()
                     }
                 }
-            } catch (Exception exception) {
-                exception.printStackTrace();
+            } catch (exception: Exception) {
+                exception.printStackTrace()
             }
-            return result;
+            return result
         }
+
     }
 
-    public boolean onSwipeRight() {
-        return false;
+    open fun onSwipeRight(): Boolean {
+        return false
     }
 
-    public boolean onSwipeLeft() {
-        return false;
+    open fun onSwipeLeft(): Boolean {
+        return false
     }
 
-    public boolean nichts(){
-        return false;
+    open fun nichts(): Boolean {
+        return false
     }
 
-    public boolean onSwipeTop() {
-        return false;
+    open fun onSwipeTop(): Boolean {
+        return false
     }
 
-    public boolean onSwipeBottom() {
-        return false;
+    open fun onSwipeBottom(): Boolean {
+        return false
     }
 
 }
-
-
