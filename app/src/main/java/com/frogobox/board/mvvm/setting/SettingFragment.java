@@ -18,10 +18,12 @@ import android.preference.PreferenceFragment;
 
 import com.frogobox.board.R;
 
-public class GeneralPreferenceFragment extends PreferenceFragment {
+public class SettingFragment extends PreferenceFragment {
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.pref_general);
+        addPreferencesFromResource(R.xml.fragment_setting);
     }
+
 }

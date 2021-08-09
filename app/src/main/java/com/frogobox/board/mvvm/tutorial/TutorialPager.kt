@@ -27,7 +27,7 @@ import com.frogobox.board.model.Tutorial
  * FrogoBox Software Industries
  * com.frogobox.basegameboard2048.view.pager
  */
-class TutorialPagerAdapter(
+class TutorialPager(
     private val layoutInflater: LayoutInflater,
     private val layouts: IntArray
 ) : PagerAdapter() {

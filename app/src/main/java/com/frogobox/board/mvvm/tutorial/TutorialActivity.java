@@ -30,6 +30,7 @@ public class TutorialActivity extends BaseActivity {
     private LinearLayout dotsLayout;
     private Button btnSkip, btnNext;
     private TutorialController tutorialController;
+
     // layouts of all welcome sliders
     // add few more layouts if you want
     private int[] layouts = new int[]{
@@ -95,8 +96,8 @@ public class TutorialActivity extends BaseActivity {
         changeStatusBarColor();
 
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        TutorialPagerAdapter tutorialPagerAdapter = new TutorialPagerAdapter(layoutInflater, layouts);
-        viewPager.setAdapter(tutorialPagerAdapter);
+        TutorialPager tutorialPager = new TutorialPager(layoutInflater, layouts);
+        viewPager.setAdapter(tutorialPager);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
         try {

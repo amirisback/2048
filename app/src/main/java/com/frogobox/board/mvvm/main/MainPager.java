@@ -27,12 +27,12 @@ import com.frogobox.board.R;
  * FrogoBox Software Industries
  * com.frogobox.basegameboard2048.view.pager
  */
-public class MainPagerAdapter extends PagerAdapter {
+public class MainPager extends PagerAdapter {
 
     private LayoutInflater layoutInflater;
     private int[] layouts;
 
-    public MainPagerAdapter(LayoutInflater layoutInflater, int[] layouts) {
+    public MainPager(LayoutInflater layoutInflater, int[] layouts) {
         this.layoutInflater = layoutInflater;
         this.layouts = layouts;
     }

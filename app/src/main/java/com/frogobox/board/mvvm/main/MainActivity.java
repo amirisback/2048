@@ -103,9 +103,9 @@ public class MainActivity extends BaseActivity {
         addBottomDots(0);
 
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        MainPagerAdapter mainPagerAdapter = new MainPagerAdapter(layoutInflater, layouts);
+        MainPager mainPager = new MainPager(layoutInflater, layouts);
 
-        viewPager.setAdapter(mainPagerAdapter);
+        viewPager.setAdapter(mainPager);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
     }

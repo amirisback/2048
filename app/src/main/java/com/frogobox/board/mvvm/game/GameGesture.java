@@ -23,13 +23,13 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class Gestures implements View.OnTouchListener {
+public class GameGesture implements View.OnTouchListener {
 
     private GestureDetector gestureDetector = null;
     private Context cxt = null;
 
-    public Gestures(Context context) {
-        gestureDetector = new GestureDetector(context, new GestureListener());
+    public GameGesture(Context context) {
+        gestureDetector = new GestureDetector(context, new GameGestureListener());
         cxt = context;
     }
 
@@ -38,7 +38,7 @@ public class Gestures implements View.OnTouchListener {
         return res;
     }
 
-    private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
+    private final class GameGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         private static final int SWIPE_THRESHOLD = 50;
         private static final int SWIPE_VELOCITY_THRESHOLD = 0;

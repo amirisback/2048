@@ -38,13 +38,13 @@ import java.util.concurrent.TimeUnit;
  * FrogoBox Software Industries
  * com.frogobox.basegameboard2048.view.pager
  */
-public class StatsPagerAdapter extends PagerAdapter {
+public class StatsPager extends PagerAdapter {
     private LayoutInflater layoutInflater;
     private int[] layouts;
     private String[] tabNames;
     private ContextWrapper contextWrapper;
 
-    public StatsPagerAdapter(LayoutInflater layoutInflater, int[] layouts, String[] tabNames, ContextWrapper contextWrapper) {
+    public StatsPager(LayoutInflater layoutInflater, int[] layouts, String[] tabNames, ContextWrapper contextWrapper) {
         this.layoutInflater = layoutInflater;
         this.layouts = layouts;
         this.tabNames = tabNames;

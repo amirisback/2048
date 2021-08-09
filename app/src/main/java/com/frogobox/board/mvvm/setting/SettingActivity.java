@@ -66,7 +66,7 @@ public class SettingActivity extends BaseActivity {
 
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
-                || GeneralPreferenceFragment.class.getName().equals(fragmentName);
+                || SettingFragment.class.getName().equals(fragmentName);
     }
 
     @Override

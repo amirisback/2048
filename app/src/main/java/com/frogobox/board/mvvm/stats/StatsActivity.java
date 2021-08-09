@@ -20,10 +20,10 @@ public class StatsActivity extends BaseActivity {
 
     String[] TABNAMES = {"4 x 4", "5 x 5", "6 x 6", "7 x 7"};
     private int[] layouts = new int[]{
-            R.layout.fragment_statistics,
-            R.layout.fragment_statistics,
-            R.layout.fragment_statistics,
-            R.layout.fragment_statistics
+            R.layout.fragment_stats,
+            R.layout.fragment_stats,
+            R.layout.fragment_stats,
+            R.layout.fragment_stats
     };
 
     @Override
@@ -35,7 +35,7 @@ public class StatsActivity extends BaseActivity {
         getSupportActionBar().setElevation(0f);
 
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        StatsPagerAdapter mSectionsPagerAdapter = new StatsPagerAdapter(layoutInflater, layouts, TABNAMES, this);
+        StatsPager mSectionsPagerAdapter = new StatsPager(layoutInflater, layouts, TABNAMES, this);
 
         // Set up the ViewPager with the sections adapter.
         ViewPager mViewPager = findViewById(R.id.viewpager);
