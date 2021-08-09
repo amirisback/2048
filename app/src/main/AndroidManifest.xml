@@ -30,9 +30,11 @@
             android:name=".mvvm.main.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppThemeNoToolbar" />
+
         <activity
             android:name=".mvvm.tutorial.TutorialActivity"
             android:theme="@style/AppThemeNoToolbar" />
+
         <activity
             android:name=".mvvm.game.GameActivity"
             android:theme="@style/AppThemeNoToolbar" />

@@ -352,7 +352,7 @@ public class GameActivity extends BaseActivity {
     }
 
     public void setListener() {
-        swipeListener = new Gestures(this) {
+        swipeListener = new GameGesture(this) {
             public boolean onSwipeTop() {
                 Element[][] temp = deepCopy(elements);
                 int temp_points = points;
