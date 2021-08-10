@@ -60,7 +60,7 @@ class StatsActivity : BaseActivity() {
         val layoutInflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val mSectionsPagerAdapter = StatsPager(layoutInflater, layouts, TABNAMES, this)
         viewpager.adapter = mSectionsPagerAdapter
-        tablayout.setupWithViewPager(viewpager)
+        tab_layout.setupWithViewPager(viewpager)
     }
 
     private fun resetGameStatistics() {
