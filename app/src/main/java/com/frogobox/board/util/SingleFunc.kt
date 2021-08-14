@@ -113,36 +113,47 @@ object SingleFunc {
         return nS
     }
 
-    fun deepCopy(e: Array<Array<Element>>): Array<Array<Element?>?> {
-        val r: Array<Array<Element?>?> = arrayOfNulls(e.size)
+    fun deepCopy(e: Array<Array<Element?>?>?): Array<Array<Element?>?> {
+        val r: Array<Array<Element?>?> = e?.let { arrayOfNulls(it.size) }!!
         for (i in r.indices) {
-            r[i] = arrayOfNulls(e[i].size)
+            r[i] = e[i]?.let { arrayOfNulls(it.size) }
             for (j in r[i]!!.indices) {
-                r[i]?.set(j, e[i][j].copy())
+                r[i]?.set(j, e[i]?.get(j)?.copy())
             }
         }
         return r
     }
 
-    fun drawAllElements(e: Array<Array<Element>>) {
-        for (i in e) {
-            for (j in i) {
-                j.drawItem()
+    fun drawAllElements(e: Array<Array<Element?>?>?) {
+        if (e != null) {
+            for (i in e) {
+                if (i != null) {
+                    for (j in i) {
+                        j?.drawItem()
+                    }
+                }
             }
         }
     }
 
     fun updateHighestNumber(
-        elements: Array<Array<Element>>,
+        elements: Array<Array<Element?>?>?,
         score: Int,
         callback: GameCallback.GameScoreCallback
     ) {
-        for (element in elements) {
-            for (value in element) {
-                if (score < value.number) {
-                    callback.setupHighScore(value.number)
+        if (elements != null) {
+            for (element in elements) {
+                if (element != null) {
+                    for (value in element) {
+                        if (value != null) {
+                            if (score < value.number) {
+                                callback.setupHighScore(value.number)
+                            }
+                        }
+                    }
                 }
             }
         }
     }
+
 }

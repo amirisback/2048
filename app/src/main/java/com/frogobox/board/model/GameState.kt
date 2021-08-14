@@ -33,11 +33,9 @@ class GameState : Serializable {
     var last_points = 0
 
     @JvmField
-    var numbers: IntArray
-
-    @JvmField
     var undo = false
 
+    lateinit var numbers: IntArray
     private lateinit var last_numbers: IntArray
 
     constructor(size: Int) {
@@ -60,28 +58,54 @@ class GameState : Serializable {
         last_numbers = numbers
     }
 
-    constructor(e: Array<Array<Element>>, e2: Array<Array<Element>>) {
+    constructor(e: Array<Array<Element?>?>?, e2: Array<Array<Element?>?>?) {
         var length = 1
-        for (elements in e) {
-            if (elements.size > length) length = elements.size
+        if (e != null) {
+            for (elements in e) {
+                if (elements != null) {
+                    if (elements.size > length) length = elements.size
+                }
+            }
         }
-        n = e.size
-        numbers = IntArray(e.size * e.size)
+        if (e != null) {
+            n = e.size
+        }
+        if (e != null) {
+            numbers = IntArray(e.size * e.size)
+        }
         var c = 0
-        for (elements in e) {
-            for (element in elements) {
-                numbers[c++] = element.number
+        if (e != null) {
+            for (elements in e) {
+                if (elements != null) {
+                    for (element in elements) {
+                        if (element != null) {
+                            numbers[c++] = element.number
+                        }
+                    }
+                }
             }
         }
         length = 1
-        for (elements in e2) {
-            if (elements.size > length) length = elements.size
+        if (e2 != null) {
+            for (elements in e2) {
+                if (elements != null) {
+                    if (elements.size > length) length = elements.size
+                }
+            }
         }
-        last_numbers = IntArray(e2.size * e2.size)
+        if (e2 != null) {
+            last_numbers = IntArray(e2.size * e2.size)
+        }
         c = 0
-        for (elements in e2) {
-            for (element in elements) {
-                last_numbers[c++] = element.number
+        if (e2 != null) {
+            for (elements in e2) {
+                if (elements != null) {
+                    for (element in elements) {
+                        if (element != null) {
+                            last_numbers[c++] = element.number
+                        }
+                    }
+                }
             }
         }
     }
