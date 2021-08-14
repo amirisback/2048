@@ -1,25 +1,12 @@
 package  com.frogobox.board.util
 
-import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
-import android.os.Environment
-import com.frogobox.board.BuildConfig
-import com.frogobox.board.R
 import com.frogobox.board.model.GameState
 import com.frogobox.board.model.GameStatistics
-import com.frogobox.board.mvvm.game.GameActivity
-import com.frogobox.board.util.SingleConst.Dir.DIR_NAME
-import com.frogobox.board.util.SingleConst.Dir.VIDEO_FILE_NAME
+import com.frogobox.board.mvvm.game.GameCallback
 import com.frogobox.board.widget.Element
 import java.io.*
 import java.lang.Exception
-import java.net.HttpURLConnection
-import java.net.URL
 
 
 /**
@@ -78,6 +65,54 @@ object SingleFunc {
         }
     }
 
+    fun readStatisticsFromFile(context: Context, n: Int): GameStatistics {
+        var gS = GameStatistics(n)
+        try {
+            val file: File =
+                File(context.filesDir, SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT)
+            val fileIn = FileInputStream(file)
+            val `in` = ObjectInputStream(fileIn)
+            gS = `in`.readObject() as GameStatistics
+            `in`.close()
+            fileIn.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return gS
+    }
+
+    fun readStateFromFile(
+        context: Context,
+        fileName: String,
+        n: Int,
+        callback: GameCallback.GameStateCallback
+    ): GameState {
+        var nS = GameState(n)
+        try {
+            val file = File(context.filesDir, fileName)
+            val fileIn = FileInputStream(file)
+            val `in` = ObjectInputStream(fileIn)
+            nS = `in`.readObject() as GameState
+            var emptyField = true
+            for (i in nS.numbers.indices) {
+                if (nS.numbers[i] > 0) {
+                    emptyField = false
+                    break
+                }
+            }
+            if (emptyField || nS.n != n) {
+                nS = GameState(n)
+                callback.setupNewGame()
+            }
+            `in`.close()
+            fileIn.close()
+        } catch (e: Exception) {
+            callback.setupNewGame()
+            e.printStackTrace()
+        }
+        return nS
+    }
+
     fun deepCopy(e: Array<Array<Element>>): Array<Array<Element?>?> {
         val r: Array<Array<Element?>?> = arrayOfNulls(e.size)
         for (i in r.indices) {
@@ -97,4 +132,17 @@ object SingleFunc {
         }
     }
 
+    fun updateHighestNumber(
+        elements: Array<Array<Element>>,
+        score: Int,
+        callback: GameCallback.GameScoreCallback
+    ) {
+        for (element in elements) {
+            for (value in element) {
+                if (score < value.number) {
+                    callback.setupHighScore(value.number)
+                }
+            }
+        }
+    }
 }

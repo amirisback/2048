@@ -28,9 +28,6 @@ import com.frogobox.board.model.GameState;
 import com.frogobox.board.model.GameStatistics;
 import com.frogobox.board.util.SingleConst;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 import java.util.Calendar;
 
 public class GameActivity extends BaseActivity {
@@ -72,8 +69,6 @@ public class GameActivity extends BaseActivity {
 
     private TextView tv_points;
     private TextView tv_record;
-
-    private View.OnTouchListener swipeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,242 +161,8 @@ public class GameActivity extends BaseActivity {
         save();
     }
 
-    private GameState readStateFromFile() {
-        GameState nS = new GameState(n);
-        try {
-            File file = new File(getFilesDir(), filename);
-            FileInputStream fileIn = new FileInputStream(file);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            nS = (GameState) in.readObject();
-            boolean emptyField = true;
-            for (int i = 0; i < nS.numbers.length; i++) {
-                if (nS.numbers[i] > 0) {
-                    emptyField = false;
-                    break;
-                }
-            }
-            if (emptyField || nS.n != n) {
-                nS = new GameState(n);
-                newGame = true;
-            }
-            in.close();
-            fileIn.close();
-        } catch (Exception e) {
-            newGame = true;
-            e.printStackTrace();
-        }
-        return nS;
-    }
-
-    private GameStatistics readStatisticsFromFile() {
-        GameStatistics gS = new GameStatistics(n);
-        try {
-            File file = new File(getFilesDir(), SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT);
-            FileInputStream fileIn = new FileInputStream(file);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            gS = (GameStatistics) in.readObject();
-            in.close();
-            fileIn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return gS;
-    }
-
-    private void start() {
-        Log.i("activity", "start");
-        saveState = true;
-        ViewGroup.LayoutParams lp = number_field.getLayoutParams();
-
-        // setting squared Number Field
-        if (number_field.getHeight() > number_field.getWidth())
-            lp.height = number_field.getWidth();
-        else
-            lp.width = number_field.getHeight();
-        number_field.setLayoutParams(lp);
-        number_field_background.setLayoutParams(lp);
-
-        initGame();
-        setListener();
-        if (newGame) {
-            moved = true;
-            addNumber();
-        }
-        newGame = false;
-
-    }
-
-    private void initUI() {
-
-        btn_restart.setOnClickListener(v -> {
-            SingleFunc.INSTANCE.saveStatisticsToFile(this, gameStatistics);
-            createNewGame();
-            setupShowAdsInterstitial();
-        });
-
-        btn_undo.setOnClickListener(v -> {
-            btn_undo.setVisibility(View.INVISIBLE);
-            if (undo && last_elements != null) {
-                gameStatistics.undo();
-                elements = last_elements;
-                points = last_points;
-                number_field.removeAllViews();
-                points = last_points;
-                tv_points.setText(String.valueOf(points));
-                setDPositions(false);
-                for (Element[] i : elements) {
-                    for (Element j : i) {
-                        j.setVisibility(View.INVISIBLE);
-                        number_field.addView(j);
-                        j.drawItem();
-                    }
-                }
-                for (int i = 0; i < elements.length; i++) {
-                    for (int j = 0; j < elements[i].length; j++) {
-                        elements[i][j].setOnTouchListener(swipeListener);
-                        backgroundElements[i][j].setOnTouchListener(swipeListener);
-                    }
-                }
-                updateGameState();
-                SingleFunc.INSTANCE.drawAllElements(elements);
-                number_field.refreshDrawableState();
-            }
-            undo = false;
-        });
-
-    }
-
-    private void initState() {
-        points = 0;
-        Intent intent = getIntent();
-        n = intent.getIntExtra(SingleConst.Extra.EXTRA_N, 4);
-        newGame = intent.getBooleanExtra(SingleConst.Extra.EXTRA_NEW, true);
-        filename = intent.getStringExtra(SingleConst.Extra.EXTRA_FILENAME);
-        undo = intent.getBooleanExtra(SingleConst.Extra.EXTRA_UNDO, false);
-        if (!newGame) {
-            gameState = readStateFromFile();
-            points = gameState.points;
-            last_points = gameState.last_points;
-        } else {
-            gameState = new GameState(n);
-            newGame = true;
-        }
-        elements = new Element[n][n];
-        last_elements = new Element[n][n];
-        backgroundElements = new Element[n][n];
-        saveState = true;
-    }
-
-    private void initGame() {
-        Log.i("activity", "initialize");
-        if (getIntent().getIntExtra(SingleConst.Extra.EXTRA_N, 4) != n || createNewGame) {
-            initState();
-        }
-        gameStatistics = readStatisticsFromFile();
-        record = gameStatistics.getRecord();
-        last_points = gameState.last_points;
-        createNewGame = false;
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int abstand = (10 * metrics.densityDpi) / DisplayMetrics.DENSITY_DEFAULT;
-        numberFieldSize = number_field.getWidth();
-        if (numberFieldSize > number_field.getHeight())
-            numberFieldSize = number_field.getHeight();
-        int number_size = (numberFieldSize - abstand) / n - abstand;
-
-        tv_record.setText(String.valueOf(record));
-        tv_points.setText(String.valueOf(points));
-
-        if (undo)
-            btn_undo.setVisibility(View.VISIBLE);
-        else
-            btn_undo.setVisibility(View.INVISIBLE);
-
-        number_field_background.removeAllViews();
-        number_field.removeAllViews();
-        for (int i = 0; i < elements.length; i++) {
-            for (int j = 0; j < elements[i].length; j++) {
-
-                backgroundElements[i][j] = new Element(this);
-
-                elements[i][j] = new Element(this);
-                elements[i][j].setNumber(gameState.getNumber(i, j));
-
-                elements[i][j].drawItem();
-                if (elements[i][j].getNumber() >= SingleConst.Games.WINTHRESHOLD)
-                    won2048 = true;
-                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(number_size, number_size);
-                lp.setMarginStart(abstand + j * (number_size + abstand));
-                lp.topMargin = abstand + i * (number_size + abstand);
-                elements[i][j].setDPosition(lp.getMarginStart(), lp.topMargin);
-                elements[i][j].setLayoutParams(lp);
-                backgroundElements[i][j].setLayoutParams(lp);
-                elements[i][j].updateFontSize();
-                backgroundElements[i][j].setLayoutParams(lp);
-                backgroundElements[i][j].setOnTouchListener(swipeListener);
-                elements[i][j].setOnTouchListener(swipeListener);
-                number_field_background.addView(backgroundElements[i][j]);
-                number_field.addView(elements[i][j]);
-            }
-        }
-        last_elements = SingleFunc.INSTANCE.deepCopy(elements);
-        if (undo) {
-            for (int i = 0; i < elements.length; i++) {
-                for (int j = 0; j < elements[i].length; j++) {
-                    last_elements[i][j].setNumber(gameState.getLastNumber(i, j));
-                }
-            }
-        }
-        if (newGame) {
-            moved = true;
-            addNumber();
-            moved = true;
-            addNumber();
-            newGame = false;
-        }
-    }
-
-    private void save() {
-        Log.i("saving", "save");
-        if (!createNewGame)
-            SingleFunc.INSTANCE.saveStateToFile(this, gameState, filename, saveState);
-        gameStatistics.addTimePlayed(Calendar.getInstance().getTimeInMillis() - startingTime);
-        startingTime = Calendar.getInstance().getTimeInMillis();
-        SingleFunc.INSTANCE.saveStatisticsToFile(this, gameStatistics);
-        firstTime = true;
-    }
-
-    private void createNewGame() {
-        createNewGame = true;
-        getIntent().putExtra(SingleConst.Extra.EXTRA_NEW, true);
-        number_field.removeAllViews();
-        number_field_background.removeAllViews();
-        initGame();
-    }
-
-    private void updateGameState() {
-        gameState = new GameState(elements, last_elements);
-        gameState.n = n;
-        gameState.points = points;
-        gameState.last_points = last_points;
-        gameState.undo = undo;
-        updateHighestNumber();
-        check2048();
-    }
-
-    private void switchElementPositions(Element e1, Element e2) {
-        int i = e1.getdPosX();
-        int j = e1.getdPosY();
-
-        e1.animateMoving = true;
-        e1.setDPosition(e2.getdPosX(), e2.getdPosY());
-        e2.animateMoving = false;
-        e2.setDPosition(i, j);
-
-    }
-
-    private void setListener() {
-        swipeListener = new GameGesture(this) {
+    private View.OnTouchListener swipeListener() {
+        return new GameGesture(this) {
             public boolean onSwipeTop() {
                 Element[][] temp = SingleFunc.INSTANCE.deepCopy(elements);
                 int temp_points = points;
@@ -641,7 +402,6 @@ public class GameActivity extends BaseActivity {
                 addNumber();
                 setDPositions(animationActivated);
                 updateGameState();
-                //es wurde nach links gewischt, hier den Code einfügen
                 return false;
             }
 
@@ -686,7 +446,6 @@ public class GameActivity extends BaseActivity {
                     s.posX = elements[i].length - 1;
                     s.posY = i;
 
-
                     for (int j = elements[i].length - 2; j >= 0; j--) {
                         if (elements[j][i].number != 0 && s.number == 0) {
                             moved = true;
@@ -722,34 +481,221 @@ public class GameActivity extends BaseActivity {
                 addNumber();
                 setDPositions(animationActivated);
                 updateGameState();
-                //es wurde nach unten gewischt, hier den Code einfügen
                 return false;
             }
 
             public boolean nichts() {
-                //es wurde keine wischrichtung erkannt, hier den Code einfügen
                 return false;
             }
         };
-        touch_field.setOnTouchListener(swipeListener);
-        number_field.setOnTouchListener(swipeListener);
-        for (int i = 0; i < elements.length; i++) {
-            for (int j = 0; j < elements[i].length; j++) {
-                elements[i][j].setOnTouchListener(swipeListener);
-                backgroundElements[i][j].setOnTouchListener(swipeListener);
-            }
-        }
     }
 
-    private void updateHighestNumber() {
-        for (Element[] element : elements) {
-            for (Element value : element) {
-                if (highestNumber < value.number) {
-                    highestNumber = value.number;
-                    gameStatistics.setHighestNumber(highestNumber);
+    private void start() {
+        Log.i("activity", "start");
+        saveState = true;
+        ViewGroup.LayoutParams lp = number_field.getLayoutParams();
+
+        // setting squared Number Field
+        if (number_field.getHeight() > number_field.getWidth())
+            lp.height = number_field.getWidth();
+        else
+            lp.width = number_field.getHeight();
+        number_field.setLayoutParams(lp);
+        number_field_background.setLayoutParams(lp);
+
+        initGame();
+
+        touch_field.setOnTouchListener(swipeListener());
+        number_field.setOnTouchListener(swipeListener());
+
+        for (int i = 0; i < elements.length; i++) {
+            for (int j = 0; j < elements[i].length; j++) {
+                elements[i][j].setOnTouchListener(swipeListener());
+                backgroundElements[i][j].setOnTouchListener(swipeListener());
+            }
+        }
+
+        if (newGame) {
+            moved = true;
+            addNumber();
+        }
+        newGame = false;
+
+    }
+
+    private void initUI() {
+
+        btn_restart.setOnClickListener(v -> {
+            SingleFunc.INSTANCE.saveStatisticsToFile(this, gameStatistics);
+            createNewGame();
+            setupShowAdsInterstitial();
+        });
+
+        btn_undo.setOnClickListener(v -> {
+            btn_undo.setVisibility(View.INVISIBLE);
+            if (undo && last_elements != null) {
+                gameStatistics.undo();
+                elements = last_elements;
+                points = last_points;
+                number_field.removeAllViews();
+                points = last_points;
+                tv_points.setText(String.valueOf(points));
+                setDPositions(false);
+                for (Element[] i : elements) {
+                    for (Element j : i) {
+                        j.setVisibility(View.INVISIBLE);
+                        number_field.addView(j);
+                        j.drawItem();
+                    }
+                }
+                for (int i = 0; i < elements.length; i++) {
+                    for (int j = 0; j < elements[i].length; j++) {
+                        elements[i][j].setOnTouchListener(swipeListener());
+                        backgroundElements[i][j].setOnTouchListener(swipeListener());
+                    }
+                }
+                updateGameState();
+                SingleFunc.INSTANCE.drawAllElements(elements);
+                number_field.refreshDrawableState();
+            }
+            undo = false;
+        });
+
+    }
+
+    private void initState() {
+        points = 0;
+        Intent intent = getIntent();
+        n = intent.getIntExtra(SingleConst.Extra.EXTRA_N, 4);
+        newGame = intent.getBooleanExtra(SingleConst.Extra.EXTRA_NEW, true);
+        filename = intent.getStringExtra(SingleConst.Extra.EXTRA_FILENAME);
+        undo = intent.getBooleanExtra(SingleConst.Extra.EXTRA_UNDO, false);
+        if (!newGame) {
+            gameState = SingleFunc.INSTANCE.readStateFromFile(this, filename, n, () -> newGame = true);
+            points = gameState.points;
+            last_points = gameState.last_points;
+        } else {
+            gameState = new GameState(n);
+            newGame = true;
+        }
+        elements = new Element[n][n];
+        last_elements = new Element[n][n];
+        backgroundElements = new Element[n][n];
+        saveState = true;
+    }
+
+    private void initGame() {
+        Log.i("activity", "initialize");
+        if (getIntent().getIntExtra(SingleConst.Extra.EXTRA_N, 4) != n || createNewGame) {
+            initState();
+        }
+        gameStatistics = SingleFunc.INSTANCE.readStatisticsFromFile(this, n);
+
+        record = gameStatistics.getRecord();
+        last_points = gameState.last_points;
+        createNewGame = false;
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        int abstand = (10 * metrics.densityDpi) / DisplayMetrics.DENSITY_DEFAULT;
+        numberFieldSize = number_field.getWidth();
+        if (numberFieldSize > number_field.getHeight())
+            numberFieldSize = number_field.getHeight();
+        int number_size = (numberFieldSize - abstand) / n - abstand;
+
+        tv_record.setText(String.valueOf(record));
+        tv_points.setText(String.valueOf(points));
+
+        if (undo)
+            btn_undo.setVisibility(View.VISIBLE);
+        else
+            btn_undo.setVisibility(View.INVISIBLE);
+
+        number_field_background.removeAllViews();
+        number_field.removeAllViews();
+        for (int i = 0; i < elements.length; i++) {
+            for (int j = 0; j < elements[i].length; j++) {
+
+                backgroundElements[i][j] = new Element(this);
+
+                elements[i][j] = new Element(this);
+                elements[i][j].setNumber(gameState.getNumber(i, j));
+
+                elements[i][j].drawItem();
+                if (elements[i][j].getNumber() >= SingleConst.Games.WINTHRESHOLD)
+                    won2048 = true;
+                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(number_size, number_size);
+                lp.setMarginStart(abstand + j * (number_size + abstand));
+                lp.topMargin = abstand + i * (number_size + abstand);
+                elements[i][j].setDPosition(lp.getMarginStart(), lp.topMargin);
+                elements[i][j].setLayoutParams(lp);
+                backgroundElements[i][j].setLayoutParams(lp);
+                elements[i][j].updateFontSize();
+                backgroundElements[i][j].setLayoutParams(lp);
+                backgroundElements[i][j].setOnTouchListener(swipeListener());
+                elements[i][j].setOnTouchListener(swipeListener());
+                number_field_background.addView(backgroundElements[i][j]);
+                number_field.addView(elements[i][j]);
+            }
+        }
+        last_elements = SingleFunc.INSTANCE.deepCopy(elements);
+        if (undo) {
+            for (int i = 0; i < elements.length; i++) {
+                for (int j = 0; j < elements[i].length; j++) {
+                    last_elements[i][j].setNumber(gameState.getLastNumber(i, j));
                 }
             }
         }
+        if (newGame) {
+            moved = true;
+            addNumber();
+            moved = true;
+            addNumber();
+            newGame = false;
+        }
+    }
+
+    private void save() {
+        Log.i("saving", "save");
+        if (!createNewGame)
+            SingleFunc.INSTANCE.saveStateToFile(this, gameState, filename, saveState);
+        gameStatistics.addTimePlayed(Calendar.getInstance().getTimeInMillis() - startingTime);
+        startingTime = Calendar.getInstance().getTimeInMillis();
+        SingleFunc.INSTANCE.saveStatisticsToFile(this, gameStatistics);
+        firstTime = true;
+    }
+
+    private void createNewGame() {
+        createNewGame = true;
+        getIntent().putExtra(SingleConst.Extra.EXTRA_NEW, true);
+        number_field.removeAllViews();
+        number_field_background.removeAllViews();
+        initGame();
+    }
+
+    private void updateGameState() {
+        gameState = new GameState(elements, last_elements);
+        gameState.n = n;
+        gameState.points = points;
+        gameState.last_points = last_points;
+        gameState.undo = undo;
+        SingleFunc.INSTANCE.updateHighestNumber(elements, highestNumber, highScore -> {
+            highestNumber = highScore;
+            gameStatistics.setHighestNumber(highestNumber);
+        });
+        check2048();
+    }
+
+    private void switchElementPositions(Element e1, Element e2) {
+        int i = e1.getdPosX();
+        int j = e1.getdPosY();
+
+        e1.animateMoving = true;
+        e1.setDPosition(e2.getdPosX(), e2.getdPosY());
+        e2.animateMoving = false;
+        e2.setDPosition(i, j);
+
     }
 
     private void check2048() {
@@ -777,13 +723,9 @@ public class GameActivity extends BaseActivity {
     }
 
     private void setDPositions(boolean animation) {
-        long SCALINGSPEED = SingleConst.Games.INIT_SCALINGSPEED;
-        long ADDINGSPEED = SingleConst.Games.INIT_ADDINGSPEED;
         long MOVINGSPEED = SingleConst.Games.INIT_MOVINGSPEED;
         boolean scale = true;
         if (!animation) {
-            SCALINGSPEED = 1;
-            ADDINGSPEED = 1;
             MOVINGSPEED = 1;
             scale = false;
         }
@@ -804,7 +746,6 @@ public class GameActivity extends BaseActivity {
                             j.drawItem();
                         } else
                             j.animate().x(j.dPosX).setDuration(0).setStartDelay(MOVINGSPEED).setInterpolator(new LinearInterpolator()).setListener(new MovingListener(j, false)).start();
-
                     }
 
                 }
