@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.frogobox.board.R;
 import com.frogobox.board.core.BaseActivity;
+import com.frogobox.board.util.SingleFunc;
 import com.frogobox.board.widget.Element;
 import com.frogobox.board.model.GameState;
 import com.frogobox.board.model.GameStatistics;
@@ -257,7 +258,7 @@ public class GameActivity extends BaseActivity {
         textFieldRecord = findViewById(R.id.record);
         restartButton = findViewById(R.id.restartButton);
         restartButton.setOnClickListener(v -> {
-            saveStatisticsToFile(gameStatistics);
+            SingleFunc.INSTANCE.saveStatisticsToFile(this, gameStatistics);
             createNewGame();
             setupShowAdsInterstitial();
         });
@@ -300,10 +301,10 @@ public class GameActivity extends BaseActivity {
     public void save() {
         Log.i("saving", "save");
         if (!createNewGame)
-            saveStateToFile(gameState);
+            SingleFunc.INSTANCE.saveStateToFile(this, gameState, filename, saveState);
         gameStatistics.addTimePlayed(Calendar.getInstance().getTimeInMillis() - startingTime);
         startingTime = Calendar.getInstance().getTimeInMillis();
-        saveStatisticsToFile(gameStatistics);
+        SingleFunc.INSTANCE.saveStatisticsToFile(this, gameStatistics);
         firstTime = true;
     }
 
@@ -794,7 +795,7 @@ public class GameActivity extends BaseActivity {
                 for (Element value : element) {
                     if (value.number == SingleConst.Games.WINTHRESHOLD) {
 
-                        saveStatisticsToFile(gameStatistics);
+                        SingleFunc.INSTANCE.saveStatisticsToFile(GameActivity.this, gameStatistics);
                         //MESSAGE
                         new AlertDialog.Builder(this)
                                 .setTitle((this.getResources().getString(R.string.Titel_V_Message)))
@@ -925,7 +926,7 @@ public class GameActivity extends BaseActivity {
 
     public void gameOver() {
         Log.i("record", "" + record + ", " + gameStatistics.getRecord());
-        saveStatisticsToFile(gameStatistics);
+        SingleFunc.INSTANCE.saveStatisticsToFile(this, gameStatistics);
         new AlertDialog.Builder(this)
                 .setTitle((this.getResources().getString(R.string.Titel_L_Message, points)))
                 .setMessage(this.getResources().getString(R.string.Lost_Message, points))
@@ -933,7 +934,7 @@ public class GameActivity extends BaseActivity {
                     createNewGame = true;
                     getIntent().putExtra(SingleConst.Extra.EXTRA_NEW, true);
                     initialize();
-                    deleteStateFile();
+                    SingleFunc.INSTANCE.deleteStateFile(GameActivity.this, filename);
                     saveState = false;
                     GameActivity.this.onBackPressed();
                     setupShowAdsInterstitial();
@@ -947,46 +948,5 @@ public class GameActivity extends BaseActivity {
         Log.i("record", "danach");
     }
 
-    public void saveStateToFile(GameState nS) {
-        if (saveState)
-            try {
-                if (filename == null)
-                    filename = SingleConst.Const.FILE_STATE + n + SingleConst.Ext.TXT;
-                File file = new File(getFilesDir(), filename);
-                FileOutputStream fileOut = new FileOutputStream(file);
-                ObjectOutputStream out = new ObjectOutputStream(fileOut);
-                out.writeObject(nS);
-                out.close();
-                fileOut.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-    }
-
-    public boolean deleteStateFile() {
-        try {
-            if (filename == null)
-                filename = SingleConst.Const.FILE_STATE + n + SingleConst.Ext.TXT;
-            File directory = getFilesDir();
-            File f = new File(directory, filename);
-            return f.delete();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public void saveStatisticsToFile(GameStatistics gS) {
-        try {
-            File file = new File(getFilesDir(), gS.getFilename());
-            FileOutputStream fileOut = new FileOutputStream(file);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(gS);
-            out.close();
-            fileOut.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
 }
