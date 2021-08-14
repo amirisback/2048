@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.frogobox.board.R;
 import com.frogobox.board.core.BaseActivity;
 import com.frogobox.board.util.SingleFunc;
@@ -28,56 +30,61 @@ import com.frogobox.board.util.SingleConst;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Calendar;
 
-@SuppressWarnings("StringConcatenationInLoop")
 public class GameActivity extends BaseActivity {
 
-    public static int n = 4;
-    public static int points = 0;
-    public static int last_points = 0;
+    private int n = 4;
+    private int points = 0;
+    private int last_points = 0;
+    private int highestNumber = 0;
+    private int numberFieldSize = 0;
 
-    public static long record = 0;
-    public static long startingTime;
+    private long record = 0;
+    private long startingTime = Calendar.getInstance().getTimeInMillis();
 
-    public static boolean moved = false;
-    public static boolean firstTime = true;
-    public static boolean newGame;
-    public static boolean gameOver = false;
-    public static boolean createNewGame = true;
-    public static boolean undo = false;
-    public static boolean animationActivated = true;
-    public static boolean saveState = true;
+    private boolean moved = false;
+    private boolean undo = false;
+    private boolean won2048 = false;
+    private boolean newGame = false;
+    private boolean gameOver = false;
+    private boolean firstTime = true;
+    private boolean saveState = true;
+    private boolean createNewGame = true;
+    private boolean animationActivated = true;
 
-    public int numberFieldSize = 0;
-    public int highestNumber;
+    private String filename = "";
 
-    public boolean won2048 = false;
+    private GameState gameState = null;
+    private GameStatistics gameStatistics = new GameStatistics(n);
 
-    public TextView textFieldPoints;
-    public TextView textFieldRecord;
+    private Element[][] elements = null;
+    private Element[][] last_elements = null;
+    private Element[][] backgroundElements = null;
 
-    private static Element[][] elements = null;
-    private static Element[][] last_elements = null;
-    private static Element[][] backgroundElements;
-    private static GameState gameState = null;
-    private static String filename;
-
+    private RelativeLayout touch_field;
     private RelativeLayout number_field;
     private RelativeLayout number_field_background;
-    private RelativeLayout touch_field;
+
     private ImageView restartButton;
     private ImageView undoButton;
+
+    private TextView textFieldPoints;
+    private TextView textFieldRecord;
+
     private View.OnTouchListener swipeListener;
-    private GameStatistics gameStatistics = new GameStatistics(n);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        animationActivated = sharedPref.getBoolean(SingleConst.Pref.PREF_ANIMATION_ACTIVATED, true);
+
+        if (sharedPref.getBoolean(SingleConst.Pref.PREF_SETTINGS_DISPLAY, true))
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         saveState = true;
 
@@ -89,21 +96,12 @@ public class GameActivity extends BaseActivity {
             }
         }
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        animationActivated = sharedPref.getBoolean(SingleConst.Pref.PREF_ANIMATION_ACTIVATED, true);
-
-        if (sharedPref.getBoolean(SingleConst.Pref.PREF_SETTINGS_DISPLAY, true))
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.activity_game);
-
         initResources();
-
         setupShowAdsBanner(findViewById(R.id.ads_banner));
-
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         createNewGame = false;
         super.onConfigurationChanged(newConfig);
     }
@@ -138,7 +136,7 @@ public class GameActivity extends BaseActivity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         save();
     }
@@ -156,22 +154,6 @@ public class GameActivity extends BaseActivity {
         Log.i("lifecycle", "pause");
         save();
         super.onPause();
-    }
-
-    public String display(Element[][] e) {
-        String result = "\n";
-        for (int i = 0; i < e.length; i++) {
-            for (int j = 0; j < e[i].length; j++)
-                result = result + " " + elements[i][j].number; //+ " "+elements[i][j];
-            result = result + "\n";
-        }
-        result += "\n";
-        for (int i = 0; i < e.length; i++) {
-            for (int j = 0; j < e[i].length; j++)
-                result = result + " (" + elements[i][j].getX() + " , " + elements[i][j].getY() + ")" + " v:" + elements[i][j].getVisibility();//+" "+elements[i][j];
-            result = result + "\n";
-        }
-        return result;
     }
 
     public Element[][] deepCopy(Element[][] e) {
@@ -251,18 +233,23 @@ public class GameActivity extends BaseActivity {
     }
 
     public void initResources() {
+
         number_field = findViewById(R.id.number_field);
         number_field_background = findViewById(R.id.number_field_background);
         touch_field = findViewById(R.id.touch_field);
+
         textFieldPoints = findViewById(R.id.points);
         textFieldRecord = findViewById(R.id.record);
+
         restartButton = findViewById(R.id.restartButton);
+        undoButton = findViewById(R.id.undoButton);
+
         restartButton.setOnClickListener(v -> {
             SingleFunc.INSTANCE.saveStatisticsToFile(this, gameStatistics);
             createNewGame();
             setupShowAdsInterstitial();
         });
-        undoButton = findViewById(R.id.undoButton);
+
         undoButton.setOnClickListener(v -> {
             undoButton.setVisibility(View.INVISIBLE);
             if (undo && last_elements != null) {
@@ -270,9 +257,8 @@ public class GameActivity extends BaseActivity {
                 elements = last_elements;
                 points = last_points;
                 number_field.removeAllViews();
-                //number_field_background.removeAllViews();
                 points = last_points;
-                textFieldPoints.setText("" + points);
+                textFieldPoints.setText(String.valueOf(points));
                 setDPositions(false);
                 for (Element[] i : elements) {
                     for (Element j : i) {
@@ -294,8 +280,6 @@ public class GameActivity extends BaseActivity {
             undo = false;
         });
 
-        //number_field.setBackgroundColor((this.getResources().getColor(R.color.background_gamebord)));
-        startingTime = Calendar.getInstance().getTimeInMillis();
     }
 
     public void save() {
@@ -373,8 +357,8 @@ public class GameActivity extends BaseActivity {
             numberFieldSize = number_field.getHeight();
         int number_size = (numberFieldSize - abstand) / n - abstand;
 
-        textFieldRecord.setText("" + record);
-        textFieldPoints.setText("" + points);
+        textFieldRecord.setText(String.valueOf(record));
+        textFieldPoints.setText(String.valueOf(points));
 
         if (undo)
             undoButton.setVisibility(View.VISIBLE);
@@ -794,9 +778,7 @@ public class GameActivity extends BaseActivity {
             for (Element[] element : elements) {
                 for (Element value : element) {
                     if (value.number == SingleConst.Games.WINTHRESHOLD) {
-
                         SingleFunc.INSTANCE.saveStatisticsToFile(GameActivity.this, gameStatistics);
-                        //MESSAGE
                         new AlertDialog.Builder(this)
                                 .setTitle((this.getResources().getString(R.string.Titel_V_Message)))
                                 .setMessage((this.getResources().getString(R.string.Winning_Message)))
@@ -876,12 +858,12 @@ public class GameActivity extends BaseActivity {
         if (points > record) {
             record = points;
             gameStatistics.setRecord(record);
-            textFieldRecord.setText("" + record);
+            textFieldRecord.setText(String.valueOf(record));
         }
         if (moved) {
             gameOver = false;
             moved = false;
-            textFieldPoints.setText("" + points);
+            textFieldPoints.setText(String.valueOf(points));
             Element[] empty_fields = new Element[n * n];
             int counter = 0;
             for (Element[] element : elements) {
@@ -947,6 +929,5 @@ public class GameActivity extends BaseActivity {
                 .create().show();
         Log.i("record", "danach");
     }
-
 
 }
