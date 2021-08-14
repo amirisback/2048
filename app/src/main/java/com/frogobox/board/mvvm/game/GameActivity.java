@@ -67,11 +67,11 @@ public class GameActivity extends BaseActivity {
     private RelativeLayout number_field;
     private RelativeLayout number_field_background;
 
-    private ImageView restartButton;
-    private ImageView undoButton;
+    private ImageView btn_restart;
+    private ImageView btn_undo;
 
-    private TextView textFieldPoints;
-    private TextView textFieldRecord;
+    private TextView tv_points;
+    private TextView tv_record;
 
     private View.OnTouchListener swipeListener;
 
@@ -79,6 +79,16 @@ public class GameActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        number_field = findViewById(R.id.number_field);
+        number_field_background = findViewById(R.id.number_field_background);
+        touch_field = findViewById(R.id.touch_field);
+
+        tv_points = findViewById(R.id.tv_points);
+        tv_record = findViewById(R.id.tv_record);
+
+        btn_restart = findViewById(R.id.btn_restart);
+        btn_undo = findViewById(R.id.btn_undo);
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         animationActivated = sharedPref.getBoolean(SingleConst.Pref.PREF_ANIMATION_ACTIVATED, true);
@@ -96,20 +106,20 @@ public class GameActivity extends BaseActivity {
             }
         }
 
-        initResources();
+        initUI();
         setupShowAdsBanner(findViewById(R.id.ads_banner));
     }
 
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        createNewGame = false;
         super.onConfigurationChanged(newConfig);
+        createNewGame = false;
     }
 
     @Override
     public void onBackPressed() {
-        save();
         super.onBackPressed();
+        save();
     }
 
     @Override
@@ -151,23 +161,12 @@ public class GameActivity extends BaseActivity {
 
     @Override
     public void onPause() {
+        super.onPause();
         Log.i("lifecycle", "pause");
         save();
-        super.onPause();
     }
 
-    public Element[][] deepCopy(Element[][] e) {
-        Element[][] r = new Element[e.length][];
-        for (int i = 0; i < r.length; i++) {
-            r[i] = new Element[e[i].length];
-            for (int j = 0; j < r[i].length; j++) {
-                r[i][j] = e[i][j].copy();
-            }
-        }
-        return r;
-    }
-
-    public GameState readStateFromFile() {
+    private GameState readStateFromFile() {
         GameState nS = new GameState(n);
         try {
             File file = new File(getFilesDir(), filename);
@@ -194,7 +193,7 @@ public class GameActivity extends BaseActivity {
         return nS;
     }
 
-    public GameStatistics readStatisticsFromFile() {
+    private GameStatistics readStatisticsFromFile() {
         GameStatistics gS = new GameStatistics(n);
         try {
             File file = new File(getFilesDir(), SingleConst.Const.FILE_STATISTIC + n + SingleConst.Ext.TXT);
@@ -209,12 +208,12 @@ public class GameActivity extends BaseActivity {
         return gS;
     }
 
-    public void start() {
+    private void start() {
         Log.i("activity", "start");
         saveState = true;
         ViewGroup.LayoutParams lp = number_field.getLayoutParams();
 
-        //setting squared Number Field
+        // setting squared Number Field
         if (number_field.getHeight() > number_field.getWidth())
             lp.height = number_field.getWidth();
         else
@@ -222,7 +221,7 @@ public class GameActivity extends BaseActivity {
         number_field.setLayoutParams(lp);
         number_field_background.setLayoutParams(lp);
 
-        initialize();
+        initGame();
         setListener();
         if (newGame) {
             moved = true;
@@ -232,33 +231,23 @@ public class GameActivity extends BaseActivity {
 
     }
 
-    public void initResources() {
+    private void initUI() {
 
-        number_field = findViewById(R.id.number_field);
-        number_field_background = findViewById(R.id.number_field_background);
-        touch_field = findViewById(R.id.touch_field);
-
-        textFieldPoints = findViewById(R.id.points);
-        textFieldRecord = findViewById(R.id.record);
-
-        restartButton = findViewById(R.id.restartButton);
-        undoButton = findViewById(R.id.undoButton);
-
-        restartButton.setOnClickListener(v -> {
+        btn_restart.setOnClickListener(v -> {
             SingleFunc.INSTANCE.saveStatisticsToFile(this, gameStatistics);
             createNewGame();
             setupShowAdsInterstitial();
         });
 
-        undoButton.setOnClickListener(v -> {
-            undoButton.setVisibility(View.INVISIBLE);
+        btn_undo.setOnClickListener(v -> {
+            btn_undo.setVisibility(View.INVISIBLE);
             if (undo && last_elements != null) {
                 gameStatistics.undo();
                 elements = last_elements;
                 points = last_points;
                 number_field.removeAllViews();
                 points = last_points;
-                textFieldPoints.setText(String.valueOf(points));
+                tv_points.setText(String.valueOf(points));
                 setDPositions(false);
                 for (Element[] i : elements) {
                     for (Element j : i) {
@@ -274,7 +263,7 @@ public class GameActivity extends BaseActivity {
                     }
                 }
                 updateGameState();
-                drawAllElements(elements);
+                SingleFunc.INSTANCE.drawAllElements(elements);
                 number_field.refreshDrawableState();
             }
             undo = false;
@@ -282,25 +271,7 @@ public class GameActivity extends BaseActivity {
 
     }
 
-    public void save() {
-        Log.i("saving", "save");
-        if (!createNewGame)
-            SingleFunc.INSTANCE.saveStateToFile(this, gameState, filename, saveState);
-        gameStatistics.addTimePlayed(Calendar.getInstance().getTimeInMillis() - startingTime);
-        startingTime = Calendar.getInstance().getTimeInMillis();
-        SingleFunc.INSTANCE.saveStatisticsToFile(this, gameStatistics);
-        firstTime = true;
-    }
-
-    public void createNewGame() {
-        createNewGame = true;
-        getIntent().putExtra(SingleConst.Extra.EXTRA_NEW, true);
-        number_field.removeAllViews();
-        number_field_background.removeAllViews();
-        initialize();
-    }
-
-    public void initializeState() {
+    private void initState() {
         points = 0;
         Intent intent = getIntent();
         n = intent.getIntExtra(SingleConst.Extra.EXTRA_N, 4);
@@ -321,29 +292,10 @@ public class GameActivity extends BaseActivity {
         saveState = true;
     }
 
-    public void drawAllElements(Element[][] e) {
-        for (Element[] i : e) {
-            for (Element j : i) {
-                j.drawItem();
-            }
-        }
-    }
-
-    public void updateGameState() {
-        gameState = new GameState(elements, last_elements);
-        gameState.n = n;
-        gameState.points = points;
-        gameState.last_points = last_points;
-        gameState.undo = undo;
-        updateHighestNumber();
-        check2048();
-    }
-
-    public void initialize() {
+    private void initGame() {
         Log.i("activity", "initialize");
         if (getIntent().getIntExtra(SingleConst.Extra.EXTRA_N, 4) != n || createNewGame) {
-            initializeState();
-
+            initState();
         }
         gameStatistics = readStatisticsFromFile();
         record = gameStatistics.getRecord();
@@ -357,21 +309,20 @@ public class GameActivity extends BaseActivity {
             numberFieldSize = number_field.getHeight();
         int number_size = (numberFieldSize - abstand) / n - abstand;
 
-        textFieldRecord.setText(String.valueOf(record));
-        textFieldPoints.setText(String.valueOf(points));
+        tv_record.setText(String.valueOf(record));
+        tv_points.setText(String.valueOf(points));
 
         if (undo)
-            undoButton.setVisibility(View.VISIBLE);
+            btn_undo.setVisibility(View.VISIBLE);
         else
-            undoButton.setVisibility(View.INVISIBLE);
+            btn_undo.setVisibility(View.INVISIBLE);
 
         number_field_background.removeAllViews();
         number_field.removeAllViews();
         for (int i = 0; i < elements.length; i++) {
             for (int j = 0; j < elements[i].length; j++) {
-                //background elements
+
                 backgroundElements[i][j] = new Element(this);
-                //backgroundElements[i][j].setVisibility(View.INVISIBLE);
 
                 elements[i][j] = new Element(this);
                 elements[i][j].setNumber(gameState.getNumber(i, j));
@@ -393,7 +344,7 @@ public class GameActivity extends BaseActivity {
                 number_field.addView(elements[i][j]);
             }
         }
-        last_elements = deepCopy(elements);
+        last_elements = SingleFunc.INSTANCE.deepCopy(elements);
         if (undo) {
             for (int i = 0; i < elements.length; i++) {
                 for (int j = 0; j < elements[i].length; j++) {
@@ -410,7 +361,35 @@ public class GameActivity extends BaseActivity {
         }
     }
 
-    public void switchElementPositions(Element e1, Element e2) {
+    private void save() {
+        Log.i("saving", "save");
+        if (!createNewGame)
+            SingleFunc.INSTANCE.saveStateToFile(this, gameState, filename, saveState);
+        gameStatistics.addTimePlayed(Calendar.getInstance().getTimeInMillis() - startingTime);
+        startingTime = Calendar.getInstance().getTimeInMillis();
+        SingleFunc.INSTANCE.saveStatisticsToFile(this, gameStatistics);
+        firstTime = true;
+    }
+
+    private void createNewGame() {
+        createNewGame = true;
+        getIntent().putExtra(SingleConst.Extra.EXTRA_NEW, true);
+        number_field.removeAllViews();
+        number_field_background.removeAllViews();
+        initGame();
+    }
+
+    private void updateGameState() {
+        gameState = new GameState(elements, last_elements);
+        gameState.n = n;
+        gameState.points = points;
+        gameState.last_points = last_points;
+        gameState.undo = undo;
+        updateHighestNumber();
+        check2048();
+    }
+
+    private void switchElementPositions(Element e1, Element e2) {
         int i = e1.getdPosX();
         int j = e1.getdPosY();
 
@@ -421,10 +400,10 @@ public class GameActivity extends BaseActivity {
 
     }
 
-    public void setListener() {
+    private void setListener() {
         swipeListener = new GameGesture(this) {
             public boolean onSwipeTop() {
-                Element[][] temp = deepCopy(elements);
+                Element[][] temp = SingleFunc.INSTANCE.deepCopy(elements);
                 int temp_points = points;
                 moved = false;
                 Element s = new Element(getApplicationContext());
@@ -491,7 +470,7 @@ public class GameActivity extends BaseActivity {
                     gameStatistics.addMoves(1);
                     last_points = temp_points;
                     last_elements = temp;
-                    undoButton.setVisibility(View.VISIBLE);
+                    btn_undo.setVisibility(View.VISIBLE);
                     undo = true;
                 }
                 if (moved)
@@ -503,7 +482,7 @@ public class GameActivity extends BaseActivity {
             }
 
             public boolean onSwipeRight() {
-                Element[][] temp = deepCopy(elements);
+                Element[][] temp = SingleFunc.INSTANCE.deepCopy(elements);
                 int temp_points = points;
                 moved = false;
                 Element s = new Element(getApplicationContext());
@@ -572,7 +551,7 @@ public class GameActivity extends BaseActivity {
                     gameStatistics.addMoves(1);
                     last_points = temp_points;
                     last_elements = temp;
-                    undoButton.setVisibility(View.VISIBLE);
+                    btn_undo.setVisibility(View.VISIBLE);
                     undo = true;
                 }
                 if (moved)
@@ -586,7 +565,7 @@ public class GameActivity extends BaseActivity {
             }
 
             public boolean onSwipeLeft() {
-                Element[][] temp = deepCopy(elements);
+                Element[][] temp = SingleFunc.INSTANCE.deepCopy(elements);
                 int temp_points = points;
                 moved = false;
                 Element s = new Element(getApplicationContext());
@@ -654,7 +633,7 @@ public class GameActivity extends BaseActivity {
                     gameStatistics.addMoves(1);
                     last_points = temp_points;
                     last_elements = temp;
-                    undoButton.setVisibility(View.VISIBLE);
+                    btn_undo.setVisibility(View.VISIBLE);
                     undo = true;
                 }
                 if (moved)
@@ -667,7 +646,7 @@ public class GameActivity extends BaseActivity {
             }
 
             public boolean onSwipeBottom() {
-                Element[][] temp = deepCopy(elements);
+                Element[][] temp = SingleFunc.INSTANCE.deepCopy(elements);
                 int temp_points = points;
                 moved = false;
                 Element s = new Element(getApplicationContext());
@@ -735,7 +714,7 @@ public class GameActivity extends BaseActivity {
                     gameStatistics.addMoves(1);
                     last_points = temp_points;
                     last_elements = temp;
-                    undoButton.setVisibility(View.VISIBLE);
+                    btn_undo.setVisibility(View.VISIBLE);
                     undo = true;
                 }
                 if (moved)
@@ -762,7 +741,7 @@ public class GameActivity extends BaseActivity {
         }
     }
 
-    public void updateHighestNumber() {
+    private void updateHighestNumber() {
         for (Element[] element : elements) {
             for (Element value : element) {
                 if (highestNumber < value.number) {
@@ -773,7 +752,7 @@ public class GameActivity extends BaseActivity {
         }
     }
 
-    public void check2048() {
+    private void check2048() {
         if (!won2048)
             for (Element[] element : elements) {
                 for (Element value : element) {
@@ -797,7 +776,7 @@ public class GameActivity extends BaseActivity {
             }
     }
 
-    public void setDPositions(boolean animation) {
+    private void setDPositions(boolean animation) {
         long SCALINGSPEED = SingleConst.Games.INIT_SCALINGSPEED;
         long ADDINGSPEED = SingleConst.Games.INIT_ADDINGSPEED;
         long MOVINGSPEED = SingleConst.Games.INIT_MOVINGSPEED;
@@ -853,17 +832,17 @@ public class GameActivity extends BaseActivity {
         }
     }
 
-    public void addNumber() {
+    private void addNumber() {
 
         if (points > record) {
             record = points;
             gameStatistics.setRecord(record);
-            textFieldRecord.setText(String.valueOf(record));
+            tv_record.setText(String.valueOf(record));
         }
         if (moved) {
             gameOver = false;
             moved = false;
-            textFieldPoints.setText(String.valueOf(points));
+            tv_points.setText(String.valueOf(points));
             Element[] empty_fields = new Element[n * n];
             int counter = 0;
             for (Element[] element : elements) {
@@ -906,7 +885,7 @@ public class GameActivity extends BaseActivity {
         Log.i("number of elements", "" + number_field.getChildCount() + ", " + number_field_background.getChildCount());
     }
 
-    public void gameOver() {
+    private void gameOver() {
         Log.i("record", "" + record + ", " + gameStatistics.getRecord());
         SingleFunc.INSTANCE.saveStatisticsToFile(this, gameStatistics);
         new AlertDialog.Builder(this)
@@ -915,7 +894,7 @@ public class GameActivity extends BaseActivity {
                 .setNegativeButton((this.getResources().getString(R.string.No_Message)), (dialog, which) -> {
                     createNewGame = true;
                     getIntent().putExtra(SingleConst.Extra.EXTRA_NEW, true);
-                    initialize();
+                    initGame();
                     SingleFunc.INSTANCE.deleteStateFile(GameActivity.this, filename);
                     saveState = false;
                     GameActivity.this.onBackPressed();

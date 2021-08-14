@@ -15,6 +15,7 @@ import com.frogobox.board.model.GameStatistics
 import com.frogobox.board.mvvm.game.GameActivity
 import com.frogobox.board.util.SingleConst.Dir.DIR_NAME
 import com.frogobox.board.util.SingleConst.Dir.VIDEO_FILE_NAME
+import com.frogobox.board.widget.Element
 import java.io.*
 import java.lang.Exception
 import java.net.HttpURLConnection
@@ -74,6 +75,25 @@ object SingleFunc {
             fileOut.close()
         } catch (e: IOException) {
             e.printStackTrace()
+        }
+    }
+
+    fun deepCopy(e: Array<Array<Element>>): Array<Array<Element?>?> {
+        val r: Array<Array<Element?>?> = arrayOfNulls(e.size)
+        for (i in r.indices) {
+            r[i] = arrayOfNulls(e[i].size)
+            for (j in r[i]!!.indices) {
+                r[i]?.set(j, e[i][j].copy())
+            }
+        }
+        return r
+    }
+
+    fun drawAllElements(e: Array<Array<Element>>) {
+        for (i in e) {
+            for (j in i) {
+                j.drawItem()
+            }
         }
     }
 
