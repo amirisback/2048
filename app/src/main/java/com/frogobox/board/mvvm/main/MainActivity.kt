@@ -1,6 +1,5 @@
 package com.frogobox.board.mvvm.main
 
-import com.frogobox.board.core.BaseActivity
 import android.content.SharedPreferences
 import com.frogobox.board.R
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
@@ -8,7 +7,6 @@ import com.frogobox.board.util.SingleConst
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.content.Intent
-import android.os.Build
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import android.text.Html
@@ -17,14 +15,15 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import androidx.core.app.TaskStackBuilder
+import com.frogobox.board.core.BaseBindingActivity
+import com.frogobox.board.databinding.ActivityMainBinding
 import com.frogobox.board.mvvm.game.GameActivity
 import com.frogobox.board.mvvm.setting.SettingActivity
 import com.frogobox.board.mvvm.stats.StatsActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 
-class MainActivity : BaseActivity() {
-    
+class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
+
     private var currentPage = 0
     private var editor: SharedPreferences.Editor? = null
 
@@ -42,9 +41,15 @@ class MainActivity : BaseActivity() {
         false
     )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+    override fun setupViewBinding(): ActivityMainBinding {
+        return ActivityMainBinding.inflate(layoutInflater)
+    }
+
+    override fun setupViewModel() {
+    }
+
+    override fun setupUI(savedInstanceState: Bundle?) {
         setupToolbar()
 
         val directory = filesDir
@@ -86,10 +91,11 @@ class MainActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        val preferences = applicationContext.getSharedPreferences(SingleConst.Pref.PREF_MY, MODE_PRIVATE)
+        val preferences =
+            applicationContext.getSharedPreferences(SingleConst.Pref.PREF_MY, MODE_PRIVATE)
         editor = preferences.edit()
         currentPage = preferences.getInt(SingleConst.Pref.PREF_CURRENT_PAGE, 0)
-        view_pager.currentItem = currentPage
+        binding.viewPager.currentItem = currentPage
         updateButtons(currentPage)
     }
 
@@ -97,20 +103,22 @@ class MainActivity : BaseActivity() {
 
         val layoutInflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val mainPager = MainPager(layoutInflater, layouts)
+        binding.viewPager.apply {
+            adapter = mainPager
 
-        view_pager.adapter = mainPager
-        view_pager.addOnPageChangeListener(object : OnPageChangeListener {
-            override fun onPageSelected(position: Int) {
-                addBottomDots(position)
-                currentPage = position
-                editor!!.putInt(SingleConst.Pref.PREF_CURRENT_PAGE, currentPage)
-                editor!!.commit()
-                updateButtons(position)
-            }
+            addOnPageChangeListener(object : OnPageChangeListener {
+                override fun onPageSelected(position: Int) {
+                    addBottomDots(position)
+                    currentPage = position
+                    editor!!.putInt(SingleConst.Pref.PREF_CURRENT_PAGE, currentPage)
+                    editor!!.commit()
+                    updateButtons(position)
+                }
 
-            override fun onPageScrolled(arg0: Int, arg1: Float, arg2: Int) {}
-            override fun onPageScrollStateChanged(arg0: Int) {}
-        })
+                override fun onPageScrolled(arg0: Int, arg1: Float, arg2: Int) {}
+                override fun onPageScrollStateChanged(arg0: Int) {}
+            })
+        }
 
     }
 
@@ -144,33 +152,27 @@ class MainActivity : BaseActivity() {
     }
 
     private fun createBackStack(intent: Intent) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            val builder = TaskStackBuilder.create(this)
-            builder.addNextIntentWithParentStack(intent)
-            builder.startActivities()
-        } else {
-            startActivity(intent)
-            finish()
-        }
+        val builder = TaskStackBuilder.create(this)
+        builder.addNextIntentWithParentStack(intent)
+        builder.startActivities()
     }
 
     private fun addBottomDots(currentPage: Int) {
         val dots = arrayOfNulls<TextView>(layouts.size)
         val activeColor = ContextCompat.getColor(this, R.color.colorPrimary)
         val inactiveColor = ContextCompat.getColor(this, R.color.colorPrimaryDark)
-        dots_layout.removeAllViews()
-        for (i in dots.indices) {
-            dots[i] = TextView(this)
-            dots[i]!!.text = Html.fromHtml("&#8226;")
-            dots[i]!!.textSize = 35f
-            dots[i]!!.setTextColor(inactiveColor)
-            dots_layout.addView(dots[i])
-        }
-        if (dots.isNotEmpty()) dots[currentPage]!!.setTextColor(activeColor)
-    }
+        binding.apply {
 
-    private fun getItem(i: Int): Int {
-        return view_pager.currentItem + i
+            dotsLayout.removeAllViews()
+            for (i in dots.indices) {
+                dots[i] = TextView(this@MainActivity)
+                dots[i]!!.text = Html.fromHtml("&#8226;")
+                dots[i]!!.textSize = 35f
+                dots[i]!!.setTextColor(inactiveColor)
+                dotsLayout.addView(dots[i])
+            }
+            if (dots.isNotEmpty()) dots[currentPage]!!.setTextColor(activeColor)
+        }
     }
 
     fun updateButtons(position: Int) {

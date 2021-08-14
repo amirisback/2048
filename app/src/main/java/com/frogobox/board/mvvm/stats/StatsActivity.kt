@@ -1,17 +1,17 @@
 package com.frogobox.board.mvvm.stats
 
-import com.frogobox.board.core.BaseActivity
 import com.frogobox.board.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import com.frogobox.board.core.BaseBindingActivity
+import com.frogobox.board.databinding.ActivityStatsBinding
 import com.frogobox.board.util.SingleConst
-import kotlinx.android.synthetic.main.activity_stats.*
 import java.io.File
 import java.lang.Exception
 
-class StatsActivity : BaseActivity() {
+class StatsActivity : BaseBindingActivity<ActivityStatsBinding>() {
 
     private var TABNAMES = arrayOf("4 x 4", "5 x 5", "6 x 6", "7 x 7")
 
@@ -22,14 +22,18 @@ class StatsActivity : BaseActivity() {
         R.layout.fragment_stats
     )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_stats)
+    override fun setupViewBinding(): ActivityStatsBinding {
+        return ActivityStatsBinding.inflate(layoutInflater)
+    }
 
+    override fun setupViewModel() {
+    }
+
+    override fun setupUI(savedInstanceState: Bundle?) {
         setupDetailActivity("")
         setupViewPager()
 
-        setupShowAdsBanner(findViewById(R.id.ads_banner))
+        setupShowAdsBanner(binding.ads.adsBanner)
     }
 
     override fun setupDetailActivity(title: String) {
@@ -57,10 +61,13 @@ class StatsActivity : BaseActivity() {
     }
 
     private fun setupViewPager() {
-        val layoutInflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val mSectionsPagerAdapter = StatsPager(layoutInflater, layouts, TABNAMES, this)
-        viewpager.adapter = mSectionsPagerAdapter
-        tab_layout.setupWithViewPager(viewpager)
+        binding.apply {
+            val layoutInflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val mSectionsPagerAdapter =
+                StatsPager(layoutInflater, layouts, TABNAMES, this@StatsActivity)
+            viewpager.adapter = mSectionsPagerAdapter
+            tabLayout.setupWithViewPager(viewpager)
+        }
     }
 
     private fun resetGameStatistics() {

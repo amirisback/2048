@@ -27,9 +27,11 @@
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/ads_banner"
+        android:layout_above="@+id/ads"
         android:layout_below="@id/view_line" />
 
-    <include layout="@layout/view_ads" />
+    <include
+        android:id="@+id/ads"
+        layout="@layout/view_ads" />
 
 </RelativeLayout>
