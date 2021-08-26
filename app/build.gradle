@@ -172,7 +172,7 @@ dependencies {
     implementation 'com.github.amirisback:frogo-recycler-view:3.8.5'
     implementation 'com.github.amirisback:frogo-log:2.0.4'
     implementation 'com.github.amirisback:frogo-admob:4.1.1'
-    implementation 'com.github.amirisback:frogo-notification:1.0.5'
+    implementation 'com.github.amirisback:frogo-notification:1.0.7'
 
     implementation 'com.github.bumptech.glide:glide:4.12.0'
 
