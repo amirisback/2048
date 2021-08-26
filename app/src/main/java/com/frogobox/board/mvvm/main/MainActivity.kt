@@ -50,7 +50,7 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
     }
 
     override fun setupUI(savedInstanceState: Bundle?) {
-        setupToolbar()
+        setSupportActionBar(binding.toolbars.toolbarMain)
 
         val directory = filesDir
         val files = directory.listFiles()

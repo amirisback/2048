@@ -1,6 +1,6 @@
 package com.frogobox.board
 
-import com.frogobox.frogosdk.FrogoApplication
+import com.frogobox.sdk.FrogoApplication
 import org.koin.core.KoinApplication
 
 /*

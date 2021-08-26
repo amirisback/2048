@@ -6,26 +6,7 @@ plugins {
 }
 
 android {
-
-    // Version Project
-    def versionMajor = 1
-    def versionMinor = 0
-    def versionPatch = 0
-
-    // PackageName
-    def packageDomain = "com"
-    def packageAccount = "frogobox"
-    def packageProject = "board"
-
-    // Declaration app name
-    def nameApp = "2048"
-
-    // Signing Release Key Store
-    def projectJksStoreFile = "frogoboxdev.jks"
-    def projectJksStorePassword = "cronoclez"
-    def projectJksKeyAlias = "frogobox"
-    def projectJksKeyPassword = "xeonranger"
-
+    
     // Declaration admob id for release
     def releaseAdmobPublisherId = ""
     def releaseAdmobBanner = ""
@@ -36,36 +17,15 @@ android {
     def releaseAdmobNativeAdvanced = ""
     def releaseAdmobNativeAdvancedVideo = ""
 
-    // Declaration apk / aab name
-    def nameAPK = nameApp.toLowerCase().replace(" ", "-")
-    def nameThemeColorScheme = nameApp + " Theme"
-    def nameAppSub = nameApp.replace("2048 ", "")
-
-    def projectVersionCode = (versionMajor * 100) + (versionMinor * 10) + (versionPatch * 1)
-    def projectVersionName = "$versionMajor.$versionMinor.$versionPatch"
-    def projectPackageName = "$packageDomain.$packageAccount.$packageProject"
-
-    buildFeatures {
-        viewBinding = true
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-
-    compileSdk 31
+    compileSdk projectCompileSdk
 
     defaultConfig {
         applicationId projectPackageName
-        minSdk 21
-        targetSdk 31
+        minSdk projectMinSdk
+        targetSdk projectTargetSdk
         versionCode projectVersionCode
         versionName projectVersionName
+
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -122,8 +82,8 @@ android {
             resValue "string", "app_name", nameAppDebug
             resValue "string", "app_name_subtitle", nameAppSub
             resValue "string", "theme_color_scheme_reskin", nameThemeColorScheme
-
         }
+
         release {
             minifyEnabled true
             shrinkResources true
@@ -155,6 +115,19 @@ android {
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), "proguard-rules.pro"
         }
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
 }
@@ -192,13 +165,15 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
 
-    implementation 'com.github.frogobox:frogo-android-sdk:1.0.6'
-    implementation 'com.github.amirisback:frogo-recycler-view:3.8.1'
-    implementation 'com.github.amirisback:frogo-log:2.0.2'
-    implementation 'com.github.amirisback:frogo-admob:4.0.6'
-    implementation 'com.github.amirisback:frogo-ui-kit:2.1.0'
+    implementation 'com.github.frogobox:frogo-android-sdk:2.0.2'
+    implementation 'com.github.frogobox:frogo-android-ui-kit:1.0.4'
+    implementation 'com.github.frogobox:frogo-consume-api:1.0.5'
+
+    implementation 'com.github.amirisback:frogo-recycler-view:3.8.5'
+    implementation 'com.github.amirisback:frogo-log:2.0.4'
+    implementation 'com.github.amirisback:frogo-admob:4.1.1'
     implementation 'com.github.amirisback:frogo-notification:1.0.5'
-    implementation 'com.github.amirisback:consumable-code-news-api:1.0.5'
+
     implementation 'com.github.bumptech.glide:glide:4.12.0'
 
     implementation "com.facebook.stetho:stetho:1.5.1"

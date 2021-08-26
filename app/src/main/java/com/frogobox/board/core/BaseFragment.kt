@@ -23,9 +23,9 @@ import androidx.fragment.app.Fragment
  *  com.frogobox.basegameboard2048.activity
  *
  */
-open class BaseFragment : Fragment() {
+abstract class BaseFragment : Fragment() {
 
-    lateinit var mActivity: BaseActivity
+    protected lateinit var mActivity: BaseActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +35,5 @@ open class BaseFragment : Fragment() {
     protected fun setupShowAdsInterstitial() {
         mActivity.setupShowAdsInterstitial()
     }
-
 
 }

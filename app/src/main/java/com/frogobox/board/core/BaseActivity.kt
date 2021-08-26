@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.frogobox.admob.ui.FrogoAdmobActivity
 import com.frogobox.board.R
-import kotlinx.android.synthetic.main.toolbar_main.*
 
 /**
  * Created by Faisal Amir
@@ -83,10 +82,6 @@ abstract class BaseActivity : FrogoAdmobActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    protected fun setupToolbar() {
-        setSupportActionBar(toolbar_main)
     }
 
 }

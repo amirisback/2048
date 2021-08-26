@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
 
-        <include layout="@layout/toolbar_main_no_border" />
+        <include
+            android:id="@+id/toolbars"
+            layout="@layout/toolbar_main_no_border" />
 
         <LinearLayout
             android:id="@+id/dots_layout"

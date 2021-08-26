@@ -4,12 +4,12 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.viewbinding.ViewBinding
+import com.frogobox.admob.core.FrogoAdmob
 import com.frogobox.board.R
-import com.frogobox.frogosdk.core.FrogoActivity
-import kotlinx.android.synthetic.main.toolbar_main.*
+import com.frogobox.sdk.core.FrogoActivity
+import com.google.android.gms.ads.AdView
 
 /*
  * Created by faisalamir on 14/08/21
@@ -37,15 +37,26 @@ abstract class BaseBindingActivity<VB : ViewBinding> : FrogoActivity<VB>() {
     }
 
     private fun setPublisher() {
-        setupAdsPublisher(getString(R.string.admob_publisher_id))
+        FrogoAdmob.setupPublisherID(getString(R.string.admob_publisher_id))
+        FrogoAdmob.Publisher.setupPublisher(this)
     }
 
     private fun setBanner() {
-        setupAdsBanner(getString(R.string.admob_banner))
+        FrogoAdmob.setupBannerAdUnitID(getString(R.string.admob_banner))
     }
 
     private fun setInterstitial() {
-        setupAdsInterstitial(getString(R.string.admob_interstitial))
+        FrogoAdmob.setupInterstialAdUnitID(getString(R.string.admob_interstitial))
+        FrogoAdmob.Interstitial.setupInterstitial(this)
+    }
+
+    protected fun setupShowAdsBanner(mAdView: AdView) {
+        FrogoAdmob.Banner.setupBanner(mAdView)
+        FrogoAdmob.Banner.showBanner(mAdView)
+    }
+
+    protected fun setupShowAdsInterstitial() {
+        FrogoAdmob.Interstitial.showInterstitial(this)
     }
 
     override fun setupDetailActivity(title: String) {
@@ -75,10 +86,6 @@ abstract class BaseBindingActivity<VB : ViewBinding> : FrogoActivity<VB>() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    protected fun setupToolbar() {
-        setSupportActionBar(toolbar_main)
     }
 
 }
