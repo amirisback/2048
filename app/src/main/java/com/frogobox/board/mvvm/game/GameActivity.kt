@@ -91,7 +91,7 @@ class GameActivity : BaseActivity() {
         save()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_toolbar_game, menu)
         return true
     }

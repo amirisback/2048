@@ -68,7 +68,7 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
         setupViewPager()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_toolbar_main, menu)
         return true
     }
