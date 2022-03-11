@@ -146,9 +146,6 @@ dependencies {
 
     implementation(Util.glide)
 
-    api(JetBrains.coroutinesCore)
-    api(JetBrains.coroutinesAndroid)
-
     kapt(Androidx.Lifecycle.compiler)
     kapt(Androidx.Room.compiler)
     kapt(Util.glideCompiler)
