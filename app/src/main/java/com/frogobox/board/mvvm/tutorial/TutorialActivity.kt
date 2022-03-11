@@ -36,7 +36,7 @@ class TutorialActivity : BaseBindingActivity<ActivityTutorialBinding>() {
     override fun setupViewModel() {
     }
 
-    override fun setupUI(savedInstanceState: Bundle?) {
+    override fun setupOnCreate(savedInstanceState: Bundle?) {
         binding.apply {
             changeStatusBarColor()
             addBottomDots(0)

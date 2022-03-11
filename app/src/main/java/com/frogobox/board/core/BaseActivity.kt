@@ -33,14 +33,14 @@ abstract class BaseActivity : FrogoAdmobActivity() {
         setupAdmob()
     }
 
-    private fun setupAdmob(){
+    override fun setupAdmob(){
         setPublisher()
         setBanner()
         setInterstitial()
     }
 
     private fun setPublisher() {
-        setupAdsPublisher(getString(R.string.admob_publisher_id))
+        setupAdsApp(getString(R.string.admob_publisher_id))
     }
 
     private fun setBanner() {

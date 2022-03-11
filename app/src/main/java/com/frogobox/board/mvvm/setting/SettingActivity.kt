@@ -19,7 +19,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>() {
     override fun setupViewModel() {
     }
 
-    override fun setupUI(savedInstanceState: Bundle?) {
+    override fun setupOnCreate(savedInstanceState: Bundle?) {
         setupDetailActivity("")
         setupShowAdsBanner(binding.ads.adsBanner)
     }
