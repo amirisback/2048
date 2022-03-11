@@ -1,4 +1,6 @@
 ## 2048
+[![Android CI](https://github.com/amirisback/2048/actions/workflows/android-ci.yml/badge.svg)](https://github.com/amirisback/2048/actions/workflows/android-ci.yml)
+
 2048 Game Free For Reskin
 
 ## Screen Shoot
