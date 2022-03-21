@@ -34,11 +34,6 @@ android {
         resValue("string", "admob_publisher_id", AdmobValue.debugAdmobPublisherId)
         resValue("string", "admob_banner", AdmobValue.debugAdmobBanner)
         resValue("string", "admob_interstitial", AdmobValue.debugAdmobInterstitial)
-        resValue("string", "admob_interstitial_video", AdmobValue.debugAdmobInterstitialVideo)
-        resValue("string", "admob_rewarded", AdmobValue.debugAdmobRewarded)
-        resValue("string", "admob_rewarded_interstitial", AdmobValue.debugAdmobRewardedInterstitial)
-        resValue("string", "admob_native_advanced", AdmobValue.debugAdmobNativeAdvanced)
-        resValue("string", "admob_native_advanced_video", AdmobValue.debugAdmobNativeAdvancedVideo)
 
     }
 
@@ -75,11 +70,6 @@ android {
             resValue("string", "admob_publisher_id", AdmobValue.releaseAdmobPublisherId)
             resValue("string", "admob_banner", AdmobValue.releaseAdmobBanner)
             resValue("string", "admob_interstitial", AdmobValue.releaseAdmobInterstitial)
-            resValue("string", "admob_interstitial_video", AdmobValue.releaseAdmobInterstitialVideo)
-            resValue("string", "admob_rewarded", AdmobValue.releaseAdmobRewarded)
-            resValue("string", "admob_rewarded_interstitial", AdmobValue.releaseAdmobRewardedInterstitial)
-            resValue("string", "admob_native_advanced", AdmobValue.releaseAdmobNativeAdvanced)
-            resValue("string", "admob_native_advanced_video", AdmobValue.releaseAdmobNativeAdvancedVideo)
 
         }
     }
@@ -144,17 +134,17 @@ dependencies {
     implementation(Frogo.log)
     implementation(Frogo.notification)
 
-    implementation(Util.glide)
-
-    kapt(Androidx.Lifecycle.compiler)
-    kapt(Androidx.Room.compiler)
-    kapt(Util.glideCompiler)
-
     implementation(Koin.core)
     implementation(Koin.android)
     implementation(Koin.androidCompat)
     implementation(Koin.androidxWorkManager)
     implementation(Koin.androidxCompose)
     implementation(Koin.ktor)
+
+    implementation(Util.glide)
+
+    kapt(Androidx.Lifecycle.compiler)
+    kapt(Androidx.Room.compiler)
+    kapt(Util.glideCompiler)
     
 }

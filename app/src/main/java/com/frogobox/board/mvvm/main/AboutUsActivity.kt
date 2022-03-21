@@ -17,5 +17,4 @@ class AboutUsActivity : BaseBindingActivity<ActivityAboutUsBinding>() {
         setupDetailActivity("")
     }
 
-
 }

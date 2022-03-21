@@ -1,11 +1,9 @@
 package com.frogobox.board.core
 
-import android.os.Bundle
 import androidx.viewbinding.ViewBinding
-import com.frogobox.admob.core.FrogoAdmob
+import com.frogobox.admob.core.IFrogoAdInterstitial
+import com.frogobox.admob.ui.FrogoSdkAdmobActivity
 import com.frogobox.board.R
-import com.frogobox.sdk.FrogoActivity
-import com.google.android.gms.ads.AdView
 
 /*
  * Created by faisalamir on 14/08/21
@@ -19,39 +17,26 @@ import com.google.android.gms.ads.AdView
  * All rights reserved
  *
  */
-abstract class BaseBindingActivity<VB : ViewBinding> : FrogoActivity<VB>() {
+abstract class BaseBindingActivity<VB : ViewBinding> : FrogoSdkAdmobActivity<VB>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setupAdmob()
-    }
+    protected fun showInterstitial(callback: IBaseFrogoAdInterstitial) {
+        showAdInterstitial(getString(R.string.admob_interstitial),
+            object : IFrogoAdInterstitial {
+                override fun onAdDismissed(message: String) {
+                    callback.onAdDismissed(message)
+                }
 
-    private fun setupAdmob() {
-        setPublisher()
-        setBanner()
-        setInterstitial()
-    }
+                override fun onAdFailed(errorMessage: String) {
+                    callback.onAdFailed(errorMessage)
+                }
 
-    private fun setPublisher() {
-        FrogoAdmob.setupAppID(getString(R.string.admob_publisher_id))
-        FrogoAdmob.App.setupApp(this)
-    }
+                override fun onAdLoaded(message: String) {
+                }
 
-    private fun setBanner() {
-        FrogoAdmob.setupBannerAdUnitID(getString(R.string.admob_banner))
-    }
+                override fun onAdShowed(message: String) {
+                }
 
-    private fun setInterstitial() {
-        FrogoAdmob.setupInterstialAdUnitID(getString(R.string.admob_interstitial))
-        FrogoAdmob.Interstitial.setupInterstitial(this)
-    }
-
-    protected fun setupShowAdsBanner(mAdView: AdView) {
-        FrogoAdmob.Banner.showBanner(mAdView)
-    }
-
-    protected fun setupShowAdsInterstitial() {
-        FrogoAdmob.Interstitial.showInterstitial(this)
+            })
     }
 
 }

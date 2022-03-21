@@ -1,12 +1,11 @@
 package com.frogobox.board.mvvm.game
 
 import android.content.Context
-import android.view.View.OnTouchListener
 import android.view.GestureDetector
-import android.view.MotionEvent
 import android.view.GestureDetector.SimpleOnGestureListener
+import android.view.MotionEvent
 import android.view.View
-import java.lang.Exception
+import android.view.View.OnTouchListener
 import kotlin.math.abs
 
 /**

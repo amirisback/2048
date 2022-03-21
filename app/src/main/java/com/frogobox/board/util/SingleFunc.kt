@@ -6,7 +6,6 @@ import com.frogobox.board.model.GameStatistics
 import com.frogobox.board.mvvm.game.GameCallback
 import com.frogobox.board.widget.Element
 import java.io.*
-import java.lang.Exception
 
 
 /**

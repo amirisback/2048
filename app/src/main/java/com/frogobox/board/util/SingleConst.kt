@@ -25,9 +25,10 @@ object SingleConst {
     object SQLiteDatabase {
 
         const val SQLITE_ATTRIBUTE = "_sqlite"
-        val SQLITE_DATABASE_NAME = BuildConfig.APPLICATION_ID.replace(".","_") + SQLITE_ATTRIBUTE
+        val SQLITE_DATABASE_NAME = BuildConfig.APPLICATION_ID.replace(".", "_") + SQLITE_ATTRIBUTE
 
         const val SQLITE_DATABASE_VERSION = 1
+
         // Names of table in the database
         const val TABLE_SAMPLEDATA = "SAMPLE_DATA"
 

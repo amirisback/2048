@@ -1,47 +1,51 @@
 package com.frogobox.board.mvvm.game
 
 import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.res.Configuration
+import android.os.Bundle
+import android.preference.PreferenceManager
+import android.util.DisplayMetrics
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.View.OnTouchListener
+import android.view.ViewGroup.MarginLayoutParams
+import android.view.WindowManager
+import android.view.animation.LinearInterpolator
+import android.widget.RelativeLayout
+import com.frogobox.board.R
+import com.frogobox.board.core.BaseActivity
+import com.frogobox.board.core.IBaseFrogoAdInterstitial
+import com.frogobox.board.model.GameState
+import com.frogobox.board.model.GameStatistics
+import com.frogobox.board.mvvm.game.GameCallback.GameScoreCallback
+import com.frogobox.board.mvvm.game.GameCallback.GameStateCallback
+import com.frogobox.board.util.SingleConst
 import com.frogobox.board.util.SingleFunc.deepCopy
-import com.frogobox.board.util.SingleFunc.saveStatisticsToFile
+import com.frogobox.board.util.SingleFunc.deleteStateFile
 import com.frogobox.board.util.SingleFunc.drawAllElements
 import com.frogobox.board.util.SingleFunc.readStateFromFile
 import com.frogobox.board.util.SingleFunc.readStatisticsFromFile
 import com.frogobox.board.util.SingleFunc.saveStateToFile
+import com.frogobox.board.util.SingleFunc.saveStatisticsToFile
 import com.frogobox.board.util.SingleFunc.updateHighestNumber
-import com.frogobox.board.util.SingleFunc.deleteStateFile
-import com.frogobox.board.core.BaseActivity
-import com.frogobox.board.model.GameState
-import com.frogobox.board.model.GameStatistics
-import android.widget.RelativeLayout
-import android.os.Bundle
-import com.frogobox.board.R
-import com.frogobox.board.util.SingleConst
-import android.view.View.OnTouchListener
-import com.frogobox.board.mvvm.game.GameCallback.GameStateCallback
-import android.util.DisplayMetrics
-import com.frogobox.board.mvvm.game.GameCallback.GameScoreCallback
-import android.content.DialogInterface
-import android.content.res.Configuration
-import android.preference.PreferenceManager
-import android.util.Log
-import android.view.*
-import android.view.animation.LinearInterpolator
-import android.view.ViewGroup.MarginLayoutParams
 import com.frogobox.board.widget.Element
 import kotlinx.android.synthetic.main.activity_game.*
 import java.util.*
 
 class GameActivity : BaseActivity() {
-    
+
     private var n = 4
     private var points = 0
     private var last_points = 0
     private var highestNumber = 0
     private var numberFieldSize = 0
     private var record: Long = 0
-    
+
     private var startingTime = Calendar.getInstance().timeInMillis
-    
+
     private var moved = false
     private var undo = false
     private var won2048 = false
@@ -51,11 +55,11 @@ class GameActivity : BaseActivity() {
     private var saveState = true
     private var createNewGame = true
     private var animationActivated = true
-    
+
     private var filename: String? = ""
     private var gameState: GameState? = null
     private var gameStatistics = GameStatistics(n)
-    
+
     private var elements: Array<Array<Element?>?>? = null
     private var last_elements: Array<Array<Element?>?>? = null
     private var backgroundElements: Array<Array<Element?>>? = null
@@ -63,7 +67,7 @@ class GameActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
-        
+
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         animationActivated = sharedPref.getBoolean(SingleConst.Pref.PREF_ANIMATION_ACTIVATED, true)
         if (sharedPref.getBoolean(SingleConst.Pref.PREF_SETTINGS_DISPLAY, true)) window.addFlags(
@@ -78,7 +82,7 @@ class GameActivity : BaseActivity() {
             }
         }
         initUI()
-        setupShowAdsBanner(findViewById(R.id.ads_banner))
+        showAdBanner(findViewById(R.id.ads_banner))
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -470,10 +474,18 @@ class GameActivity : BaseActivity() {
     }
 
     private fun initUI() {
-        btn_restart!!.setOnClickListener { v: View? ->
-            saveStatisticsToFile(this, gameStatistics)
-            createNewGame()
-            setupShowAdsInterstitial()
+        btn_restart!!.setOnClickListener {
+            showInterstitial(object : IBaseFrogoAdInterstitial {
+                override fun onAdDismissed(message: String) {
+                    saveStatisticsToFile(this@GameActivity, gameStatistics)
+                    createNewGame()
+                }
+
+                override fun onAdFailed(errorMessage: String) {
+                    saveStatisticsToFile(this@GameActivity, gameStatistics)
+                    createNewGame()
+                }
+            })
         }
         btn_undo!!.setOnClickListener { v: View? ->
             btn_undo!!.visibility = View.INVISIBLE
@@ -641,9 +653,8 @@ class GameActivity : BaseActivity() {
                         .setMessage(this.resources.getString(R.string.Winning_Message))
                         .setNegativeButton(this.resources.getString(R.string.No_Message)) { dialog: DialogInterface?, which: Int ->
                             onBackPressed()
-                            setupShowAdsInterstitial()
                         }
-                        .setPositiveButton(this.resources.getString(R.string.Yes_Message)) { dialog: DialogInterface?, which: Int -> setupShowAdsInterstitial() }
+                        .setPositiveButton(this.resources.getString(R.string.Yes_Message)) { dialog: DialogInterface?, which: Int -> }
                         .setCancelable(false)
                         .create().show()
                     won2048 = true
@@ -768,17 +779,37 @@ class GameActivity : BaseActivity() {
             .setTitle(this.resources.getString(R.string.Titel_L_Message, points))
             .setMessage(this.resources.getString(R.string.Lost_Message, points))
             .setNegativeButton(this.resources.getString(R.string.No_Message)) { dialog: DialogInterface?, which: Int ->
-                createNewGame = true
-                intent.putExtra(SingleConst.Extra.EXTRA_NEW, true)
-                initGame()
-                deleteStateFile(this@GameActivity, filename!!)
-                saveState = false
-                onBackPressed()
-                setupShowAdsInterstitial()
+
+                showInterstitial(object : IBaseFrogoAdInterstitial {
+                    override fun onAdDismissed(message: String) {
+                        createNewGame = true
+                        intent.putExtra(SingleConst.Extra.EXTRA_NEW, true)
+                        initGame()
+                        deleteStateFile(this@GameActivity, filename!!)
+                        saveState = false
+                        onBackPressed()
+                    }
+
+                    override fun onAdFailed(errorMessage: String) {
+                        createNewGame = true
+                        intent.putExtra(SingleConst.Extra.EXTRA_NEW, true)
+                        initGame()
+                        deleteStateFile(this@GameActivity, filename!!)
+                        saveState = false
+                        onBackPressed()
+                    }
+                })
             }
             .setPositiveButton(this.resources.getString(R.string.Yes_Message)) { dialog: DialogInterface?, which: Int ->
-                createNewGame()
-                setupShowAdsInterstitial()
+                showInterstitial(object : IBaseFrogoAdInterstitial {
+                    override fun onAdDismissed(message: String) {
+                        createNewGame()
+                    }
+
+                    override fun onAdFailed(errorMessage: String) {
+                        createNewGame()
+                    }
+                })
             }
             .setCancelable(false)
             .create().show()

@@ -1,26 +1,26 @@
 package com.frogobox.board.mvvm.main
 
-import android.content.SharedPreferences
-import com.frogobox.board.R
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
-import com.frogobox.board.util.SingleConst
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.content.Intent
-import android.widget.TextView
-import androidx.core.content.ContextCompat
+import android.content.SharedPreferences
+import android.os.Bundle
 import android.text.Html
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.TextView
 import androidx.core.app.TaskStackBuilder
+import androidx.core.content.ContextCompat
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import com.frogobox.board.R
 import com.frogobox.board.core.BaseBindingActivity
+import com.frogobox.board.core.IBaseFrogoAdInterstitial
 import com.frogobox.board.databinding.ActivityMainBinding
 import com.frogobox.board.mvvm.game.GameActivity
 import com.frogobox.board.mvvm.setting.SettingActivity
 import com.frogobox.board.mvvm.stats.StatsActivity
-import java.lang.Exception
+import com.frogobox.board.util.SingleConst
 
 class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
 
@@ -76,13 +76,27 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.toolbar_menu_setting -> {
-                startActivity(Intent(this, SettingActivity::class.java))
-                setupShowAdsInterstitial()
+                showInterstitial(object : IBaseFrogoAdInterstitial {
+                    override fun onAdDismissed(message: String) {
+                        frogoStartActivity<SettingActivity>()
+                    }
+
+                    override fun onAdFailed(errorMessage: String) {
+                        frogoStartActivity<SettingActivity>()
+                    }
+                })
                 return true
             }
             R.id.toolbar_menu_stats -> {
-                startActivity(Intent(this, StatsActivity::class.java))
-                setupShowAdsInterstitial()
+                showInterstitial(object : IBaseFrogoAdInterstitial {
+                    override fun onAdDismissed(message: String) {
+                        frogoStartActivity<StatsActivity>()
+                    }
+
+                    override fun onAdFailed(errorMessage: String) {
+                        frogoStartActivity<StatsActivity>()
+                    }
+                })
                 return true
             }
         }
@@ -124,30 +138,61 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
 
     private fun addListener(b1: Button, b2: Button, n: Int) {
         b1.setOnClickListener {
-            val intent = Intent(this@MainActivity, GameActivity::class.java)
-            intent.putExtra(SingleConst.Extra.EXTRA_N, n)
-            intent.putExtra(SingleConst.Extra.EXTRA_POINTS, 0)
-            intent.putExtra(SingleConst.Extra.EXTRA_NEW, true)
-            intent.putExtra(
-                SingleConst.Extra.EXTRA_FILENAME,
-                SingleConst.Const.FILE_STATE + n + SingleConst.Ext.TXT
-            )
-            intent.putExtra(SingleConst.Extra.EXTRA_UNDO, false)
-            createBackStack(intent)
-            setupShowAdsInterstitial()
+            showInterstitial(object : IBaseFrogoAdInterstitial {
+                override fun onAdDismissed(message: String) {
+                    val intent = Intent(this@MainActivity, GameActivity::class.java)
+                    intent.putExtra(SingleConst.Extra.EXTRA_N, n)
+                    intent.putExtra(SingleConst.Extra.EXTRA_POINTS, 0)
+                    intent.putExtra(SingleConst.Extra.EXTRA_NEW, true)
+                    intent.putExtra(
+                        SingleConst.Extra.EXTRA_FILENAME,
+                        SingleConst.Const.FILE_STATE + n + SingleConst.Ext.TXT
+                    )
+                    intent.putExtra(SingleConst.Extra.EXTRA_UNDO, false)
+                    createBackStack(intent)
+                }
+
+                override fun onAdFailed(errorMessage: String) {
+                    val intent = Intent(this@MainActivity, GameActivity::class.java)
+                    intent.putExtra(SingleConst.Extra.EXTRA_N, n)
+                    intent.putExtra(SingleConst.Extra.EXTRA_POINTS, 0)
+                    intent.putExtra(SingleConst.Extra.EXTRA_NEW, true)
+                    intent.putExtra(
+                        SingleConst.Extra.EXTRA_FILENAME,
+                        SingleConst.Const.FILE_STATE + n + SingleConst.Ext.TXT
+                    )
+                    intent.putExtra(SingleConst.Extra.EXTRA_UNDO, false)
+                    createBackStack(intent)
+                }
+            })
         }
 
         b2.setOnClickListener {
-            val intent = Intent(this@MainActivity, GameActivity::class.java)
-            intent.putExtra(SingleConst.Extra.EXTRA_N, n)
-            intent.putExtra(SingleConst.Extra.EXTRA_NEW, false)
-            intent.putExtra(
-                SingleConst.Extra.EXTRA_FILENAME,
-                SingleConst.Const.FILE_STATE + n + SingleConst.Ext.TXT
-            )
-            intent.putExtra(SingleConst.Extra.EXTRA_UNDO, false)
-            createBackStack(intent)
-            setupShowAdsInterstitial()
+            showInterstitial(object : IBaseFrogoAdInterstitial {
+                override fun onAdDismissed(message: String) {
+                    val intent = Intent(this@MainActivity, GameActivity::class.java)
+                    intent.putExtra(SingleConst.Extra.EXTRA_N, n)
+                    intent.putExtra(SingleConst.Extra.EXTRA_NEW, false)
+                    intent.putExtra(
+                        SingleConst.Extra.EXTRA_FILENAME,
+                        SingleConst.Const.FILE_STATE + n + SingleConst.Ext.TXT
+                    )
+                    intent.putExtra(SingleConst.Extra.EXTRA_UNDO, false)
+                    createBackStack(intent)
+                }
+
+                override fun onAdFailed(errorMessage: String) {
+                    val intent = Intent(this@MainActivity, GameActivity::class.java)
+                    intent.putExtra(SingleConst.Extra.EXTRA_N, n)
+                    intent.putExtra(SingleConst.Extra.EXTRA_NEW, false)
+                    intent.putExtra(
+                        SingleConst.Extra.EXTRA_FILENAME,
+                        SingleConst.Const.FILE_STATE + n + SingleConst.Ext.TXT
+                    )
+                    intent.putExtra(SingleConst.Extra.EXTRA_UNDO, false)
+                    createBackStack(intent)
+                }
+            })
         }
     }
 

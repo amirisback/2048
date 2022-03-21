@@ -1,10 +1,10 @@
 package com.frogobox.board.mvvm.main
 
-import com.frogobox.board.core.BaseActivity
-import android.os.Bundle
 import android.content.Intent
-import com.frogobox.board.mvvm.tutorial.TutorialController
+import android.os.Bundle
+import com.frogobox.board.core.BaseActivity
 import com.frogobox.board.mvvm.tutorial.TutorialActivity
+import com.frogobox.board.mvvm.tutorial.TutorialController
 
 class SplashActivity : BaseActivity() {
 

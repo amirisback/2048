@@ -1,10 +1,10 @@
 package com.frogobox.board.mvvm.setting
 
-import android.os.Bundle
-import com.frogobox.board.R
 import android.content.Intent
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.frogobox.board.R
 import com.frogobox.board.core.BaseBindingActivity
 import com.frogobox.board.databinding.ActivitySettingBinding
 import com.frogobox.board.mvvm.main.AboutUsActivity
@@ -21,7 +21,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>() {
 
     override fun setupOnCreate(savedInstanceState: Bundle?) {
         setupDetailActivity("")
-        setupShowAdsBanner(binding.ads.adsBanner)
+        showAdBanner(binding.ads.adsBanner)
     }
 
     override fun setupDetailActivity(title: String) {

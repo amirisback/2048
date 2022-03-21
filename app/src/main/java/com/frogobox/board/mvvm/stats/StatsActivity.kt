@@ -1,15 +1,14 @@
 package com.frogobox.board.mvvm.stats
 
-import com.frogobox.board.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import com.frogobox.board.R
 import com.frogobox.board.core.BaseBindingActivity
 import com.frogobox.board.databinding.ActivityStatsBinding
 import com.frogobox.board.util.SingleConst
 import java.io.File
-import java.lang.Exception
 
 class StatsActivity : BaseBindingActivity<ActivityStatsBinding>() {
 
@@ -32,8 +31,7 @@ class StatsActivity : BaseBindingActivity<ActivityStatsBinding>() {
     override fun setupOnCreate(savedInstanceState: Bundle?) {
         setupDetailActivity("")
         setupViewPager()
-
-        setupShowAdsBanner(binding.ads.adsBanner)
+        showAdBanner(binding.ads.adsBanner)
     }
 
     override fun setupDetailActivity(title: String) {

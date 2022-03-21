@@ -1,21 +1,20 @@
 package com.frogobox.board.widget
 
-import androidx.appcompat.widget.AppCompatButton
-import com.frogobox.board.R
-import android.content.res.TypedArray
 import android.annotation.SuppressLint
 import android.content.Context
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.SimpleTarget
-import android.os.Build
-import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.GradientDrawable
+import android.content.res.TypedArray
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.ShapeDrawable
+import android.os.Build
 import android.preference.PreferenceManager
+import androidx.appcompat.widget.AppCompatButton
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.frogobox.board.R
 import com.frogobox.board.util.SingleConst.Pref.PREF_COLOR
-import java.util.*
 
 /**
  * Created by Faisal Amir
@@ -65,7 +64,8 @@ class Element(context: Context) : AppCompatButton(context) {
     init {
         isAllCaps = false
         textSize = textSized
-        settingColor = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_COLOR, "1")
+        settingColor =
+            PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_COLOR, "1")
         setBackgroundResource(R.drawable.background_game_brick)
         setupBackgroundTiles()
     }

@@ -2,8 +2,8 @@ package com.frogobox.board.mvvm.game
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import com.frogobox.board.util.SingleConst
 import android.view.animation.LinearInterpolator
+import com.frogobox.board.util.SingleConst
 import com.frogobox.board.widget.Element
 
 /*

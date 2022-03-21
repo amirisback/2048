@@ -2,12 +2,12 @@ package com.frogobox.board.mvvm.main
 
 import android.view.LayoutInflater
 import android.view.View
-import androidx.viewpager.widget.PagerAdapter
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.frogobox.board.R
 import android.widget.TextView
+import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
+import com.frogobox.board.R
 
 /**
  * Created by Faisal Amir

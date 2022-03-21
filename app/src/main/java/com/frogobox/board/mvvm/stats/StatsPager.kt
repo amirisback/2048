@@ -1,22 +1,20 @@
 package com.frogobox.board.mvvm.stats
 
-import android.view.LayoutInflater
 import android.content.ContextWrapper
+import android.view.LayoutInflater
 import android.view.View
-import androidx.viewpager.widget.PagerAdapter
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.frogobox.board.R
+import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
+import com.frogobox.board.R
 import com.frogobox.board.model.GameStatistics
 import com.frogobox.board.util.SingleConst
 import java.io.File
 import java.io.FileInputStream
 import java.io.InvalidClassException
 import java.io.ObjectInputStream
-import java.lang.Exception
-import java.lang.StringBuilder
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit

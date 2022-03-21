@@ -1,9 +1,5 @@
 package  com.frogobox.board.core
 
-import android.content.Intent
-import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 /**
@@ -25,15 +21,9 @@ import androidx.fragment.app.Fragment
  */
 abstract class BaseFragment : Fragment() {
 
-    protected lateinit var mActivity: BaseActivity
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mActivity = (activity as BaseActivity)
+    protected val mActivity: BaseActivity by lazy {
+        (activity as BaseActivity)
     }
 
-    protected fun setupShowAdsInterstitial() {
-        mActivity.setupShowAdsInterstitial()
-    }
 
 }

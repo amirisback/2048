@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.frogobox.admob.core.IFrogoAdInterstitial
 import com.frogobox.admob.ui.FrogoAdmobActivity
 import com.frogobox.board.R
 
@@ -30,25 +31,26 @@ abstract class BaseActivity : FrogoAdmobActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupAdmob()
     }
 
-    override fun setupAdmob(){
-        setPublisher()
-        setBanner()
-        setInterstitial()
-    }
+    protected fun showInterstitial(callback: IBaseFrogoAdInterstitial) {
+        showAdInterstitial(getString(R.string.admob_interstitial),
+            object : IFrogoAdInterstitial {
+                override fun onAdDismissed(message: String) {
+                    callback.onAdDismissed(message)
+                }
 
-    private fun setPublisher() {
-        setupAdsApp(getString(R.string.admob_publisher_id))
-    }
+                override fun onAdFailed(errorMessage: String) {
+                    callback.onAdFailed(errorMessage)
+                }
 
-    private fun setBanner() {
-        setupAdsBanner(getString(R.string.admob_banner))
-    }
+                override fun onAdLoaded(message: String) {
+                }
 
-    private fun setInterstitial() {
-        setupAdsInterstitial(getString(R.string.admob_interstitial))
+                override fun onAdShowed(message: String) {
+                }
+
+            })
     }
 
     protected fun showToast(message: String) {

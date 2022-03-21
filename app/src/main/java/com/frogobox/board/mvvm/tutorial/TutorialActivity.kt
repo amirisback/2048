@@ -1,20 +1,19 @@
 package com.frogobox.board.mvvm.tutorial
 
-import com.frogobox.board.R
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.widget.TextView
-import androidx.core.content.ContextCompat
-import android.text.Html
 import android.content.Intent
 import android.graphics.Color
+import android.os.Bundle
+import android.text.Html
+import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import com.frogobox.board.R
 import com.frogobox.board.core.BaseBindingActivity
 import com.frogobox.board.databinding.ActivityTutorialBinding
 import com.frogobox.board.mvvm.main.MainActivity
-import kotlinx.android.synthetic.main.fragment_tutorial_slide.*
 
 class TutorialActivity : BaseBindingActivity<ActivityTutorialBinding>() {
 
@@ -89,8 +88,10 @@ class TutorialActivity : BaseBindingActivity<ActivityTutorialBinding>() {
     private fun addBottomDots(currentPage: Int) {
         binding.apply {
             val dots = arrayOfNulls<TextView>(layouts.size)
-            val activeColor = ContextCompat.getColor(this@TutorialActivity, R.color.dot_light_screen)
-            val inactiveColor = ContextCompat.getColor(this@TutorialActivity, R.color.dot_dark_screen)
+            val activeColor =
+                ContextCompat.getColor(this@TutorialActivity, R.color.dot_light_screen)
+            val inactiveColor =
+                ContextCompat.getColor(this@TutorialActivity, R.color.dot_dark_screen)
             dotsLayout.removeAllViews()
             for (i in dots.indices) {
                 dots[i] = TextView(this@TutorialActivity)
@@ -117,7 +118,8 @@ class TutorialActivity : BaseBindingActivity<ActivityTutorialBinding>() {
         val windowS = window
         windowS.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         windowS.statusBarColor = Color.TRANSPARENT
-        windowS.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        windowS.decorView.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
     }
 
 }

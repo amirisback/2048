@@ -17,10 +17,10 @@ import com.frogobox.board.widget.Element
  * Copyright (C) 2021 FrogoBox Inc.
  * All rights reserved
  *
- */   
+ */
 
 class MovingListener(e: Element?, scale: Boolean) : AnimatorListenerAdapter() {
-    
+
     var e: Element? = null
     var scalingFactor = 1.5f
     var scale = false
@@ -32,7 +32,7 @@ class MovingListener(e: Element?, scale: Boolean) : AnimatorListenerAdapter() {
         scalingFactor = SingleConst.Games.INIT_SCALINGFACTOR
         this.scale = scale
     }
-    
+
     override fun onAnimationCancel(animation: Animator) {
         super.onAnimationCancel(animation)
         animation.setupEndValues()

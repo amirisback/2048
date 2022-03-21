@@ -3,12 +3,12 @@ package com.frogobox.board.mvvm.tutorial
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import androidx.viewpager.widget.PagerAdapter
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.frogobox.board.R
 import android.widget.TextView
+import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
+import com.frogobox.board.R
 import com.frogobox.board.model.Tutorial
 
 /**
@@ -43,10 +43,18 @@ class TutorialPager(
         val tutorial = setupData(container.context)
 
         when (position) {
-            0 -> { setupUI(container.context, tutorial[0], tv_title, tv_subtitle, imageView) }
-            1 -> { setupUI(container.context, tutorial[1], tv_title, tv_subtitle, imageView) }
-            2 -> { setupUI(container.context, tutorial[2], tv_title, tv_subtitle, imageView) }
-            3 -> { setupUI(container.context, tutorial[3], tv_title, tv_subtitle, imageView) }
+            0 -> {
+                setupUI(container.context, tutorial[0], tv_title, tv_subtitle, imageView)
+            }
+            1 -> {
+                setupUI(container.context, tutorial[1], tv_title, tv_subtitle, imageView)
+            }
+            2 -> {
+                setupUI(container.context, tutorial[2], tv_title, tv_subtitle, imageView)
+            }
+            3 -> {
+                setupUI(container.context, tutorial[3], tv_title, tv_subtitle, imageView)
+            }
         }
         return view
     }
